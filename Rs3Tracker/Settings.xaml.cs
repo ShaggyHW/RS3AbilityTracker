@@ -44,7 +44,7 @@ namespace Rs3Tracker {
         public Settings(string _style) {
             InitializeComponent();
             KeyboardHook.KeyDownEvent += KeyDown;
-            var Abils = Directory.GetFiles(".\\Images");
+            var Abils = Directory.GetFiles(".\\Images","*.png");
             foreach (var name in Abils) {
                 ComboboxItem comboboxItem = new ComboboxItem();
                 comboboxItem.Text = name.Split('\\')[2].Split('.')[0];
@@ -78,7 +78,7 @@ namespace Rs3Tracker {
 
             string json = "";
             if (dgSettings.ItemsSource != null)
-                json = JsonConvert.SerializeObject(dgSettings.ItemsSource);
+                json = JsonConvert.SerializeObject(dgSettings.ItemsSource, Formatting.Indented);
 
             if (File.Exists(".\\keybinds.json"))
                 File.Delete(".\\keybinds.json");

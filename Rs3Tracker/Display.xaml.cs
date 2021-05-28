@@ -34,9 +34,12 @@ namespace Rs3Tracker {
         public List<Keypressed> ListKeypressed = new List<Keypressed>();
         public Stopwatch stopwatch = new Stopwatch();
         public bool control = false;
+
+        private Keypressed previousKey = new Keypressed();
         public class Keypressed : KeybindClass {
             public double timepressed { get; set; }
         }
+
 
         public class KeybindClass {
             public string modifier { get; set; }
@@ -45,6 +48,7 @@ namespace Rs3Tracker {
             public string cmtStyle { get; set; }
             public bool duplicate { get; set; }
         }
+
         public Display(string _style) {
             InitializeComponent();
             KeyboardHook.KeyDownEvent += HookKeyDown;
@@ -79,35 +83,15 @@ namespace Rs3Tracker {
                 else if (e.isWinPressed)
                     modifier = "WIN";
 
+                List<KeybindClass> img = (from r in keybindClasses
+                                          where r.key.ToLower() == e.Key.ToString().ToLower()
+                                          where r.modifier.ToString().ToLower() == modifier.ToLower()
+                                          select r).ToList();
 
-                var imgDup = (from r in keybindClasses
-                              where r.duplicate == true
-                              select r).ToList();
-
-                List<KeybindClass> img = new List<KeybindClass>();
-
-                if (imgDup.Count > 0) {
-                    img = (from r in imgDup
-                           where r.key.ToLower() == e.Key.ToString().ToLower()
-                           where r.modifier.ToString().ToLower() == modifier.ToLower()
-                           select r).ToList();
+                if (img.Count == 0) {
+                    control = false;
+                    return;
                 }
-
-                if (img.Count() == 0) {
-                    img = (from r in keybindClasses
-                           where r.key.ToLower() == e.Key.ToString().ToLower()
-                           where r.modifier.ToString().ToLower() == modifier.ToLower()
-                           select r).ToList();
-
-                    if (img.Count() == 0) {
-                        control = false;
-                        return;
-                    }
-                }
-
-                var comparekey = (from r in ListKeypressed
-                                  where r.img == img[0].img
-                                  select r).ToList().OrderByDescending(i => i.timepressed).ToList();
 
                 keypressed.modifier = modifier;
                 keypressed.key = e.Key.ToString();
@@ -115,29 +99,8 @@ namespace Rs3Tracker {
                 keypressed.cmtStyle = style;
                 keypressed.timepressed = stopwatch.Elapsed.TotalMilliseconds;
 
-
-                double timepassed = 0;
-                if (comparekey.Count > 0)
-                    timepassed = comparekey[0].timepressed - keypressed.timepressed;
-
-                if (timepassed > -4200 && timepassed != 0 && keypressed.img.Contains("Air_Surge_icon")) {
-                    control = false;
-                    return;
-                }
-                if (timepassed > -1800 && timepassed != 0) {
-                    control = false;
-                    return;
-                }
-
-
-                if (displayImg10.Source != null)
-                    if (displayImg10.Source.ToString().Contains(img[0].img)) {
-                        control = false;
-                        return;
-                    }
-
-                if (displayImg9.Source != null)
-                    if (displayImg9.Source.ToString().Contains("Air_Surge_icon") && img[0].img.Contains("Air_Surge_icon")) {
+                if (!string.IsNullOrEmpty(previousKey.img))
+                    if (((keypressed.timepressed - previousKey.timepressed) < 1200) && previousKey.img.Equals(keypressed.img)) {
                         control = false;
                         return;
                     }
@@ -248,10 +211,12 @@ namespace Rs3Tracker {
 
                 allcounter++;
 
-                if (comparekey.Count > 1)
-                    ListKeypressed.RemoveAt(0);
-
                 ListKeypressed.Add(keypressed);
+
+                previousKey = new Keypressed() {
+                    timepressed = keypressed.timepressed,
+                    img = keypressed.img
+                };
 
                 control = false;
             }
