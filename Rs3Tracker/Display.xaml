@@ -1,0 +1,59 @@
+﻿<Window x:Class="Rs3Tracker.Display"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Rs3Tracker"
+        mc:Ignorable="d"
+        Title="Display"
+        Height="120"
+        Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.Background>
+        <ImageBrush ImageSource="background.png"
+                        Stretch="UniformToFill" />
+        </Grid.Background>
+        <Image Grid.Column="0"
+               Margin="5"
+               x:Name="displayImg1" />
+        <Image Grid.Column="1"
+               Margin="5"
+               x:Name="displayImg2" />
+        <Image Grid.Column="2"
+               Margin="5"
+               x:Name="displayImg3" />
+        <Image Grid.Column="3"
+               Margin="5"
+               x:Name="displayImg4" />
+        <Image Grid.Column="4"
+               Margin="5"
+               x:Name="displayImg5" />
+        <Image Grid.Column="5"
+               Margin="5"
+               x:Name="displayImg6" />
+        <Image Grid.Column="6"
+               Margin="5"
+               x:Name="displayImg7" />
+        <Image Grid.Column="7"
+               Margin="5"
+               x:Name="displayImg8" />
+        <Image Grid.Column="8"
+               Margin="5"
+               x:Name="displayImg9" />
+        <Image Grid.Column="9"
+               Margin="5"
+               x:Name="displayImg10" />
+    </Grid>
+</Window>
