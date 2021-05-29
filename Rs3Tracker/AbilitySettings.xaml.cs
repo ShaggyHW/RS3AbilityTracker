@@ -56,7 +56,7 @@ namespace Rs3Tracker {
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e) {
-            if (string.IsNullOrEmpty(txtAbilName.Text) || string.IsNullOrEmpty(txtCooldDown.Text) || string.IsNullOrEmpty(txtCmbtStyle.Text)) {
+            if (string.IsNullOrEmpty(txtAbilName.Text) || string.IsNullOrEmpty(txtCooldDown.Text)) {
                 MessageBox.Show("Data Missing");
                 return;
             }
@@ -71,7 +71,8 @@ namespace Rs3Tracker {
                 return;
             ability.cmbtStyle = txtCmbtStyle.Text;
             string path = AppDomain.CurrentDomain.BaseDirectory;
-            ability.img = path + "Images\\" + Images.SelectedValue.ToString() + ".png";
+            if (Images.SelectedValue != null)
+                ability.img = path + "Images\\" + Images.SelectedValue.ToString() + ".png";
 
             var Exists = abilities.Where(p => p.name == ability.name).Select(p => p).FirstOrDefault();
 
@@ -83,7 +84,7 @@ namespace Rs3Tracker {
             } else {
                 MessageBox.Show("Ability Exists!");
             }
-            
+
         }
 
         private void clearData() {
@@ -91,17 +92,22 @@ namespace Rs3Tracker {
             txtAbilName.Text = "";
             txtCmbtStyle.Text = "";
             txtCooldDown.Text = "";
-            Images.SelectedIndex = 0;
+            Images.SelectedIndex = -1;
         }
 
         private void Images_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            string path = AppDomain.CurrentDomain.BaseDirectory;
-            BitmapImage bitmap;
-            bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            bitmap.UriSource = new Uri(path + "Images\\" + Images.SelectedValue.ToString() + ".png");
-            bitmap.EndInit();
-            imgAbil.Source = bitmap;
+            if (Images.SelectedValue != null) {
+                string path = AppDomain.CurrentDomain.BaseDirectory;
+                BitmapImage bitmap;
+                bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri(path + "Images\\" + Images.SelectedValue.ToString() + ".png");
+                bitmap.EndInit();
+                imgAbil.Source = bitmap;
+            } else {
+                imgAbil.Source = null;
+            }
+
         }
     }
 }

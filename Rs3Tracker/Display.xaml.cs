@@ -2,25 +2,16 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-
+using System.Drawing.Imaging; //Advanced Image Functionalities
+using System.IO; //File Operations
 using FMUtils.KeyboardHook;
-
 using Newtonsoft.Json;
+using System.Windows.Media.Imaging;
+using System.Runtime.InteropServices;
+using System.Windows.Media;
+using System.Windows.Interop;
 
 namespace Rs3Tracker {
     /// <summary>
@@ -29,35 +20,105 @@ namespace Rs3Tracker {
     public partial class Display : Window {
         Hook KeyboardHook = new Hook("Globalaction Link");
         List<KeybindClass> keybindClasses = new List<KeybindClass>();
-        int imgCounter, allcounter = 0;
+        int imgCounter = 0;
         string style = "";
         public List<Keypressed> ListKeypressed = new List<Keypressed>();
         public Stopwatch stopwatch = new Stopwatch();
         public bool control = false;
         private Keypressed previousKey = new Keypressed();
-
+        private List<Keypressed> ListPreviousKeys = new List<Keypressed>();
 
 
         public Display(string _style) {
             InitializeComponent();
-            KeyboardHook.KeyDownEvent += HookKeyDown;
-            //  KeyboardHook.KeyUpEvent += KeyUp;
-            List<KeybindClass> keybindClasses2 = JsonConvert.DeserializeObject<List<KeybindClass>>(File.ReadAllText(".\\keybinds.json"));
+            KeyboardHook.KeyDownEvent += HookKeyDown;           
             style = _style;
-            keybindClasses = (from r in keybindClasses2
-                              where r.ability.cmbtStyle.ToLower() == style.ToLower()
-                              select r).ToList();
+            changeStyle();
             stopwatch.Start();
             previousKey.ability = new Ability();
         }
 
+
+        private void changeStyle() {
+            keybindClasses = JsonConvert.DeserializeObject<List<KeybindClass>>(File.ReadAllText(".\\keybinds.json"));
+            keybindClasses = keybindClasses.Where(p => p.ability.cmbtStyle.ToLower() == style.ToLower() || p.ability.cmbtStyle.ToLower() == "").Select(p => p).ToList();
+
+        }
+
+        #region imageProcessing
+        private Bitmap Tint(Bitmap bmpSource, System.Drawing.Color clrScaleColor, float sngScaleDepth) {
+
+            Bitmap bmpTemp = new Bitmap(bmpSource.Width, bmpSource.Height); //Create Temporary Bitmap To Work With
+
+            ImageAttributes iaImageProps = new ImageAttributes(); //Contains information about how bitmap and metafile colors are manipulated during rendering. 
+
+            ColorMatrix cmNewColors = default(ColorMatrix); //Defines a 5 x 5 matrix that contains the coordinates for the RGBAW space
+            cmNewColors = new ColorMatrix(new float[][] {
+            new float[] {
+                1,
+                0,
+                0,
+                0,
+                0
+            },
+            new float[] {
+                0,
+                1,
+                0,
+                0,
+                0
+            },
+            new float[] {
+                0,
+                0,
+                1,
+                0,
+                0
+            },
+            new float[] {
+                0,
+                0,
+                0,
+                1,
+                0
+            },
+            new float[] {
+                clrScaleColor.R / 255 * sngScaleDepth,
+                clrScaleColor.G / 255 * sngScaleDepth,
+                clrScaleColor.B / 255 * sngScaleDepth,
+                0,
+                1
+            }
+        });
+
+            iaImageProps.SetColorMatrix(cmNewColors); //Apply Matrix
+
+            Graphics grpGraphics = Graphics.FromImage(bmpTemp); //Create Graphics Object and Draw Bitmap Onto Graphics Object
+
+            grpGraphics.DrawImage(bmpSource, new System.Drawing.Rectangle(0, 0, bmpSource.Width, bmpSource.Height), 0, 0, bmpSource.Width, bmpSource.Height, GraphicsUnit.Pixel, iaImageProps);
+
+            return bmpTemp;
+
+        }
+
+        [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DeleteObject([In] IntPtr hObject);
+
+        public ImageSource ImageSourceFromBitmap(Bitmap bmp) {
+            var handle = bmp.GetHbitmap();
+            try {
+                return Imaging.CreateBitmapSourceFromHBitmap(handle, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+            } finally { DeleteObject(handle); }
+        }
+        #endregion
         private void HookKeyDown(KeyboardHookEventArgs e) {
             if (!control) {
                 control = true;
                 Keypressed keypressed = new Keypressed();
                 keypressed.ability = new Ability();
                 string path = "";
-                BitmapImage bitmap = new BitmapImage();
+
                 string modifier = "";
 
                 if (e.Key.ToString().ToLower().Equals("none")) {
@@ -74,19 +135,41 @@ namespace Rs3Tracker {
                 else if (e.isWinPressed)
                     modifier = "WIN";
 
-                List<Ability> img = (from r in keybindClasses
+                List<Ability> abilityList = (from r in keybindClasses
                                      where r.key.ToLower() == e.Key.ToString().ToLower()
                                      where r.modifier.ToString().ToLower() == modifier.ToLower()
                                      select r.ability).ToList();
 
-                if (img.Count == 0) {
+                if (abilityList.Count == 0) {
                     control = false;
                     return;
                 }
 
+                if (abilityList[0].name.ToLower() == "changestylemelee") {
+                    style = "melee";
+                    control = false;
+                    changeStyle();
+                    return;                }
+
+                if (abilityList[0].name.ToLower() == "changestylerange") {
+                    style = "range";
+                    control = false;
+                    changeStyle();
+                    return;
+                }
+                if (abilityList[0].name.ToLower() == "changestylemage") {
+                    style = "mage";
+                    control = false;
+                    changeStyle();
+                    return;
+                }
+
+
                 keypressed.modifier = modifier;
                 keypressed.key = e.Key.ToString();
-                keypressed.ability.img = img[0].img;
+                keypressed.ability.name = abilityList[0].name;
+                keypressed.ability.img = abilityList[0].img;
+                keypressed.ability.cooldown = abilityList[0].cooldown;
                 keypressed.ability.cmbtStyle = style;
                 keypressed.timepressed = stopwatch.Elapsed.TotalMilliseconds;
 
@@ -96,124 +179,96 @@ namespace Rs3Tracker {
                         return;
                     }
 
-                switch (imgCounter) {
-                    case 0:
-                        path = AppDomain.CurrentDomain.BaseDirectory;
-                        bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.UriSource = new Uri(img[0].img);
-                        bitmap.EndInit();
-                        displayImg10.Source = bitmap;
-                        break;
-                    case 1:
-                        moveImgs(imgCounter);
-                        path = AppDomain.CurrentDomain.BaseDirectory;
-                        bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.UriSource = new Uri(img[0].img);
-                        bitmap.EndInit();
-                        displayImg10.Source = bitmap;
-                        break;
-                    case 2:
-                        moveImgs(imgCounter);
-                        path = AppDomain.CurrentDomain.BaseDirectory;
-                        bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.UriSource = new Uri(img[0].img);
-                        bitmap.EndInit();
-                        displayImg10.Source = bitmap;
-                        break;
-                    case 3:
-                        moveImgs(imgCounter);
-                        path = AppDomain.CurrentDomain.BaseDirectory;
-                        bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.UriSource = new Uri(img[0].img);
-                        bitmap.EndInit();
-                        displayImg10.Source = bitmap;
-                        break;
-                    case 4:
-                        moveImgs(imgCounter);
-                        path = AppDomain.CurrentDomain.BaseDirectory;
-                        bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.UriSource = new Uri(img[0].img);
-                        bitmap.EndInit();
-                        displayImg10.Source = bitmap;
-                        break;
-                    case 5:
-                        moveImgs(imgCounter);
-                        path = AppDomain.CurrentDomain.BaseDirectory;
-                        bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.UriSource = new Uri(img[0].img);
-                        bitmap.EndInit();
-                        displayImg10.Source = bitmap;
-                        break;
-                    case 6:
-                        moveImgs(imgCounter);
-                        path = AppDomain.CurrentDomain.BaseDirectory;
-                        bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.UriSource = new Uri(img[0].img);
-                        bitmap.EndInit();
-                        displayImg10.Source = bitmap;
-                        break;
-                    case 7:
-                        moveImgs(imgCounter);
-                        path = AppDomain.CurrentDomain.BaseDirectory;
-                        bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.UriSource = new Uri(img[0].img);
-                        bitmap.EndInit();
-                        displayImg10.Source = bitmap;
-                        break;
-                    case 8:
-                        moveImgs(imgCounter);
-                        path = AppDomain.CurrentDomain.BaseDirectory;
-                        bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.UriSource = new Uri(img[0].img);
-                        bitmap.EndInit();
-                        displayImg10.Source = bitmap;
-                        break;
-                    case 9:
-                        moveImgs(imgCounter);
-                        path = AppDomain.CurrentDomain.BaseDirectory;
-                        bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.UriSource = new Uri(img[0].img);
-                        bitmap.EndInit();
-                        displayImg10.Source = bitmap;
-                        break;
-                    default:
-                        moveImgs(imgCounter);
-                        path = AppDomain.CurrentDomain.BaseDirectory;
-                        bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.UriSource = new Uri(img[0].img);
-                        bitmap.EndInit();
-                        displayImg10.Source = bitmap;
-                        break;
-                }
-
-                if (imgCounter < 9)
-                    imgCounter++;
-
-                allcounter++;
-
                 ListKeypressed.Add(keypressed);
-
                 previousKey = new Keypressed() {
                     timepressed = keypressed.timepressed,
                     ability = new Ability {
-                        img= keypressed.ability.img
-                    }                 
+                        img = keypressed.ability.img,
+                        name = keypressed.ability.name
+                    }
                 };
 
+
+                bool onCD = abilCoolDown(ListPreviousKeys, keypressed);
+                Bitmap bitmap = new Bitmap(abilityList[0].img);
+                Bitmap Image;
+                ImageSource imageSource;
+                if (onCD) {
+                    Image = Tint(bitmap, System.Drawing.Color.Red, 0.5f);
+                    imageSource = ImageSourceFromBitmap(Image);
+                } else {
+                    imageSource = ImageSourceFromBitmap(bitmap);
+                    ListPreviousKeys.Add(previousKey);
+                }
+
+                //Display
+                switch (imgCounter) {
+                    case 0:
+                        displayImg10.Source = imageSource;
+                        break;
+                    case 1:
+                        moveImgs(imgCounter);
+                        displayImg10.Source = imageSource;
+                        break;
+                    case 2:
+                        moveImgs(imgCounter);
+                        displayImg10.Source = imageSource;
+                        break;
+                    case 3:
+                        moveImgs(imgCounter);
+                        displayImg10.Source = imageSource;
+                        break;
+                    case 4:
+                        moveImgs(imgCounter);
+                        displayImg10.Source = imageSource;
+                        break;
+                    case 5:
+                        moveImgs(imgCounter);
+                        displayImg10.Source = imageSource;
+                        break;
+                    case 6:
+                        moveImgs(imgCounter);
+                        displayImg10.Source = imageSource;
+                        break;
+                    case 7:
+                        moveImgs(imgCounter);
+                        displayImg10.Source = imageSource;
+                        break;
+                    case 8:
+                        moveImgs(imgCounter);
+                        displayImg10.Source = imageSource;
+                        break;
+                    case 9:
+                        moveImgs(imgCounter);
+                        displayImg10.Source = imageSource;
+                        break;
+                    default:
+                        moveImgs(imgCounter);
+                        displayImg10.Source = imageSource;
+                        break;
+                }
+                if (imgCounter < 9)
+                    imgCounter++;
                 control = false;
+
             }
         }
+
+        private bool abilCoolDown(List<Keypressed> prevKeys, Keypressed keypressed) {
+            var prevKey = prevKeys.Where(pk => pk.ability.name == keypressed.ability.name).Select(pk => pk).FirstOrDefault();
+            if (prevKey != null) {
+                double abilCD = keypressed.ability.cooldown * 1000;
+                if ((keypressed.timepressed - prevKey.timepressed) > abilCD) {
+                    prevKeys.Remove(prevKey);
+                    return false;
+                }
+
+                return true;
+            } else {
+                return false;
+            }
+        }
+
 
         private void moveImgs(int counter) {
             switch (counter) {
