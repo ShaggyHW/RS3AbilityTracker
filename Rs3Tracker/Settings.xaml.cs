@@ -32,14 +32,7 @@ namespace Rs3Tracker {
                 return Text;
             }
         }
-
-        public class KeybindClass {
-            public string modifier { get; set; }
-            public string key { get; set; }
-            public string img { get; set; }
-            public string cmtStyle { get; set; }
-            public bool? duplicate { get; set; }
-        }
+      
         List<ComboboxItem> comboboxItems = new List<ComboboxItem>();
         public Settings(string _style) {
             InitializeComponent();
@@ -100,19 +93,19 @@ namespace Rs3Tracker {
             }
             KeybindClass keybindClass = new KeybindClass();
             string[] keySplit = SelectedKey.Content.ToString().Split('+');
-            if (keySplit.Length == 2) {
-                keybindClass.modifier = keySplit[0];
-                keybindClass.key = keySplit[1];
-                keybindClass.img = cmbSource.Text;
-                keybindClass.cmtStyle = style;
-                keybindClass.duplicate = chkDuplicate.IsChecked;
-            } else {
-                keybindClass.modifier = "";
-                keybindClass.key = keySplit[0];
-                keybindClass.img = cmbSource.Text;
-                keybindClass.cmtStyle = style;
-                keybindClass.duplicate = chkDuplicate.IsChecked;
-            }
+            //if (keySplit.Length == 2) {
+            //    keybindClass.modifier = keySplit[0];
+            //    keybindClass.key = keySplit[1];
+            //    keybindClass.img = cmbSource.Text;
+            //    keybindClass.cmtStyle = style;
+            //    keybindClass.duplicate = chkDuplicate.IsChecked;
+            //} else {
+            //    keybindClass.modifier = "";
+            //    keybindClass.key = keySplit[0];
+            //    keybindClass.img = cmbSource.Text;
+            //    keybindClass.cmtStyle = style;
+            //    keybindClass.duplicate = chkDuplicate.IsChecked;
+            //}
             if (keybindingList == null)
                 keybindingList = new List<KeybindClass>();
 

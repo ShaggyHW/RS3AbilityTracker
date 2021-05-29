@@ -36,18 +36,7 @@ namespace Rs3Tracker {
         public bool control = false;
 
         private Keypressed previousKey = new Keypressed();
-        public class Keypressed : KeybindClass {
-            public double timepressed { get; set; }
-        }
-
-
-        public class KeybindClass {
-            public string modifier { get; set; }
-            public string key { get; set; }
-            public string img { get; set; }
-            public string cmtStyle { get; set; }
-            public bool duplicate { get; set; }
-        }
+    
 
         public Display(string _style) {
             InitializeComponent();
@@ -95,116 +84,116 @@ namespace Rs3Tracker {
 
                 keypressed.modifier = modifier;
                 keypressed.key = e.Key.ToString();
-                keypressed.img = img[0].img;
+                //keypressed.img = img[0].img;
                 keypressed.cmtStyle = style;
                 keypressed.timepressed = stopwatch.Elapsed.TotalMilliseconds;
 
-                if (!string.IsNullOrEmpty(previousKey.img))
-                    if (((keypressed.timepressed - previousKey.timepressed) < 1200) && previousKey.img.Equals(keypressed.img)) {
-                        control = false;
-                        return;
-                    }
+                //if (!string.IsNullOrEmpty(previousKey.img))
+                //    if (((keypressed.timepressed - previousKey.timepressed) < 1200) && previousKey.img.Equals(keypressed.img)) {
+                //        control = false;
+                //        return;
+                //    }
 
-                switch (imgCounter) {
-                    case 0:
-                        path = AppDomain.CurrentDomain.BaseDirectory;
-                        bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.UriSource = new Uri(path + "Images/" + img[0].img + ".png");
-                        bitmap.EndInit();
-                        displayImg10.Source = bitmap;
-                        break;
-                    case 1:
-                        moveImgs(imgCounter);
-                        path = AppDomain.CurrentDomain.BaseDirectory;
-                        bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.UriSource = new Uri(path + "Images/" + img[0].img + ".png");
-                        bitmap.EndInit();
-                        displayImg10.Source = bitmap;
-                        break;
-                    case 2:
-                        moveImgs(imgCounter);
-                        path = AppDomain.CurrentDomain.BaseDirectory;
-                        bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.UriSource = new Uri(path + "Images/" + img[0].img + ".png");
-                        bitmap.EndInit();
-                        displayImg10.Source = bitmap;
-                        break;
-                    case 3:
-                        moveImgs(imgCounter);
-                        path = AppDomain.CurrentDomain.BaseDirectory;
-                        bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.UriSource = new Uri(path + "Images/" + img[0].img + ".png");
-                        bitmap.EndInit();
-                        displayImg10.Source = bitmap;
-                        break;
-                    case 4:
-                        moveImgs(imgCounter);
-                        path = AppDomain.CurrentDomain.BaseDirectory;
-                        bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.UriSource = new Uri(path + "Images/" + img[0].img + ".png");
-                        bitmap.EndInit();
-                        displayImg10.Source = bitmap;
-                        break;
-                    case 5:
-                        moveImgs(imgCounter);
-                        path = AppDomain.CurrentDomain.BaseDirectory;
-                        bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.UriSource = new Uri(path + "Images/" + img[0].img + ".png");
-                        bitmap.EndInit();
-                        displayImg10.Source = bitmap;
-                        break;
-                    case 6:
-                        moveImgs(imgCounter);
-                        path = AppDomain.CurrentDomain.BaseDirectory;
-                        bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.UriSource = new Uri(path + "Images/" + img[0].img + ".png");
-                        bitmap.EndInit();
-                        displayImg10.Source = bitmap;
-                        break;
-                    case 7:
-                        moveImgs(imgCounter);
-                        path = AppDomain.CurrentDomain.BaseDirectory;
-                        bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.UriSource = new Uri(path + "Images/" + img[0].img + ".png");
-                        bitmap.EndInit();
-                        displayImg10.Source = bitmap;
-                        break;
-                    case 8:
-                        moveImgs(imgCounter);
-                        path = AppDomain.CurrentDomain.BaseDirectory;
-                        bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.UriSource = new Uri(path + "Images/" + img[0].img + ".png");
-                        bitmap.EndInit();
-                        displayImg10.Source = bitmap;
-                        break;
-                    case 9:
-                        moveImgs(imgCounter);
-                        path = AppDomain.CurrentDomain.BaseDirectory;
-                        bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.UriSource = new Uri(path + "Images/" + img[0].img + ".png");
-                        bitmap.EndInit();
-                        displayImg10.Source = bitmap;
-                        break;
-                    default:
-                        moveImgs(imgCounter);
-                        path = AppDomain.CurrentDomain.BaseDirectory;
-                        bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.UriSource = new Uri(path + "Images/" + img[0].img + ".png");
-                        bitmap.EndInit();
-                        displayImg10.Source = bitmap;
-                        break;
-                }
+                //switch (imgCounter) {
+                //    case 0:
+                //        path = AppDomain.CurrentDomain.BaseDirectory;
+                //        bitmap = new BitmapImage();
+                //        bitmap.BeginInit();
+                //        bitmap.UriSource = new Uri(path + "Images/" + img[0].img + ".png");
+                //        bitmap.EndInit();
+                //        displayImg10.Source = bitmap;
+                //        break;
+                //    case 1:
+                //        moveImgs(imgCounter);
+                //        path = AppDomain.CurrentDomain.BaseDirectory;
+                //        bitmap = new BitmapImage();
+                //        bitmap.BeginInit();
+                //        bitmap.UriSource = new Uri(path + "Images/" + img[0].img + ".png");
+                //        bitmap.EndInit();
+                //        displayImg10.Source = bitmap;
+                //        break;
+                //    case 2:
+                //        moveImgs(imgCounter);
+                //        path = AppDomain.CurrentDomain.BaseDirectory;
+                //        bitmap = new BitmapImage();
+                //        bitmap.BeginInit();
+                //        bitmap.UriSource = new Uri(path + "Images/" + img[0].img + ".png");
+                //        bitmap.EndInit();
+                //        displayImg10.Source = bitmap;
+                //        break;
+                //    case 3:
+                //        moveImgs(imgCounter);
+                //        path = AppDomain.CurrentDomain.BaseDirectory;
+                //        bitmap = new BitmapImage();
+                //        bitmap.BeginInit();
+                //        bitmap.UriSource = new Uri(path + "Images/" + img[0].img + ".png");
+                //        bitmap.EndInit();
+                //        displayImg10.Source = bitmap;
+                //        break;
+                //    case 4:
+                //        moveImgs(imgCounter);
+                //        path = AppDomain.CurrentDomain.BaseDirectory;
+                //        bitmap = new BitmapImage();
+                //        bitmap.BeginInit();
+                //        bitmap.UriSource = new Uri(path + "Images/" + img[0].img + ".png");
+                //        bitmap.EndInit();
+                //        displayImg10.Source = bitmap;
+                //        break;
+                //    case 5:
+                //        moveImgs(imgCounter);
+                //        path = AppDomain.CurrentDomain.BaseDirectory;
+                //        bitmap = new BitmapImage();
+                //        bitmap.BeginInit();
+                //        bitmap.UriSource = new Uri(path + "Images/" + img[0].img + ".png");
+                //        bitmap.EndInit();
+                //        displayImg10.Source = bitmap;
+                //        break;
+                //    case 6:
+                //        moveImgs(imgCounter);
+                //        path = AppDomain.CurrentDomain.BaseDirectory;
+                //        bitmap = new BitmapImage();
+                //        bitmap.BeginInit();
+                //        bitmap.UriSource = new Uri(path + "Images/" + img[0].img + ".png");
+                //        bitmap.EndInit();
+                //        displayImg10.Source = bitmap;
+                //        break;
+                //    case 7:
+                //        moveImgs(imgCounter);
+                //        path = AppDomain.CurrentDomain.BaseDirectory;
+                //        bitmap = new BitmapImage();
+                //        bitmap.BeginInit();
+                //        bitmap.UriSource = new Uri(path + "Images/" + img[0].img + ".png");
+                //        bitmap.EndInit();
+                //        displayImg10.Source = bitmap;
+                //        break;
+                //    case 8:
+                //        moveImgs(imgCounter);
+                //        path = AppDomain.CurrentDomain.BaseDirectory;
+                //        bitmap = new BitmapImage();
+                //        bitmap.BeginInit();
+                //        bitmap.UriSource = new Uri(path + "Images/" + img[0].img + ".png");
+                //        bitmap.EndInit();
+                //        displayImg10.Source = bitmap;
+                //        break;
+                //    case 9:
+                //        moveImgs(imgCounter);
+                //        path = AppDomain.CurrentDomain.BaseDirectory;
+                //        bitmap = new BitmapImage();
+                //        bitmap.BeginInit();
+                //        bitmap.UriSource = new Uri(path + "Images/" + img[0].img + ".png");
+                //        bitmap.EndInit();
+                //        displayImg10.Source = bitmap;
+                //        break;
+                //    default:
+                //        moveImgs(imgCounter);
+                //        path = AppDomain.CurrentDomain.BaseDirectory;
+                //        bitmap = new BitmapImage();
+                //        bitmap.BeginInit();
+                //        bitmap.UriSource = new Uri(path + "Images/" + img[0].img + ".png");
+                //        bitmap.EndInit();
+                //        displayImg10.Source = bitmap;
+                //        break;
+                //}
 
                 if (imgCounter < 9)
                     imgCounter++;
@@ -213,10 +202,10 @@ namespace Rs3Tracker {
 
                 ListKeypressed.Add(keypressed);
 
-                previousKey = new Keypressed() {
-                    timepressed = keypressed.timepressed,
-                    img = keypressed.img
-                };
+                //previousKey = new Keypressed() {
+                //    timepressed = keypressed.timepressed,
+                //    img = keypressed.img
+                //};
 
                 control = false;
             }

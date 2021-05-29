@@ -26,7 +26,10 @@ namespace Rs3Tracker {
             Display display = new Display(cmbMode.Text.ToLower());
             display.Show();
         }
-
+        private void btnAbilityConfig_Click(object sender, RoutedEventArgs e) {
+            AbilitySettings display = new AbilitySettings();
+            display.Show();
+        }
         private void btnSettings_Click(object sender, RoutedEventArgs e) {
             Settings settings = new Settings(cmbMode.Text.ToLower());
             settings.Show();
