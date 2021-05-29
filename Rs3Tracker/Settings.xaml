@@ -44,7 +44,8 @@
                   HorizontalContentAlignment="Right"> Duplicate? </CheckBox>
         <ComboBox x:Name="cmbSource"
                   Visibility="Visible"
-                  Margin="379,10,10,326" />
+                  Margin="379,10,10,326"
+                  SelectionChanged="cmbSource_SelectionChanged"/>
         <Button x:Name="btnSave"
                 Content="Save Keybinds"
                 Margin="10,337,297,10"

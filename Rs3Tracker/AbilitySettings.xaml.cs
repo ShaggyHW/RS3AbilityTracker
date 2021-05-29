@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -9,6 +11,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -29,6 +32,14 @@ namespace Rs3Tracker {
             if (File.Exists(".\\mongoAbilities.json")) {
                 abilities = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(".\\mongoAbilities.json"));
                 var keybinds = abilities.OrderBy(i => i.cmbtStyle).ToList();
+
+                foreach(var ability in abilities) {
+                    if (!string.IsNullOrEmpty(ability.img )) {
+                        var index = ability.img.IndexOf("Images");
+                        string path = ".\\" + ability.img.Substring(index);
+                        ability.img = path;
+                    }
+                }
                 dgSettings.ItemsSource = keybinds;
             }
 
@@ -70,9 +81,9 @@ namespace Rs3Tracker {
             else
                 return;
             ability.cmbtStyle = txtCmbtStyle.Text;
-            string path = AppDomain.CurrentDomain.BaseDirectory;
+            
             if (Images.SelectedValue != null)
-                ability.img = path + "Images\\" + Images.SelectedValue.ToString() + ".png";
+                ability.img =  ".\\Images\\" + Images.SelectedValue.ToString() + ".png";
 
             var Exists = abilities.Where(p => p.name == ability.name).Select(p => p).FirstOrDefault();
 
@@ -95,15 +106,27 @@ namespace Rs3Tracker {
             Images.SelectedIndex = -1;
         }
 
+        [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool DeleteObject([In] IntPtr hObject);
+
+        public ImageSource ImageSourceFromBitmap(Bitmap bmp) {
+            var handle = bmp.GetHbitmap();
+            try {
+                return Imaging.CreateBitmapSourceFromHBitmap(handle, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+            } finally { DeleteObject(handle); }
+        }
         private void Images_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if (Images.SelectedValue != null) {
-                string path = AppDomain.CurrentDomain.BaseDirectory;
-                BitmapImage bitmap;
-                bitmap = new BitmapImage();
-                bitmap.BeginInit();
-                bitmap.UriSource = new Uri(path + "Images\\" + Images.SelectedValue.ToString() + ".png");
-                bitmap.EndInit();
-                imgAbil.Source = bitmap;
+            if (Images.SelectedValue != null) {               
+                            
+                Bitmap bitmap = new Bitmap(".\\Images\\" + Images.SelectedValue.ToString() + ".png");
+                Bitmap Image;
+                ImageSource imageSource;
+
+                imageSource = ImageSourceFromBitmap(bitmap);
+             
+
+                imgAbil.Source = imageSource;
             } else {
                 imgAbil.Source = null;
             }

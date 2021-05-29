@@ -31,7 +31,7 @@ namespace Rs3Tracker {
 
         public Display(string _style) {
             InitializeComponent();
-            KeyboardHook.KeyDownEvent += HookKeyDown;           
+            KeyboardHook.KeyDownEvent += HookKeyDown;
             style = _style;
             changeStyle();
             stopwatch.Start();
@@ -117,7 +117,6 @@ namespace Rs3Tracker {
                 control = true;
                 Keypressed keypressed = new Keypressed();
                 keypressed.ability = new Ability();
-                string path = "";
 
                 string modifier = "";
 
@@ -136,9 +135,9 @@ namespace Rs3Tracker {
                     modifier = "WIN";
 
                 List<Ability> abilityList = (from r in keybindClasses
-                                     where r.key.ToLower() == e.Key.ToString().ToLower()
-                                     where r.modifier.ToString().ToLower() == modifier.ToLower()
-                                     select r.ability).ToList();
+                                             where r.key.ToLower() == e.Key.ToString().ToLower()
+                                             where r.modifier.ToString().ToLower() == modifier.ToLower()
+                                             select r.ability).ToList();
 
                 if (abilityList.Count == 0) {
                     control = false;
@@ -149,7 +148,8 @@ namespace Rs3Tracker {
                     style = "melee";
                     control = false;
                     changeStyle();
-                    return;                }
+                    return;
+                }
 
                 if (abilityList[0].name.ToLower() == "changestylerange") {
                     style = "range";
@@ -164,91 +164,93 @@ namespace Rs3Tracker {
                     return;
                 }
 
+                foreach (var ability in abilityList) {
 
-                keypressed.modifier = modifier;
-                keypressed.key = e.Key.ToString();
-                keypressed.ability.name = abilityList[0].name;
-                keypressed.ability.img = abilityList[0].img;
-                keypressed.ability.cooldown = abilityList[0].cooldown;
-                keypressed.ability.cmbtStyle = style;
-                keypressed.timepressed = stopwatch.Elapsed.TotalMilliseconds;
+                    keypressed.modifier = modifier;
+                    keypressed.key = e.Key.ToString();
+                    keypressed.ability.name = ability.name;
+                    keypressed.ability.img = ability.img;
+                    keypressed.ability.cooldown = ability.cooldown;
+                    keypressed.ability.cmbtStyle = style;
+                    keypressed.timepressed = stopwatch.Elapsed.TotalMilliseconds;
 
-                if (!string.IsNullOrEmpty(previousKey.ability.img))
-                    if (((keypressed.timepressed - previousKey.timepressed) < 1200) && previousKey.ability.img.Equals(keypressed.ability.img)) {
-                        control = false;
-                        return;
+                    if (!string.IsNullOrEmpty(previousKey.ability.img))
+                        if (((keypressed.timepressed - previousKey.timepressed) < 1200) && previousKey.ability.img.Equals(keypressed.ability.img)) {
+                            control = false;
+                            return;
+                        }
+
+                    ListKeypressed.Add(keypressed);
+                    previousKey = new Keypressed() {
+                        timepressed = keypressed.timepressed,
+                        ability = new Ability {
+                            img = keypressed.ability.img,
+                            name = keypressed.ability.name
+                        }
+                    };
+
+
+                    bool onCD = abilCoolDown(ListPreviousKeys, keypressed);
+                    Bitmap bitmap = new Bitmap(ability.img);
+                    Bitmap Image;
+                    ImageSource imageSource;
+                    if (onCD) {
+                        Image = Tint(bitmap, System.Drawing.Color.Red, 0.5f);
+                        imageSource = ImageSourceFromBitmap(Image);
+                    } else {
+                        imageSource = ImageSourceFromBitmap(bitmap);
+                        ListPreviousKeys.Add(previousKey);
                     }
 
-                ListKeypressed.Add(keypressed);
-                previousKey = new Keypressed() {
-                    timepressed = keypressed.timepressed,
-                    ability = new Ability {
-                        img = keypressed.ability.img,
-                        name = keypressed.ability.name
+                    //Display
+                    switch (imgCounter) {
+                        case 0:
+                            displayImg10.Source = imageSource;
+                            break;
+                        case 1:
+                            moveImgs(imgCounter);
+                            displayImg10.Source = imageSource;
+                            break;
+                        case 2:
+                            moveImgs(imgCounter);
+                            displayImg10.Source = imageSource;
+                            break;
+                        case 3:
+                            moveImgs(imgCounter);
+                            displayImg10.Source = imageSource;
+                            break;
+                        case 4:
+                            moveImgs(imgCounter);
+                            displayImg10.Source = imageSource;
+                            break;
+                        case 5:
+                            moveImgs(imgCounter);
+                            displayImg10.Source = imageSource;
+                            break;
+                        case 6:
+                            moveImgs(imgCounter);
+                            displayImg10.Source = imageSource;
+                            break;
+                        case 7:
+                            moveImgs(imgCounter);
+                            displayImg10.Source = imageSource;
+                            break;
+                        case 8:
+                            moveImgs(imgCounter);
+                            displayImg10.Source = imageSource;
+                            break;
+                        case 9:
+                            moveImgs(imgCounter);
+                            displayImg10.Source = imageSource;
+                            break;
+                        default:
+                            moveImgs(imgCounter);
+                            displayImg10.Source = imageSource;
+                            break;
                     }
-                };
-
-
-                bool onCD = abilCoolDown(ListPreviousKeys, keypressed);
-                Bitmap bitmap = new Bitmap(abilityList[0].img);
-                Bitmap Image;
-                ImageSource imageSource;
-                if (onCD) {
-                    Image = Tint(bitmap, System.Drawing.Color.Red, 0.5f);
-                    imageSource = ImageSourceFromBitmap(Image);
-                } else {
-                    imageSource = ImageSourceFromBitmap(bitmap);
-                    ListPreviousKeys.Add(previousKey);
+                    if (imgCounter < 9)
+                        imgCounter++;
                 }
-
-                //Display
-                switch (imgCounter) {
-                    case 0:
-                        displayImg10.Source = imageSource;
-                        break;
-                    case 1:
-                        moveImgs(imgCounter);
-                        displayImg10.Source = imageSource;
-                        break;
-                    case 2:
-                        moveImgs(imgCounter);
-                        displayImg10.Source = imageSource;
-                        break;
-                    case 3:
-                        moveImgs(imgCounter);
-                        displayImg10.Source = imageSource;
-                        break;
-                    case 4:
-                        moveImgs(imgCounter);
-                        displayImg10.Source = imageSource;
-                        break;
-                    case 5:
-                        moveImgs(imgCounter);
-                        displayImg10.Source = imageSource;
-                        break;
-                    case 6:
-                        moveImgs(imgCounter);
-                        displayImg10.Source = imageSource;
-                        break;
-                    case 7:
-                        moveImgs(imgCounter);
-                        displayImg10.Source = imageSource;
-                        break;
-                    case 8:
-                        moveImgs(imgCounter);
-                        displayImg10.Source = imageSource;
-                        break;
-                    case 9:
-                        moveImgs(imgCounter);
-                        displayImg10.Source = imageSource;
-                        break;
-                    default:
-                        moveImgs(imgCounter);
-                        displayImg10.Source = imageSource;
-                        break;
-                }
-                if (imgCounter < 9)
-                    imgCounter++;
                 control = false;
 
             }

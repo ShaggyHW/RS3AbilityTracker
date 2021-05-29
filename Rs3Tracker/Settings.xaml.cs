@@ -39,6 +39,7 @@ namespace Rs3Tracker {
             KeyboardHook.KeyDownEvent += KeyDown;
             if (File.Exists(".\\mongoAbilities.json")) {
                 abilities = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(".\\mongoAbilities.json"));
+                abilities = abilities.OrderBy(i => i.name).ToList();
                 foreach (var abil in abilities) {
                     ComboboxItem comboboxItem = new ComboboxItem();
                     comboboxItem.Text = abil.name;
@@ -72,8 +73,14 @@ namespace Rs3Tracker {
         private void btnSave_Click(object sender, RoutedEventArgs e) {
 
             string json = "";
-            if (dgSettings.ItemsSource != null)
-                json = JsonConvert.SerializeObject(dgSettings.ItemsSource, Formatting.Indented);
+            if (dgSettings.ItemsSource != null) {
+               var lists= (List<KeybindClass>)dgSettings.ItemsSource;
+                foreach(var item in lists) {
+                    var updateAbility = abilities.Where(a => a.name == item.ability.name).Select(a => a).FirstOrDefault();
+                    item.ability = updateAbility;
+                }
+                json = JsonConvert.SerializeObject(lists, Formatting.Indented);
+            }
 
             if (File.Exists(".\\keybinds.json"))
                 File.Delete(".\\keybinds.json");
@@ -117,6 +124,10 @@ namespace Rs3Tracker {
             dgSettings.ItemsSource = keybindingList;
 
             SelectedKey.Content = "Selected Key";
+        }
+
+        private void cmbSource_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            this.Focus();
         }
     }
 }
