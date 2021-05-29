@@ -31,7 +31,7 @@ namespace Rs3Tracker {
             display.Show();
         }
         private void btnSettings_Click(object sender, RoutedEventArgs e) {
-            Settings settings = new Settings(cmbMode.Text.ToLower());
+            Settings settings = new Settings();
             settings.Show();
         }
 

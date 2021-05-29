@@ -18,8 +18,7 @@ namespace Rs3Tracker {
      
     public class KeybindClass {
         public string modifier { get; set; }
-        public string key { get; set; }      
-        public string cmtStyle { get; set; }
+        public string key { get; set; }           
         public bool? duplicate { get; set; }
         public Ability ability { get; set; }
     }

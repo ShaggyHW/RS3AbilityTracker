@@ -21,8 +21,7 @@ namespace Rs3Tracker {
     /// Interaction logic for Settings.xaml
     /// </summary>
     public partial class Settings : Window {
-        Hook KeyboardHook = new Hook("Globalaction Link");
-        string style = "";
+        Hook KeyboardHook = new Hook("Globalaction Link");       
         private List<KeybindClass> keybindingList = new List<KeybindClass>();
         private List<Ability> abilities = new List<Ability>();
 
@@ -35,23 +34,21 @@ namespace Rs3Tracker {
         }
 
         List<ComboboxItem> comboboxItems = new List<ComboboxItem>();
-        public Settings(string _style) {
+        public Settings() {
             InitializeComponent();
-            KeyboardHook.KeyDownEvent += KeyDown;        
-
+            KeyboardHook.KeyDownEvent += KeyDown;
             if (File.Exists(".\\mongoAbilities.json")) {
                 abilities = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(".\\mongoAbilities.json"));
                 foreach (var abil in abilities) {
                     ComboboxItem comboboxItem = new ComboboxItem();
                     comboboxItem.Text = abil.name;
                     cmbSource.Items.Add(comboboxItem);
-                }             
+                }
             }
-
-            style = _style;
+          
             if (File.Exists(".\\keybinds.json")) {
                 keybindingList = JsonConvert.DeserializeObject<List<KeybindClass>>(File.ReadAllText(".\\keybinds.json"));
-                var keybinds = keybindingList.OrderBy(i => i.cmtStyle).ToList();
+                var keybinds = keybindingList.OrderBy(i => i.ability.cmbtStyle).ToList();
                 dgSettings.ItemsSource = keybinds;
             }
         }
@@ -100,17 +97,16 @@ namespace Rs3Tracker {
             string[] keySplit = SelectedKey.Content.ToString().Split('+');
             var abil = abilities.Where(a => a.name == cmbSource.Text).Select(a => a).FirstOrDefault();
             if (keySplit.Length == 2) {
-              
+
                 keybindClass.modifier = keySplit[0];
                 keybindClass.key = keySplit[1];
                 keybindClass.ability = abil;
-                keybindClass.cmtStyle = style;
                 keybindClass.duplicate = chkDuplicate.IsChecked;
             } else {
                 keybindClass.modifier = "";
                 keybindClass.key = keySplit[0];
                 keybindClass.ability = abil;
-                keybindClass.cmtStyle = style;
+
                 keybindClass.duplicate = chkDuplicate.IsChecked;
             }
             if (keybindingList == null)
