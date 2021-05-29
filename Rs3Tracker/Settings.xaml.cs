@@ -24,6 +24,7 @@ namespace Rs3Tracker {
         Hook KeyboardHook = new Hook("Globalaction Link");
         string style = "";
         private List<KeybindClass> keybindingList = new List<KeybindClass>();
+        private List<Ability> abilities = new List<Ability>();
 
         public class ComboboxItem {
             public string Text { get; set; }
@@ -32,17 +33,21 @@ namespace Rs3Tracker {
                 return Text;
             }
         }
-      
+
         List<ComboboxItem> comboboxItems = new List<ComboboxItem>();
         public Settings(string _style) {
             InitializeComponent();
-            KeyboardHook.KeyDownEvent += KeyDown;
-            var Abils = Directory.GetFiles(".\\Images","*.png");
-            foreach (var name in Abils) {
-                ComboboxItem comboboxItem = new ComboboxItem();
-                comboboxItem.Text = name.Split('\\')[2].Split('.')[0];
-                cmbSource.Items.Add(comboboxItem);
+            KeyboardHook.KeyDownEvent += KeyDown;        
+
+            if (File.Exists(".\\mongoAbilities.json")) {
+                abilities = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(".\\mongoAbilities.json"));
+                foreach (var abil in abilities) {
+                    ComboboxItem comboboxItem = new ComboboxItem();
+                    comboboxItem.Text = abil.name;
+                    cmbSource.Items.Add(comboboxItem);
+                }             
             }
+
             style = _style;
             if (File.Exists(".\\keybinds.json")) {
                 keybindingList = JsonConvert.DeserializeObject<List<KeybindClass>>(File.ReadAllText(".\\keybinds.json"));
@@ -93,19 +98,21 @@ namespace Rs3Tracker {
             }
             KeybindClass keybindClass = new KeybindClass();
             string[] keySplit = SelectedKey.Content.ToString().Split('+');
-            //if (keySplit.Length == 2) {
-            //    keybindClass.modifier = keySplit[0];
-            //    keybindClass.key = keySplit[1];
-            //    keybindClass.img = cmbSource.Text;
-            //    keybindClass.cmtStyle = style;
-            //    keybindClass.duplicate = chkDuplicate.IsChecked;
-            //} else {
-            //    keybindClass.modifier = "";
-            //    keybindClass.key = keySplit[0];
-            //    keybindClass.img = cmbSource.Text;
-            //    keybindClass.cmtStyle = style;
-            //    keybindClass.duplicate = chkDuplicate.IsChecked;
-            //}
+            var abil = abilities.Where(a => a.name == cmbSource.Text).Select(a => a).FirstOrDefault();
+            if (keySplit.Length == 2) {
+              
+                keybindClass.modifier = keySplit[0];
+                keybindClass.key = keySplit[1];
+                keybindClass.ability = abil;
+                keybindClass.cmtStyle = style;
+                keybindClass.duplicate = chkDuplicate.IsChecked;
+            } else {
+                keybindClass.modifier = "";
+                keybindClass.key = keySplit[0];
+                keybindClass.ability = abil;
+                keybindClass.cmtStyle = style;
+                keybindClass.duplicate = chkDuplicate.IsChecked;
+            }
             if (keybindingList == null)
                 keybindingList = new List<KeybindClass>();
 

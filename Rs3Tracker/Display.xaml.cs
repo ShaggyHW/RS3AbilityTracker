@@ -34,7 +34,6 @@ namespace Rs3Tracker {
         public List<Keypressed> ListKeypressed = new List<Keypressed>();
         public Stopwatch stopwatch = new Stopwatch();
         public bool control = false;
-
         private Keypressed previousKey = new Keypressed();
     
 
