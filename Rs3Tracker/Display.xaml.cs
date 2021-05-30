@@ -146,9 +146,9 @@ namespace Rs3Tracker {
                                              select r.ability).ToList();
 
                 if (abilityList.Count == 0) {
-                    var listBarChange = keybindBarClasses.Where(p => p.key.ToLower().Equals(e.Key.ToString().ToLower()) && p.modifier.ToLower().Equals(modifier.ToLower())).Select(p => p).FirstOrDefault();
-                    if (listBarChange != null) {
-                        style = listBarChange.name;
+                    var listBarChange2 = keybindBarClasses.Where(p => p.key.ToLower().Equals(e.Key.ToString().ToLower()) && p.modifier.ToLower().Equals(modifier.ToLower())).Select(p => p).FirstOrDefault();
+                    if (listBarChange2 != null) {
+                        style = listBarChange2.name;
                         changeStyle();
                     }
                     control = false;
