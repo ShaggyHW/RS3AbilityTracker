@@ -44,6 +44,7 @@ namespace Rs3Tracker {
 
 
         private void changeStyle() {
+            keybindClasses = JsonConvert.DeserializeObject<List<KeybindClass>>(File.ReadAllText(".\\keybinds.json"));
             keybindClasses = keybindClasses.Where(p => p.bar.name.ToLower() == style.ToLower() || p.bar.name.ToLower() == "all").Select(p => p).ToList();
 
         }
