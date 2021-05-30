@@ -1,434 +1,416 @@
-[
-  {
-    "name": "changestylemage",
-    "cooldown": 0.0,
-    "cmbtStyle": "",
-    "img": null
-  },
-  {
-    "name": "changestylemelee",
-    "cooldown": 0.0,
-    "cmbtStyle": "",
-    "img": null
-  },
-  {
-    "name": "changestylerange",
-    "cooldown": 0.0,
-    "cmbtStyle": "",
-    "img": null
-  },
+[  
   {
     "name": "Bladed Dive",
     "cooldown": 10.2,
-    "cmbtStyle": "",
+   
     "img": ".\\Images\\Bladed_Dive.png"
   },
   {
     "name": "Backhand",
     "cooldown": 15.0,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Backhand.png"
   },
   {
     "name": "Balanced Strike",
     "cooldown": 120.0,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Balanced_Strike.png"
   },
   {
     "name": "Barge",
     "cooldown": 20.4,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Barge.png"
   },
   {
     "name": "Blood Tendrils",
     "cooldown": 45.0,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Blood_Tendrils.png"
   },
   {
     "name": "Flurry",
     "cooldown": 20.4,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Flurry.png"
   },
   {
     "name": "Forceful Backhand",
     "cooldown": 15.0,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Forceful_Backhand.png"
   },
   {
     "name": "Greater Barge",
     "cooldown": 20.4,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Greater_Barge.png"
   },
   {
     "name": "Greater Flurry",
     "cooldown": 20.4,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Greater_Flurry.png"
   },
   {
     "name": "Havoc",
     "cooldown": 10.2,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Havoc.png"
   },
   {
     "name": "Hurricane",
     "cooldown": 20.4,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Hurricane.png"
   },
   {
     "name": "Massacre",
     "cooldown": 60.0,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Massacre.png"
   },
   {
     "name": "Meteor Strike",
     "cooldown": 60.0,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Meteor_Strike.png"
   },
   {
     "name": "Overpower",
     "cooldown": 30.0,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Overpower.png"
   },
   {
     "name": "Sever",
     "cooldown": 15.0,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Sever.png"
   },
   {
     "name": "Slaughter",
     "cooldown": 30.0,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Slaughter.png"
   },
   {
     "name": "Slice",
     "cooldown": 3.0,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Slice.png"
   },
   {
     "name": "Smash",
     "cooldown": 10.2,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Smash.png"
   },
   {
     "name": "Assault",
     "cooldown": 30.0,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Assault.png"
   },
   {
     "name": "Berserk",
     "cooldown": 60.0,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Berserk.png"
   },
   {
     "name": "Cleave",
     "cooldown": 7.2,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Cleave.png"
   },
   {
     "name": "Decimate",
     "cooldown": 7.2,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Decimate.png"
   },
   {
     "name": "Destroy",
     "cooldown": 20.4,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Destroy.png"
   },
   {
     "name": "Dismember",
     "cooldown": 15.0,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Dismember.png"
   },
   {
     "name": "Frenzy",
     "cooldown": 60.0,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Frenzy.png"
   },
   {
     "name": "Fury",
     "cooldown": 5.4,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Fury.png"
   },
   {
     "name": "Greater Fury",
     "cooldown": 5.4,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Greater_Fury.png"
   },
   {
     "name": "Kick",
     "cooldown": 15.0,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Kick.png"
   },
   {
     "name": "Pulverise",
     "cooldown": 60.0,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Pulverise.png"
   },
   {
     "name": "Quake",
     "cooldown": 20.4,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Quake.png"
   },
   {
     "name": "Stomp (ability)",
     "cooldown": 15.0,
-    "cmbtStyle": "Melee",
+    
     "img": ".\\Images\\Stomp_(ability).png"
   },
   {
     "name": "Binding Shot",
     "cooldown": 15.0,
-    "cmbtStyle": "Range",
+    
     "img": ".\\Images\\Binding_Shot.png"
   },
   {
     "name": "Bombardment",
     "cooldown": 30.0,
-    "cmbtStyle": "Range",
+    
     "img": ".\\Images\\Bombardment.png"
   },
   {
     "name": "Corruption Shot",
     "cooldown": 15.0,
-    "cmbtStyle": "Range",
+    
     "img": ".\\Images\\Corruption_Shot.png"
   },
   {
     "name": "Dazing Shot",
     "cooldown": 5.4,
-    "cmbtStyle": "Range",
+    
     "img": ".\\Images\\Dazing_Shot.png"
   },
   {
     "name": "Deadshot",
     "cooldown": 30.0,
-    "cmbtStyle": "Range",
+    
     "img": ".\\Images\\Deadshot.png"
   },
   {
     "name": "Death's Swiftness",
     "cooldown": 60.0,
-    "cmbtStyle": "Range",
+    
     "img": ".\\Images\\Death's_Swiftness.png"
   },
   {
     "name": "Demoralise",
     "cooldown": 15.0,
-    "cmbtStyle": "Range",
+    
     "img": ".\\Images\\Demoralise.png"
   },
   {
     "name": "Escape",
     "cooldown": 20.4,
-    "cmbtStyle": "Range",
+    
     "img": ".\\Images\\Escape.png"
   },
   {
     "name": "Fragmentation Shot",
     "cooldown": 15.0,
-    "cmbtStyle": "Range",
+    
     "img": ".\\Images\\Fragmentation_Shot.png"
   },
   {
     "name": "Greater Dazing Shot",
     "cooldown": 5.4,
-    "cmbtStyle": "Range",
+    
     "img": ".\\Images\\Greater_Dazing_Shot.png"
   },
   {
     "name": "Greater Ricochet",
     "cooldown": 10.2,
-    "cmbtStyle": "Range",
+    
     "img": ".\\Images\\Greater_Ricochet.png"
   },
   {
     "name": "Incendiary Shot",
     "cooldown": 60.0,
-    "cmbtStyle": "Range",
+    
     "img": ".\\Images\\Incendiary_Shot.png"
   },
   {
     "name": "Needle Strike",
     "cooldown": 5.4,
-    "cmbtStyle": "Range",
+    
     "img": ".\\Images\\Needle_Strike.png"
   },
   {
     "name": "Piercing Shot",
     "cooldown": 3.0,
-    "cmbtStyle": "Range",
+    
     "img": ".\\Images\\Piercing_Shot.png"
   },
   {
     "name": "Rapid Fire",
     "cooldown": 20.4,
-    "cmbtStyle": "Range",
+    
     "img": ".\\Images\\Rapid_Fire.png"
   },
   {
     "name": "Ricochet",
     "cooldown": 10.2,
-    "cmbtStyle": "Range",
+    
     "img": ".\\Images\\Ricochet.png"
   },
   {
     "name": "Rout",
     "cooldown": 15.0,
-    "cmbtStyle": "Range",
+    
     "img": ".\\Images\\Rout.png"
   },
   {
     "name": "Salt the Wound",
     "cooldown": 15.0,
-    "cmbtStyle": "Range",
+    
     "img": ".\\Images\\Salt_the_Wound.png"
   },
   {
     "name": "Shadow Tendrils",
     "cooldown": 45.0,
-    "cmbtStyle": "Range",
+    
     "img": ".\\Images\\Shadow_Tendrils.png"
   },
   {
     "name": "Snap Shot",
     "cooldown": 20.4,
-    "cmbtStyle": "Range",
+    
     "img": ".\\Images\\Snap_Shot.png"
   },
   {
     "name": "Snipe",
     "cooldown": 10.2,
-    "cmbtStyle": "Range",
+    
     "img": ".\\Images\\Snipe.png"
   },
   {
     "name": "Tight Bindings",
     "cooldown": 15.0,
-    "cmbtStyle": "Range",
+    
     "img": ".\\Images\\Tight_Bindings.png"
   },
   {
     "name": "Unload",
     "cooldown": 60.0,
-    "cmbtStyle": "Range",
+    
     "img": ".\\Images\\Unload.png"
   },
   {
     "name": "Anticipation",
     "cooldown": 24.6,
-    "cmbtStyle": "",
+   
     "img": ".\\Images\\Anticipation.png"
   },
   {
     "name": "Barricade",
     "cooldown": 60.0,
-    "cmbtStyle": "",
+   
     "img": ".\\Images\\Barricade.png"
   },
   {
     "name": "Bash",
     "cooldown": 15.0,
-    "cmbtStyle": "",
+   
     "img": ".\\Images\\Bash.png"
   },
   {
     "name": "Debilitate",
     "cooldown": 30.0,
-    "cmbtStyle": "",
+   
     "img": ".\\Images\\Debilitate.png"
   },
   {
     "name": "Devotion",
     "cooldown": 60.0,
-    "cmbtStyle": "",
+   
     "img": ".\\Images\\Devotion.png"
   },
   {
     "name": "Divert",
     "cooldown": 30.0,
-    "cmbtStyle": "",
+   
     "img": ".\\Images\\Divert.png"
   },
   {
     "name": "Freedom",
     "cooldown": 30.0,
-    "cmbtStyle": "",
+   
     "img": ".\\Images\\Freedom.png"
   },
   {
     "name": "Immortality",
     "cooldown": 120.0,
-    "cmbtStyle": "",
+   
     "img": ".\\Images\\Immortality.png"
   },
   {
     "name": "Natural Instinct",
     "cooldown": 120.0,
-    "cmbtStyle": "",
+   
     "img": ".\\Images\\Natural_Instinct.png"
   },
   {
     "name": "Preparation",
     "cooldown": 20.4,
-    "cmbtStyle": "",
+   
     "img": ".\\Images\\Preparation.png"
   },
   {
     "name": "Provoke",
     "cooldown": 10.2,
-    "cmbtStyle": "",
+   
     "img": ".\\Images\\Provoke.png"
   },
   {
     "name": "Reflect",
     "cooldown": 30.0,
-    "cmbtStyle": "",
+   
     "img": ".\\Images\\Reflect.png"
   },
   {
     "name": "Rejuvenate",
     "cooldown": 300.0,
-    "cmbtStyle": "",
+   
     "img": ".\\Images\\Rejuvenate.png"
   },
   {
     "name": "Resonance",
     "cooldown": 30.0,
-    "cmbtStyle": "",
+   
     "img": ".\\Images\\Resonance.png"
   },
   {
     "name": "Revenge",
     "cooldown": 45.0,
-    "cmbtStyle": "",
+   
     "img": ".\\Images\\Revenge.png"
   }
 ]

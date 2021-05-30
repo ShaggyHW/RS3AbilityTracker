@@ -97,6 +97,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Bars.xaml.cs">
+      <DependentUpon>Bars.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Classes\Models.cs" />
     <Compile Include="Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
@@ -141,6 +144,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="AbilitySettings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Bars.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

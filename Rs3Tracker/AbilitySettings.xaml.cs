@@ -31,7 +31,7 @@ namespace Rs3Tracker {
             InitializeComponent();
             if (File.Exists(".\\mongoAbilities.json")) {
                 abilities = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(".\\mongoAbilities.json"));
-                var keybinds = abilities.OrderBy(i => i.cmbtStyle).ToList();
+                var keybinds = abilities.OrderBy(i => i.name).ToList();
 
                 foreach (var ability in abilities) {
                     if (!string.IsNullOrEmpty(ability.img)) {
@@ -55,7 +55,6 @@ namespace Rs3Tracker {
             string json = "";
             if (dgSettings.ItemsSource != null)
                 json = JsonConvert.SerializeObject(dgSettings.ItemsSource, Formatting.Indented);
-
             if (File.Exists(".\\mongoAbilities.json"))
                 File.Delete(".\\mongoAbilities.json");
 
@@ -80,7 +79,7 @@ namespace Rs3Tracker {
                 ability.cooldown = cd;
             else
                 return;
-            ability.cmbtStyle = txtCmbtStyle.Text;
+            //ability.cmbtStyle = txtCmbtStyle.Text;
 
             if (Images.SelectedValue != null)
                 ability.img = ".\\Images\\" + Images.SelectedValue.ToString() + ".png";
@@ -100,8 +99,7 @@ namespace Rs3Tracker {
 
         private void clearData() {
             imgAbil.Source = null;
-            txtAbilName.Text = "";
-            txtCmbtStyle.Text = "";
+            txtAbilName.Text = "";           
             txtCooldDown.Text = "";
             Images.SelectedIndex = -1;
         }

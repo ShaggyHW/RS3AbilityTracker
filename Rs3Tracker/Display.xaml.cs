@@ -20,6 +20,7 @@ namespace Rs3Tracker {
     public partial class Display : Window {
         Hook KeyboardHook = new Hook("Globalaction Link");
         List<KeybindClass> keybindClasses = new List<KeybindClass>();
+        List<BarKeybindClass> keybindBarClasses = new List<BarKeybindClass>();
         int imgCounter = 0;
         string style = "";
         public List<Keypressed> ListKeypressed = new List<Keypressed>();
@@ -27,21 +28,23 @@ namespace Rs3Tracker {
         public bool control = false;
         private Keypressed previousKey = new Keypressed();
         private List<Keypressed> ListPreviousKeys = new List<Keypressed>();
+        private bool trackCD;
 
-
-        public Display(string _style) {
+        public Display(string _style, bool trackCD) {
             InitializeComponent();
             KeyboardHook.KeyDownEvent += HookKeyDown;
             style = _style;
+            keybindClasses = JsonConvert.DeserializeObject<List<KeybindClass>>(File.ReadAllText(".\\keybinds.json"));
+            keybindBarClasses = JsonConvert.DeserializeObject<List<BarKeybindClass>>(File.ReadAllText(".\\barkeybinds.json"));
             changeStyle();
             stopwatch.Start();
             previousKey.ability = new Ability();
+            this.trackCD = trackCD;
         }
 
 
         private void changeStyle() {
-            keybindClasses = JsonConvert.DeserializeObject<List<KeybindClass>>(File.ReadAllText(".\\keybinds.json"));
-            keybindClasses = keybindClasses.Where(p => p.ability.cmbtStyle.ToLower() == style.ToLower() || p.ability.cmbtStyle.ToLower() == "").Select(p => p).ToList();
+            keybindClasses = keybindClasses.Where(p => p.bar.name.ToLower() == style.ToLower() || p.bar.name.ToLower() == "all").Select(p => p).ToList();
 
         }
 
@@ -112,7 +115,9 @@ namespace Rs3Tracker {
             } finally { DeleteObject(handle); }
         }
         #endregion
+
         private void HookKeyDown(KeyboardHookEventArgs e) {
+            #region display
             if (!control) {
                 control = true;
                 Keypressed keypressed = new Keypressed();
@@ -134,6 +139,7 @@ namespace Rs3Tracker {
                 else if (e.isWinPressed)
                     modifier = "WIN";
 
+
                 List<Ability> abilityList = (from r in keybindClasses
                                              where r.key.ToLower() == e.Key.ToString().ToLower()
                                              where r.modifier.ToString().ToLower() == modifier.ToLower()
@@ -144,25 +150,6 @@ namespace Rs3Tracker {
                     return;
                 }
 
-                if (abilityList[0].name.ToLower() == "changestylemelee") {
-                    style = "melee";
-                    control = false;
-                    changeStyle();
-                    return;
-                }
-
-                if (abilityList[0].name.ToLower() == "changestylerange") {
-                    style = "range";
-                    control = false;
-                    changeStyle();
-                    return;
-                }
-                if (abilityList[0].name.ToLower() == "changestylemage") {
-                    style = "mage";
-                    control = false;
-                    changeStyle();
-                    return;
-                }
 
                 foreach (var ability in abilityList) {
 
@@ -171,7 +158,7 @@ namespace Rs3Tracker {
                     keypressed.ability.name = ability.name;
                     keypressed.ability.img = ability.img;
                     keypressed.ability.cooldown = ability.cooldown;
-                    keypressed.ability.cmbtStyle = style;
+                    //keypressed.ability.cmbtStyle = style;
                     keypressed.timepressed = stopwatch.Elapsed.TotalMilliseconds;
 
                     if (!string.IsNullOrEmpty(previousKey.ability.img))
@@ -189,14 +176,18 @@ namespace Rs3Tracker {
                         }
                     };
 
-
-                    bool onCD = abilCoolDown(ListPreviousKeys, keypressed);
                     Bitmap bitmap = new Bitmap(ability.img);
                     Bitmap Image;
                     ImageSource imageSource;
-                    if (onCD) {
-                        Image = Tint(bitmap, System.Drawing.Color.Red, 0.5f);
-                        imageSource = ImageSourceFromBitmap(Image);
+                    if (trackCD) {
+                        bool onCD = abilCoolDown(ListPreviousKeys, keypressed);                       
+                        if (onCD) {
+                            Image = Tint(bitmap, System.Drawing.Color.Red, 0.5f);
+                            imageSource = ImageSourceFromBitmap(Image);
+                        } else {
+                            imageSource = ImageSourceFromBitmap(bitmap);
+                            ListPreviousKeys.Add(previousKey);
+                        }
                     } else {
                         imageSource = ImageSourceFromBitmap(bitmap);
                         ListPreviousKeys.Add(previousKey);
@@ -251,9 +242,15 @@ namespace Rs3Tracker {
                     if (imgCounter < 9)
                         imgCounter++;
                 }
+                var listBarChange = keybindBarClasses.Where(p => p.key.ToLower().Equals(e.Key.ToString().ToLower()) && p.modifier.ToLower().Equals(modifier.ToLower())).Select(p => p).FirstOrDefault();
+                if (listBarChange != null) {
+                    style = listBarChange.name;
+                    changeStyle();
+                }
                 control = false;
 
             }
+            #endregion
         }
 
         private bool abilCoolDown(List<Keypressed> prevKeys, Keypressed keypressed) {

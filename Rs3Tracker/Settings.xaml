@@ -5,57 +5,134 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Rs3Tracker"
         mc:Ignorable="d"
-        Title="Settings"
+        Title="Keybinds"
         Height="419.823"
         Width="670.414">
     <Grid>
-        <DataGrid x:Name="dgSettings"
-                  HorizontalAlignment="Left"
-                  Height="322"
-                  Margin="10,10,0,0"
-                  VerticalAlignment="Top"
-                  Width="355"
-                  AutoGenerateColumns="False"
-                  CanUserReorderColumns="False"
-                  CanUserResizeColumns="False"
-                  MinRowHeight="2"
-                  CanUserResizeRows="False"
-                  CanUserAddRows="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn x:Name="Modifier"
-                                    Header="Modifier"
-                                    Binding="{Binding modifier}"></DataGridTextColumn>
-                <DataGridTextColumn x:Name="Key"
-                                    Header="Key"
-                                    Binding="{Binding key}"></DataGridTextColumn>
-                <DataGridTextColumn x:Name="Ability"
-                                    Header="Ability"
-                                    Binding="{Binding ability.name}"></DataGridTextColumn>
-                <DataGridTextColumn x:Name="Style"
-                                    Header="Style"
-                                    Binding="{Binding ability.cmbtStyle}"></DataGridTextColumn>
-                <DataGridTextColumn x:Name="duplicate"
-                                    Header="Duplicate"
-                                    Binding="{Binding duplicate}"></DataGridTextColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-        <CheckBox x:Name="chkDuplicate"
-                  Margin="379,88,10,256"
-                  HorizontalContentAlignment="Right"> Duplicate? </CheckBox>
-        <ComboBox x:Name="cmbSource"
-                  Visibility="Visible"
-                  Margin="379,10,10,326"
-                  SelectionChanged="cmbSource_SelectionChanged"/>
-        <Button x:Name="btnSave"
-                Content="Save Keybinds"
-                Margin="10,337,297,10"
-                Click="btnSave_Click" />
-        <Button x:Name="btnAddKey"
-                Content="Add Keybinds"
-                Margin="379,239,10,106"
-                Click="btnAddKey_Click" />
-        <Label x:Name="SelectedKey"
-               Margin="379,171,10,166"
-               Content="Selected Key" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="260"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <TabControl>
+            <TabItem Header="Keybinds">
+                <StackPanel>
+                    <DataGrid x:Name="dgSettings"
+                              HorizontalAlignment="Left"
+                              Height="300"
+                              Margin="10,10,0,0"
+                              VerticalAlignment="Top"
+                              Width="355"
+                              AutoGenerateColumns="False"
+                              CanUserReorderColumns="False"
+                              CanUserResizeColumns="False"
+                              MinRowHeight="2"
+                              CanUserResizeRows="False"
+                              CanUserAddRows="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="Modifier"
+                                                Header="Modifier"
+                                                Binding="{Binding modifier}"></DataGridTextColumn>
+                            <DataGridTextColumn x:Name="Key"
+                                                Header="Key"
+                                                Binding="{Binding key}"></DataGridTextColumn>
+                            <DataGridTextColumn x:Name="Ability"
+                                                Header="Ability"
+                                                Binding="{Binding ability.name}"></DataGridTextColumn>
+                            <DataGridTextColumn x:Name="Bar"
+                                                Header="Bar"
+                                                Binding="{Binding bar.name}"></DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button x:Name="btnSave"
+                            Content="Save Keybinds"
+                            Visibility="Visible"
+                            Margin="10"
+                            Width="200"
+                            Click="btnSave_Click" />
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Bars">
+                <StackPanel>
+                    <DataGrid x:Name="dgSettingsBars"
+                              HorizontalAlignment="Left"
+                              Height="300"
+                              Margin="10,10,0,0"
+                              VerticalAlignment="Top"
+                              Width="355"
+                              AutoGenerateColumns="False"
+                              CanUserReorderColumns="False"
+                              CanUserResizeColumns="False"
+                              MinRowHeight="2"
+                              CanUserResizeRows="False"
+                              CanUserAddRows="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="ModifierBar"
+                                                Header="Modifier"
+                                                Binding="{Binding modifier}"></DataGridTextColumn>
+                            <DataGridTextColumn x:Name="KeyBar"
+                                                Header="Key"
+                                                Binding="{Binding key}"></DataGridTextColumn>                            
+                            <DataGridTextColumn x:Name="Name"
+                                                Header="Bar"
+                                                Binding="{Binding name}"></DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button x:Name="btnSaveBars"
+                            Content="Save Keybinds"
+                            Visibility="Visible"
+                            Margin="10"
+                            Width="200"
+                            Click="btnSaveBars_Click" />
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="230"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Vertical"
+                        Grid.Column="0">
+                <Label HorizontalAlignment="Center">ABILITIES</Label>
+                <ComboBox x:Name="cmbSource"
+                          Visibility="Visible"
+                          Margin="10"
+                          Height="40"
+                          SelectionChanged="cmbSource_SelectionChanged" />
+                <ComboBox x:Name="cmbBar"
+                          Visibility="Visible"
+                          Height="40"
+                          Margin="10"
+                          SelectionChanged="cmbSource_SelectionChanged" />
+                <Label x:Name="SelectedKey"
+                       Visibility="Visible"
+                       Margin="10"
+                       Content="Selected Key" />
+                <Button x:Name="btnAddKey"
+                        Content="Add Keybind"
+                        Visibility="Visible"
+                        Margin="10"
+                        Click="btnAddKey_Click" />
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical"
+                        Grid.Row="1">
+                <Label HorizontalAlignment="Center">BAR KEYBINDS</Label>
+                <ComboBox x:Name="cmbBarKeybind"
+                          Visibility="Visible"
+                          Height="40"
+                          Margin="5"
+                          SelectionChanged="cmbSource_SelectionChanged" />
+                <Label x:Name="SelectedBarKey"
+                       Visibility="Visible"
+                       Margin="5"
+                       Content="Selected Key" />
+                <Button x:Name="btnAddBarKey"
+                        Content="Add Keybind"
+                        Visibility="Visible"
+                        Margin="5"
+                        Click="btnAddBarKey_Click" />
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

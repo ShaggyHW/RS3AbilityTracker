@@ -39,10 +39,7 @@
                                         Binding="{Binding name}" />
                     <DataGridTextColumn x:Name="CoolDown"
                                         Header="CoolDown"
-                                        Binding="{Binding cooldown}" />
-                    <DataGridTextColumn x:Name="Style"
-                                        Header="Style"
-                                        Binding="{Binding cmbtStyle}" />
+                                        Binding="{Binding cooldown}" />                  
                     <DataGridTextColumn x:Name="Image"
                                         Header="ImagePath"
                                         Binding="{Binding img}" />
@@ -84,20 +81,6 @@
                 <TextBlock VerticalAlignment="Center"
                            Margin="10">CoolDown (S)</TextBlock>
                 <TextBox x:Name="txtCooldDown"
-                         Width="150"
-                         Height="30"
-                         Margin="10"
-                         VerticalAlignment="Center"
-                         HorizontalAlignment="Left"
-                         VerticalContentAlignment="Center"
-                         HorizontalContentAlignment="Center"></TextBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal"
-                        VerticalAlignment="Center"
-                        Grid.Row="2">
-                <TextBlock VerticalAlignment="Center"
-                           Margin="10">Style</TextBlock>
-                <TextBox x:Name="txtCmbtStyle"
                          Width="150"
                          Height="30"
                          Margin="10"

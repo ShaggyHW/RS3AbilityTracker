@@ -1,0 +1,57 @@
+﻿<Window x:Class="Rs3Tracker.Bars"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Rs3Tracker"
+        mc:Ignorable="d"
+        Title="Bars"
+        Height="450"
+        Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0">
+            <DataGrid x:Name="dgSettings"
+                      HorizontalAlignment="Left"
+                      Margin="10,10,0,0"
+                      Height="337"
+                      Width="376"
+                      VerticalAlignment="Top"
+                      AutoGenerateColumns="False"
+                      CanUserReorderColumns="False"
+                      CanUserResizeColumns="False"
+                      MinRowHeight="2"
+                      CanUserResizeRows="False"
+                      CanUserAddRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn x:Name="Name"
+                                        Header="Name"
+                                        Binding="{Binding name}" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button x:Name="btnSave" Margin="10" Height="40" Width="200"
+                    Click="btnSave_Click">SAVE BARS</Button>
+        </StackPanel>
+        <Grid Grid.Column="1">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label VerticalContentAlignment="Center"
+                           Height="50">Name</Label>
+                    <TextBox x:Name="txtBarName"
+                        VerticalContentAlignment="Center"
+                             Height="50"
+                             Width="300"
+                             Margin="10"></TextBox>
+                </StackPanel>
+                <Button x:Name="btnAdd"
+                        Height="40"
+                        Width="200"
+                        Click="btnAdd_Click">Add Bar</Button>
+            </StackPanel>
+
+        </Grid>
+    </Grid>
+</Window>
