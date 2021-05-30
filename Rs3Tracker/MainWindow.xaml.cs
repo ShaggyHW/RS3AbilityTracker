@@ -55,6 +55,15 @@ namespace Rs3Tracker {
         private void btnBars_Click(object sender, RoutedEventArgs e) {
             Bars bars = new Bars();
             bars.ShowDialog();
+            if (File.Exists(".\\Bars.json")) {
+                cmbMode.Items.Clear();
+                var bars2 = JsonConvert.DeserializeObject<List<BarClass>>(File.ReadAllText(".\\Bars.json"));
+                foreach (var bar in bars2) {
+                    ComboboxItem comboboxItem = new ComboboxItem();
+                    comboboxItem.Text = bar.name;
+                    cmbMode.Items.Add(comboboxItem);
+                }
+            }
         }
 
        
