@@ -33,8 +33,8 @@ namespace Rs3Tracker {
                 abilities = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(".\\mongoAbilities.json"));
                 var keybinds = abilities.OrderBy(i => i.cmbtStyle).ToList();
 
-                foreach(var ability in abilities) {
-                    if (!string.IsNullOrEmpty(ability.img )) {
+                foreach (var ability in abilities) {
+                    if (!string.IsNullOrEmpty(ability.img)) {
                         var index = ability.img.IndexOf("Images");
                         string path = ".\\" + ability.img.Substring(index);
                         ability.img = path;
@@ -81,9 +81,9 @@ namespace Rs3Tracker {
             else
                 return;
             ability.cmbtStyle = txtCmbtStyle.Text;
-            
+
             if (Images.SelectedValue != null)
-                ability.img =  ".\\Images\\" + Images.SelectedValue.ToString() + ".png";
+                ability.img = ".\\Images\\" + Images.SelectedValue.ToString() + ".png";
 
             var Exists = abilities.Where(p => p.name == ability.name).Select(p => p).FirstOrDefault();
 
@@ -117,16 +117,15 @@ namespace Rs3Tracker {
             } finally { DeleteObject(handle); }
         }
         private void Images_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            if (Images.SelectedValue != null) {               
-                            
+            if (Images.SelectedValue != null) {
                 Bitmap bitmap = new Bitmap(".\\Images\\" + Images.SelectedValue.ToString() + ".png");
                 Bitmap Image;
                 ImageSource imageSource;
-
                 imageSource = ImageSourceFromBitmap(bitmap);
-             
-
                 imgAbil.Source = imageSource;
+
+                txtAbilName.Text = Images.SelectedValue.ToString().Replace("_", " ");
+
             } else {
                 imgAbil.Source = null;
             }
