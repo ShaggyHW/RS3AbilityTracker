@@ -50,7 +50,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>true</SignManifests>
@@ -60,6 +60,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>Rs3Tracker_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>Rs3Tracker_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="FMUtils.KeyboardHook, Version=1.0.140.2145, Culture=neutral, PublicKeyToken=1acd76c568cde84e, processorArchitecture=MSIL">

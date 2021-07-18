@@ -52,8 +52,10 @@
         <Image Grid.Column="8"
                Margin="5"
                x:Name="displayImg9" />
-        <Image Grid.Column="9"
+        <Border Grid.Column="9" BorderBrush="White" BorderThickness="2">
+            <Image 
                Margin="5"
                x:Name="displayImg10" />
+        </Border>
     </Grid>
 </Window>

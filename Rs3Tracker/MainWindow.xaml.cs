@@ -36,6 +36,15 @@ namespace Rs3Tracker {
         }
 
         private void btnStartTracker_Click(object sender, RoutedEventArgs e) {
+            if (!File.Exists(".\\keybinds.json")) {
+                MessageBox.Show("Missing Keybinds");
+                return;
+            }
+            if (!File.Exists(".\\barkeybinds.json")) {
+                MessageBox.Show("Missing Bar Keybinds");            
+                return;
+            }
+
             Display display = new Display(cmbMode.Text.ToLower(), TrackCD.IsChecked.Value);
             display.ShowDialog();
         }

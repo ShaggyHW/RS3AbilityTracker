@@ -149,6 +149,22 @@ namespace Rs3Tracker {
                 if (abilityList.Count == 0) {
                     var listBarChange2 = keybindBarClasses.Where(p => p.key.ToLower().Equals(e.Key.ToString().ToLower()) && p.modifier.ToLower().Equals(modifier.ToLower())).Select(p => p).FirstOrDefault();
                     if (listBarChange2 != null) {
+                        if (listBarChange2.name.Equals("Clear")) {
+                            displayImg1.Source = null;
+                            displayImg2.Source = null;
+                            displayImg3.Source = null;
+                            displayImg4.Source = null;
+                            displayImg5.Source = null;
+                            displayImg6.Source = null;
+                            displayImg7.Source = null;
+                            displayImg8.Source = null;
+                            displayImg9.Source = null;
+                            displayImg10.Source = null;control = false;                            return;
+                        }
+                    }
+                          
+
+                    if (listBarChange2 != null) {
                         style = listBarChange2.name;
                         changeStyle();
                     }
@@ -186,7 +202,7 @@ namespace Rs3Tracker {
                     Bitmap Image;
                     ImageSource imageSource;
                     if (trackCD) {
-                        bool onCD = abilCoolDown(ListPreviousKeys, keypressed);                       
+                        bool onCD = abilCoolDown(ListPreviousKeys, keypressed);
                         if (onCD) {
                             Image = Tint(bitmap, System.Drawing.Color.Red, 0.5f);
                             imageSource = ImageSourceFromBitmap(Image);
