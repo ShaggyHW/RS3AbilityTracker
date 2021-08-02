@@ -159,10 +159,12 @@ namespace Rs3Tracker {
                             displayImg7.Source = null;
                             displayImg8.Source = null;
                             displayImg9.Source = null;
-                            displayImg10.Source = null;control = false;                            return;
+                            displayImg10.Source = null;
+                            control = false;
+                            return;
                         }
                     }
-                          
+
 
                     if (listBarChange2 != null) {
                         style = listBarChange2.name;
@@ -174,6 +176,9 @@ namespace Rs3Tracker {
 
 
                 foreach (var ability in abilityList) {
+
+                    if (ability == null)
+                        continue;
 
                     keypressed.modifier = modifier;
                     keypressed.key = e.Key.ToString();
