@@ -50,6 +50,8 @@
                         Height="40"
                         Width="200"
                         Click="btnAdd_Click">Add Bar</Button>
+                <TextBlock>NAME: CLEAR</TextBlock>
+                <TextBlock>As a keybind it will clear the bar!</TextBlock>
             </StackPanel>
 
         </Grid>
