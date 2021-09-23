@@ -64,7 +64,8 @@
                               CanUserResizeColumns="False"
                               MinRowHeight="2"
                               CanUserResizeRows="False"
-                              CanUserAddRows="False">
+                              CanUserAddRows="False" BeginningEdit="dgSettingsBars_BeginningEdit"
+>
                         <DataGrid.Columns>
                             <DataGridTextColumn x:Name="ModifierBar"
                                                 Header="Modifier"
