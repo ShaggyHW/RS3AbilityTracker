@@ -141,5 +141,9 @@ namespace Rs3Tracker {
         private void reloadCombo_Click(object sender, RoutedEventArgs e) {
             LoadCombo();
         }
+
+        private void dgSettings_BeginningEdit(object sender, DataGridBeginningEditEventArgs e) {
+            e.Cancel = true;
+        }
     }
 }

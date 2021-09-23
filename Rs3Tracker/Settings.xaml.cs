@@ -235,5 +235,9 @@ namespace Rs3Tracker {
             stream.Close();
             File.WriteAllText(".\\barkeybinds.json", json);
         }
+
+        private void dgSettings_BeginningEdit(object sender, DataGridBeginningEditEventArgs e) {
+            e.Cancel = true;
+        }
     }
 }

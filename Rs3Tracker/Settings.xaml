@@ -27,7 +27,7 @@
                               CanUserResizeColumns="False"
                               MinRowHeight="2"
                               CanUserResizeRows="False"
-                              CanUserAddRows="False">
+                              CanUserAddRows="False" BeginningEdit="dgSettings_BeginningEdit">
                         <DataGrid.Columns>
                             <DataGridTextColumn x:Name="Modifier"
                                                 Header="Modifier"
