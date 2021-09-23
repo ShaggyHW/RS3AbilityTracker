@@ -102,6 +102,10 @@
             <StackPanel Orientation="Vertical"
                         VerticalAlignment="Center"
                         Grid.Row="3" Margin="10">
+                <Button x:Name="reloadCombo"
+                        Click="reloadCombo_Click"
+                        Height="50"
+                        Width="200" Margin="5">Reload</Button>
                 <ComboBox x:Name="Images" SelectionChanged="Images_SelectionChanged"></ComboBox>
                 <Image x:Name="imgAbil"                     
                        HorizontalAlignment="Center"

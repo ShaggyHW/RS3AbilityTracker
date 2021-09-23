@@ -44,7 +44,13 @@ namespace Rs3Tracker {
                 dgSettings.ItemsSource = keybinds;
             }
 
-            var Abils = Directory.GetFiles(".\\Images", "*.png");
+            LoadCombo();
+        }
+
+        private void LoadCombo() {
+            Images.Items.Clear();
+            var Abils = Directory.GetFiles(".\\Images", "*.*").Where(s => s.ToLower().EndsWith(".png") || s.ToLower().EndsWith(".jpg")).ToList();
+            
             foreach (var name in Abils) {
                 ComboboxItem comboboxItem = new ComboboxItem();
                 comboboxItem.Text = name.Split('\\')[2].Split('.')[0];
@@ -130,6 +136,10 @@ namespace Rs3Tracker {
                 imgAbil.Source = null;
             }
 
+        }
+
+        private void reloadCombo_Click(object sender, RoutedEventArgs e) {
+            LoadCombo();
         }
     }
 }
