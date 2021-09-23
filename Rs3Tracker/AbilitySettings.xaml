@@ -33,6 +33,7 @@
                       CanUserResizeRows="False"
                       CanUserAddRows="False"
                       Grid.Row="0">
+             
                 <DataGrid.Columns>
                     <DataGridTextColumn x:Name="Name"
                                         Header="Name"
@@ -43,6 +44,15 @@
                     <DataGridTextColumn x:Name="Image"
                                         Header="ImagePath"
                                         Binding="{Binding img}" />
+                    <DataGridTemplateColumn Header="Image"
+                                            Width="60"
+                                            IsReadOnly="True" >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding img}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
             <Button x:Name="btnSave"

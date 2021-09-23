@@ -161,6 +161,11 @@ namespace Rs3Tracker {
         }
 
         private void btnAddBarKey_Click(object sender, RoutedEventArgs e) {
+            if (SelectedKey.Content.ToString().Equals("Selected Key")) {
+                MessageBox.Show("please select a keybind");
+                return;
+            }
+
             BarKeybindClass barKeybindClass = new BarKeybindClass();
             string[] keySplit = SelectedBarKey.Content.ToString().Split('+');
 
