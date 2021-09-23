@@ -165,6 +165,10 @@ namespace Rs3Tracker {
                 MessageBox.Show("please select a keybind");
                 return;
             }
+            if (string.IsNullOrEmpty(cmbBarKeybind.Text.ToString())) {
+                MessageBox.Show("please select a keybind");
+                return;
+            }
 
             BarKeybindClass barKeybindClass = new BarKeybindClass();
             string[] keySplit = SelectedBarKey.Content.ToString().Split('+');
