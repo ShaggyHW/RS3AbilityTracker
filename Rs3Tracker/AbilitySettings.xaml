@@ -45,7 +45,7 @@
                     <DataGridTextColumn x:Name="Image"
                                         Header="ImagePath"
                                         Binding="{Binding img}" />
-                    <DataGridTemplateColumn Header="Image"
+                    <!--<DataGridTemplateColumn Header="Image"
                                             Width="60"
                                             IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>
@@ -53,7 +53,7 @@
                                 <Image Source="{Binding img}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    </DataGridTemplateColumn>-->
                 </DataGrid.Columns>
             </DataGrid>
             <StackPanel Orientation="Horizontal"

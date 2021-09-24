@@ -31,15 +31,20 @@ namespace Rs3Tracker {
             InitializeComponent();
             if (File.Exists(".\\mongoAbilities.json")) {
                 abilities = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(".\\mongoAbilities.json"));
+                //DataGridTextColumn textColumn1 = new DataGridTextColumn();
+                //textColumn1.Header = "Image";
+                //textColumn1.Binding = new Binding("img");
+                //dgSettings.Columns.Add(textColumn1);
+
+                //foreach (var ability in abilities) {
+                //    if (!string.IsNullOrEmpty(ability.img)) {
+                //        var s = ability.img.Split('\\');
 
 
-                foreach (var ability in abilities) {
-                    if (!string.IsNullOrEmpty(ability.img)) {
-                        var index = ability.img.IndexOf("Images");
-                        string path = ".\\" + ability.img.Substring(index);
-                        ability.img = path;
-                    }
-                }
+                //        string path = "/AssemblyName;content/Images/" + s[s.Length - 1];
+                //        ability.img = path;
+                //    }
+                //}
                 var keybinds = abilities.OrderBy(i => i.name).ToList();
                 foreach (var key in keybinds) {
                     dgSettings.Items.Add(key);
