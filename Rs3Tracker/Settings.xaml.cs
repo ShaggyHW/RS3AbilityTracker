@@ -47,11 +47,12 @@ namespace Rs3Tracker {
                     cmbSource.Items.Add(comboboxItem);
                 }
             }
-          
+
             if (File.Exists(".\\keybinds.json")) {
                 keybindingList = JsonConvert.DeserializeObject<List<KeybindClass>>(File.ReadAllText(".\\keybinds.json"));
                 var keybinds = keybindingList.OrderBy(i => i.bar.name).ToList();
-                dgSettings.ItemsSource = keybinds;
+                foreach (var key in keybinds)
+                    dgSettings.Items.Add(key);
             }
 
             if (File.Exists(".\\barkeybinds.json")) {
@@ -63,7 +64,7 @@ namespace Rs3Tracker {
             if (File.Exists(".\\Bars.json")) {
                 var bars = JsonConvert.DeserializeObject<List<BarClass>>(File.ReadAllText(".\\Bars.json"));
                 cmbBar.Items.Add(new ComboboxItem() { Text = "ALL" });
-                foreach(var bar in bars) {
+                foreach (var bar in bars) {
                     ComboboxItem comboboxItem = new ComboboxItem();
                     comboboxItem.Text = bar.name;
                     cmbBar.Items.Add(comboboxItem);
@@ -93,14 +94,20 @@ namespace Rs3Tracker {
         private void btnSave_Click(object sender, RoutedEventArgs e) {
 
             string json = "";
-            if (dgSettings.ItemsSource != null) {
-               var lists= (List<KeybindClass>)dgSettings.ItemsSource;
-                foreach(var item in lists) {
-                    var updateAbility = abilities.Where(a => a.name == item.ability.name).Select(a => a).FirstOrDefault();
-                    item.ability = updateAbility;
-                }
+            List<object> lists = new List<object>();
+            foreach (var item in dgSettings.Items) {
+                lists.Add(item);
                 json = JsonConvert.SerializeObject(lists, Formatting.Indented);
             }
+
+            //if (dgSettings.ItemsSource != null) {
+            //    var lists = (List<KeybindClass>)dgSettings.ItemsSource;
+            //    foreach (var item in lists) {
+            //        var updateAbility = abilities.Where(a => a.name == item.ability.name).Select(a => a).FirstOrDefault();
+            //        item.ability = updateAbility;
+            //    }
+            //    json = JsonConvert.SerializeObject(lists, Formatting.Indented);
+            //}
 
             if (File.Exists(".\\keybinds.json"))
                 File.Delete(".\\keybinds.json");
@@ -149,9 +156,9 @@ namespace Rs3Tracker {
             if (keybindingList == null)
                 keybindingList = new List<KeybindClass>();
 
-            keybindingList.Add(keybindClass);
-            dgSettings.ItemsSource = null;
-            dgSettings.ItemsSource = keybindingList;
+            //keybindingList.Add(keybindClass);
+            //dgSettings.ItemsSource = null;
+            dgSettings.Items.Add(keybindClass);
 
             SelectedKey.Content = "Selected Key";
         }
@@ -189,7 +196,7 @@ namespace Rs3Tracker {
                 barKeybindClass.modifier = keySplit[0];
                 barKeybindClass.key = keySplit[1];
                 barKeybindClass.name = cmbBarKeybind.Text;
-               
+
             } else {
                 //var barkeybind = keybindingBarList.Where(kb => kb.key.Equals(keySplit[0]) && kb.modifier.Equals("")).Select(kb => kb).FirstOrDefault();
                 //if (barkeybind != null) {
@@ -206,15 +213,14 @@ namespace Rs3Tracker {
                 barKeybindClass.modifier = "";
                 barKeybindClass.key = keySplit[0];
                 barKeybindClass.name = cmbBarKeybind.Text;
-                
+
             }
             if (keybindingBarList == null)
                 keybindingBarList = new List<BarKeybindClass>();
 
-            keybindingBarList.Add(barKeybindClass);
-            dgSettingsBars.ItemsSource = null;
-            dgSettingsBars.ItemsSource = keybindingBarList;
-
+            //keybindingBarList.Add(barKeybindClass);
+            //dgSettingsBars.ItemsSource = null;
+            dgSettingsBars.Items.Add(barKeybindClass);
             SelectedBarKey.Content = "Selected Key";
 
 
@@ -222,9 +228,11 @@ namespace Rs3Tracker {
 
         private void btnSaveBars_Click(object sender, RoutedEventArgs e) {
             string json = "";
+          
+
             if (dgSettingsBars.ItemsSource != null) {
                 var lists = (List<BarKeybindClass>)dgSettingsBars.ItemsSource;
-                
+
                 json = JsonConvert.SerializeObject(lists, Formatting.Indented);
             }
 
@@ -242,6 +250,10 @@ namespace Rs3Tracker {
 
         private void dgSettingsBars_BeginningEdit(object sender, DataGridBeginningEditEventArgs e) {
             e.Cancel = true;
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e) {
+            dgSettings.Items.Remove(dgSettings.SelectedItem);
         }
     }
 }

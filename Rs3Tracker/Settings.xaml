@@ -28,6 +28,14 @@
                               MinRowHeight="2"
                               CanUserResizeRows="False"
                               CanUserAddRows="False" BeginningEdit="dgSettings_BeginningEdit">
+                        
+                            <DataGrid.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Delete"
+                                              Click="MenuItem_Click" />
+                                </ContextMenu>
+                            </DataGrid.ContextMenu>
+                      
                         <DataGrid.Columns>
                             <DataGridTextColumn x:Name="Modifier"
                                                 Header="Modifier"

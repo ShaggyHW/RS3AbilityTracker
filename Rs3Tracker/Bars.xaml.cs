@@ -58,6 +58,6 @@ namespace Rs3Tracker {
 
         private void dgSettings_BeginningEdit(object sender, DataGridBeginningEditEventArgs e) {
             e.Cancel = true;
-        }
+        }             
     }
 }
