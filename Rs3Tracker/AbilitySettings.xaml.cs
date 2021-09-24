@@ -101,7 +101,10 @@ namespace Rs3Tracker {
 
             if (Exists == null) {
                 abilities.Add(ability);
-                dgSettings.Items.Add(abilities);
+                dgSettings.Items.Clear();
+                foreach (var abil in abilities) {
+                    dgSettings.Items.Add(abil);
+                }
                 clearData();
             } else {
                 MessageBox.Show("Ability Exists!");
