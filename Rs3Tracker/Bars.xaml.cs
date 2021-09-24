@@ -27,24 +27,26 @@ namespace Rs3Tracker {
             if (File.Exists(".\\Bars.json")) {
                 bars = JsonConvert.DeserializeObject<List<BarClass>>(File.ReadAllText(".\\Bars.json"));
                 var keybinds = bars.OrderBy(i => i.name).ToList();
-                dgSettings.ItemsSource = keybinds;
+                foreach (var key in keybinds) {
+                    dgSettings.Items.Add(key);
+                }
             }
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e) {
-            if (!string.IsNullOrEmpty(txtBarName.Text))
-                bars.Add(new BarClass() {
-                    name = txtBarName.Text
-                });
-
-            dgSettings.ItemsSource = null;
-            dgSettings.ItemsSource = bars;
+            if (!string.IsNullOrEmpty(txtBarName.Text)) {
+                //bars.Add(new BarClass() {
+                //    name = txtBarName.Text
+                //});
+                dgSettings.Items.Add(new BarClass() { name = txtBarName.Text });
+            }
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e) {
             string json = "";
-            if (dgSettings.ItemsSource != null) {
-                var lists = (List<BarClass>)dgSettings.ItemsSource;
+            List<object> lists = new List<object>();
+            foreach (var item in dgSettings.Items) {
+                lists.Add(item);
                 json = JsonConvert.SerializeObject(lists, Formatting.Indented);
             }
 
@@ -58,6 +60,6 @@ namespace Rs3Tracker {
 
         private void dgSettings_BeginningEdit(object sender, DataGridBeginningEditEventArgs e) {
             e.Cancel = true;
-        }             
+        }
     }
 }

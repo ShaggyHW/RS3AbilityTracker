@@ -31,17 +31,19 @@ namespace Rs3Tracker {
             InitializeComponent();
             if (File.Exists(".\\mongoAbilities.json")) {
                 abilities = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(".\\mongoAbilities.json"));
-               
+
 
                 foreach (var ability in abilities) {
                     if (!string.IsNullOrEmpty(ability.img)) {
                         var index = ability.img.IndexOf("Images");
                         string path = ".\\" + ability.img.Substring(index);
-                        ability.img = path;                       
+                        ability.img = path;
                     }
                 }
                 var keybinds = abilities.OrderBy(i => i.name).ToList();
-                dgSettings.ItemsSource = keybinds;
+                foreach (var key in keybinds) {
+                    dgSettings.Items.Add(key);
+                }
             }
 
             LoadCombo();
@@ -50,7 +52,7 @@ namespace Rs3Tracker {
         private void LoadCombo() {
             Images.Items.Clear();
             var Abils = Directory.GetFiles(".\\Images", "*.*").Where(s => s.ToLower().EndsWith(".png") || s.ToLower().EndsWith(".jpg")).ToList();
-            
+
             foreach (var name in Abils) {
                 ComboboxItem comboboxItem = new ComboboxItem();
                 comboboxItem.Text = name.Split('\\')[2].Split('.')[0];
@@ -60,8 +62,11 @@ namespace Rs3Tracker {
 
         private void btnSave_Click(object sender, RoutedEventArgs e) {
             string json = "";
-            if (dgSettings.ItemsSource != null)
-                json = JsonConvert.SerializeObject(dgSettings.ItemsSource, Formatting.Indented);
+            List<object> lists = new List<object>();
+            foreach (var item in dgSettings.Items) {
+                lists.Add(item);
+                json = JsonConvert.SerializeObject(lists, Formatting.Indented);
+            }
             if (File.Exists(".\\mongoAbilities.json"))
                 File.Delete(".\\mongoAbilities.json");
 
@@ -88,16 +93,15 @@ namespace Rs3Tracker {
                 return;
             //ability.cmbtStyle = txtCmbtStyle.Text;
 
-            if (Images.SelectedValue != null) 
+            if (Images.SelectedValue != null)
                 ability.img = ".\\Images\\" + Images.SelectedValue.ToString() + ".png";
-            
+
 
             var Exists = abilities.Where(p => p.name == ability.name).Select(p => p).FirstOrDefault();
 
             if (Exists == null) {
                 abilities.Add(ability);
-                dgSettings.ItemsSource = null;
-                dgSettings.ItemsSource = abilities;
+                dgSettings.Items.Add(abilities);
                 clearData();
             } else {
                 MessageBox.Show("Ability Exists!");
@@ -107,7 +111,7 @@ namespace Rs3Tracker {
 
         private void clearData() {
             imgAbil.Source = null;
-            txtAbilName.Text = "";           
+            txtAbilName.Text = "";
             txtCooldDown.Text = "";
             Images.SelectedIndex = -1;
         }
