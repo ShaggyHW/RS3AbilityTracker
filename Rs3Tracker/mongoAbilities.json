@@ -13,8 +13,7 @@
   },
   {
     "name": "Balanced Strike",
-    "cooldown": 120.0,
-    
+    "cooldown": 120.0,    
     "img": ".\\Images\\Balanced_Strike.png"
   },
   {

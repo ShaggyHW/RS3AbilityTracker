@@ -61,14 +61,22 @@
                         Grid.Row="1">
                 <Button x:Name="btnSave"
                         Content="Save"
-                        Height="50"
-                        Width="200" Margin="10"
+                        Height="30"
+                        Width="100"
+                        Margin="10"
                         Click="btnSave_Click" />
                 <Button x:Name="btnDelete"
                         Content="Delete"
-                        Height="50"
-                        Width="200" Margin="10"
+                        Height="30"
+                        Width="100"
+                        Margin="10"
                         Click="btnDelete_Click" />
+                <Button x:Name="Import"
+                        Content="Import"
+                        Height="30"
+                        Width="100"
+                        Margin="10"
+                        Click="Import_Click" />
             </StackPanel>
         </Grid>
         <Grid Grid.Column="1">

@@ -160,9 +160,32 @@ namespace Rs3Tracker {
 
         private void btnDelete_Click(object sender, RoutedEventArgs e) {
             for (int i = 0; i < dgSettings.SelectedItems.Count; i++) {
-                dgSettings.Items.Remove(dgSettings.Items[i]);
+                dgSettings.Items.Remove(dgSettings.SelectedItems[i]);
                 i--;
             }
+        }
+
+        private void CSVAbilParser() {
+            var lines = File.ReadAllLines(".\\Abilities.csv");
+            List<Ability> abils = new List<Ability>();
+            foreach(var line in lines) {
+                Ability ability = new Ability();
+                ability.name = line.Split(',')[0];
+                ability.cooldown = Convert.ToDouble(line.Split(',')[1]);
+                ability.img = ".\\Images\\"+ line.Split(',')[0].Replace(' ','_')+".png";
+                abils.Add(ability);
+            }
+
+            if (File.Exists(".\\mongoAbilities.json"))
+                File.Delete(".\\mongoAbilities.json");
+
+            var stream = File.Create(".\\mongoAbilities.json");
+            stream.Close();
+            File.WriteAllText(".\\mongoAbilities.json", JsonConvert.SerializeObject(abils, Formatting.Indented));
+        }
+
+        private void Import_Click(object sender, RoutedEventArgs e) {
+            CSVAbilParser();
         }
     }
 }
