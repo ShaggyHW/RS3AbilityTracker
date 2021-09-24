@@ -16,7 +16,7 @@
         <TabControl>
             <TabItem Header="Keybinds">
                 <StackPanel>
-                    <DataGrid x:Name="dgSettings"                             
+                    <DataGrid x:Name="dgSettings"
                               Height="300"
                               Margin="10,10,0,0"
                               VerticalAlignment="Top"
@@ -27,15 +27,8 @@
                               CanUserResizeColumns="False"
                               MinRowHeight="2"
                               CanUserResizeRows="False"
-                              CanUserAddRows="False" BeginningEdit="dgSettings_BeginningEdit">
-                        
-                            <DataGrid.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="Delete"
-                                              Click="MenuItem_Click" />
-                                </ContextMenu>
-                            </DataGrid.ContextMenu>
-                      
+                              CanUserAddRows="False"
+                              BeginningEdit="dgSettings_BeginningEdit">                   
                         <DataGrid.Columns>
                             <DataGridTextColumn x:Name="Modifier"
                                                 Header="Modifier"
@@ -51,19 +44,20 @@
                                                 Binding="{Binding bar.name}"></DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button x:Name="btnSave"
-                            Content="Save Keybinds"
-                            Visibility="Visible"
-                            Margin="10"
-                            Width="150"
-                            Click="btnSave_Click" />
-                    <Button x:Name="btnDelete"
-                            Content="Delete Selected"
-                            Visibility="Visible"
-                            Margin="10"
-                            Width="150"
-                            Click="btnDelete_Click" />
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center">
+                        <Button x:Name="btnSave"
+                                Content="Save Keybinds"
+                                Visibility="Visible"
+                                Margin="10"
+                                Width="150"
+                                Click="btnSave_Click" />
+                        <Button x:Name="btnDelete"
+                                Content="Delete Selected"
+                                Visibility="Visible"
+                                Margin="10"
+                                Width="150"
+                                Click="btnDelete_Click" />
                     </StackPanel>
                 </StackPanel>
             </TabItem>
@@ -80,26 +74,35 @@
                               CanUserResizeColumns="False"
                               MinRowHeight="2"
                               CanUserResizeRows="False"
-                              CanUserAddRows="False" BeginningEdit="dgSettingsBars_BeginningEdit"
->
+                              CanUserAddRows="False"
+                              BeginningEdit="dgSettingsBars_BeginningEdit">
                         <DataGrid.Columns>
                             <DataGridTextColumn x:Name="ModifierBar"
                                                 Header="Modifier"
                                                 Binding="{Binding modifier}"></DataGridTextColumn>
                             <DataGridTextColumn x:Name="KeyBar"
                                                 Header="Key"
-                                                Binding="{Binding key}"></DataGridTextColumn>                            
+                                                Binding="{Binding key}"></DataGridTextColumn>
                             <DataGridTextColumn x:Name="Name"
                                                 Header="Bar"
                                                 Binding="{Binding name}"></DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Button x:Name="btnSaveBars"
-                            Content="Save Keybinds"
-                            Visibility="Visible"
-                            Margin="10"
-                            Width="200"
-                            Click="btnSaveBars_Click" />
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center">
+                        <Button x:Name="btnSaveBars"
+                                Content="Save Keybinds"
+                                Visibility="Visible"
+                                Margin="10"
+                                Width="150"
+                                Click="btnSaveBars_Click" />
+                        <Button x:Name="btnDeleteBar"
+                                Content="Save Keybinds"
+                                Visibility="Visible"
+                                Margin="10"
+                                Width="150"
+                                Click="btnDeleteBar_Click" />
+                    </StackPanel>
                 </StackPanel>
             </TabItem>
         </TabControl>

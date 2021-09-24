@@ -152,5 +152,12 @@ namespace Rs3Tracker {
         private void dgSettings_BeginningEdit(object sender, DataGridBeginningEditEventArgs e) {
             e.Cancel = true;
         }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e) {
+            for (int i = 0; i < dgSettings.SelectedItems.Count; i++) {
+                dgSettings.Items.Remove(dgSettings.Items[i]);
+                i--;
+            }
+        }
     }
 }

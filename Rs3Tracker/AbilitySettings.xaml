@@ -32,21 +32,22 @@
                       MinRowHeight="2"
                       CanUserResizeRows="False"
                       CanUserAddRows="False"
-                      Grid.Row="0" BeginningEdit="dgSettings_BeginningEdit">
-             
+                      Grid.Row="0"
+                      BeginningEdit="dgSettings_BeginningEdit">
+
                 <DataGrid.Columns>
                     <DataGridTextColumn x:Name="Name"
                                         Header="Name"
                                         Binding="{Binding name}" />
                     <DataGridTextColumn x:Name="CoolDown"
                                         Header="CoolDown"
-                                        Binding="{Binding cooldown}" />                  
+                                        Binding="{Binding cooldown}" />
                     <DataGridTextColumn x:Name="Image"
                                         Header="ImagePath"
                                         Binding="{Binding img}" />
                     <DataGridTemplateColumn Header="Image"
                                             Width="60"
-                                            IsReadOnly="True" >
+                                            IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Image Source="{Binding img}" />
@@ -55,12 +56,20 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <Button x:Name="btnSave"
-                    Content="Save"
-                    Grid.Row="1"
-                    Height="50"
-                    Width="200"
-                    Click="btnSave_Click" />
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Grid.Row="1">
+                <Button x:Name="btnSave"
+                        Content="Save"
+                        Height="50"
+                        Width="200" Margin="10"
+                        Click="btnSave_Click" />
+                <Button x:Name="btnDelete"
+                        Content="Delete"
+                        Height="50"
+                        Width="200" Margin="10"
+                        Click="btnDelete_Click" />
+            </StackPanel>
         </Grid>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
@@ -77,7 +86,7 @@
                 <TextBlock VerticalAlignment="Center"
                            Margin="10">Name</TextBlock>
                 <TextBox x:Name="txtAbilName"
-                         Width="150"                        
+                         Width="150"
                          Height="30"
                          Margin="10"
                          VerticalAlignment="Center"
@@ -101,15 +110,20 @@
             </StackPanel>
             <StackPanel Orientation="Vertical"
                         VerticalAlignment="Center"
-                        Grid.Row="3" Margin="10">
+                        Grid.Row="3"
+                        Margin="10">
                 <Button x:Name="reloadCombo"
                         Click="reloadCombo_Click"
                         Height="50"
-                        Width="200" Margin="5">Reload</Button>
-                <ComboBox x:Name="Images" SelectionChanged="Images_SelectionChanged"></ComboBox>
-                <Image x:Name="imgAbil"                     
+                        Width="200"
+                        Margin="5">Reload</Button>
+                <ComboBox x:Name="Images"
+                          SelectionChanged="Images_SelectionChanged"></ComboBox>
+                <Image x:Name="imgAbil"
                        HorizontalAlignment="Center"
-                       VerticalAlignment="Center" Height="60" Width="60"></Image>
+                       VerticalAlignment="Center"
+                       Height="60"
+                       Width="60"></Image>
             </StackPanel>
             <Button x:Name="btnAdd"
                     Grid.Row="4"

@@ -257,9 +257,15 @@ namespace Rs3Tracker {
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e) {
-
             for (int i = 0; i < dgSettings.SelectedItems.Count; i++) {
                 dgSettings.Items.Remove(dgSettings.Items[i]);
+                i--;
+            }
+        }
+
+        private void btnDeleteBar_Click(object sender, RoutedEventArgs e) {
+            for (int i = 0; i < dgSettingsBars.SelectedItems.Count; i++) {
+                dgSettingsBars.Items.Remove(dgSettingsBars.Items[i]);
                 i--;
             }
         }
