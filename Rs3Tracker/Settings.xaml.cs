@@ -228,7 +228,7 @@ namespace Rs3Tracker {
 
         private void btnSaveBars_Click(object sender, RoutedEventArgs e) {
             string json = "";
-          
+
 
             if (dgSettingsBars.ItemsSource != null) {
                 var lists = (List<BarKeybindClass>)dgSettingsBars.ItemsSource;
@@ -254,6 +254,14 @@ namespace Rs3Tracker {
 
         private void MenuItem_Click(object sender, RoutedEventArgs e) {
             dgSettings.Items.Remove(dgSettings.SelectedItem);
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e) {
+
+            for (int i = 0; i < dgSettings.SelectedItems.Count; i++) {
+                dgSettings.Items.Remove(dgSettings.Items[i]);
+                i--;
+            }
         }
     }
 }

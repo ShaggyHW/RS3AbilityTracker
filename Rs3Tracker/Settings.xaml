@@ -16,11 +16,11 @@
         <TabControl>
             <TabItem Header="Keybinds">
                 <StackPanel>
-                    <DataGrid x:Name="dgSettings"
-                              HorizontalAlignment="Left"
+                    <DataGrid x:Name="dgSettings"                             
                               Height="300"
                               Margin="10,10,0,0"
                               VerticalAlignment="Top"
+                              HorizontalAlignment="Center"
                               Width="355"
                               AutoGenerateColumns="False"
                               CanUserReorderColumns="False"
@@ -51,12 +51,20 @@
                                                 Binding="{Binding bar.name}"></DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button x:Name="btnSave"
                             Content="Save Keybinds"
                             Visibility="Visible"
                             Margin="10"
-                            Width="200"
+                            Width="150"
                             Click="btnSave_Click" />
+                    <Button x:Name="btnDelete"
+                            Content="Delete Selected"
+                            Visibility="Visible"
+                            Margin="10"
+                            Width="150"
+                            Click="btnDelete_Click" />
+                    </StackPanel>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Bars">
