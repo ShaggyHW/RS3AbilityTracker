@@ -51,10 +51,12 @@ namespace Rs3Tracker {
 
             if (File.Exists(".\\keybinds.json")) {
                 keybindingList = JsonConvert.DeserializeObject<List<KeybindClass>>(File.ReadAllText(".\\keybinds.json"));
-                var keybinds = keybindingList.OrderBy(i => i.bar.name).ToList();
-                if (keybinds != null)
-                    foreach (var key in keybinds)
-                        dgSettings.Items.Add(key);
+                if (keybindingList != null) {
+                    var keybinds = keybindingList.OrderBy(i => i.bar.name).ToList();
+                    if (keybinds != null)
+                        foreach (var key in keybinds)
+                            dgSettings.Items.Add(key);
+                }
             }
 
             if (File.Exists(".\\barkeybinds.json")) {
