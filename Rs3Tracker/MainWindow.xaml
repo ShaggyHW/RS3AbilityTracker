@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Rs3Tracker"
         mc:Ignorable="d"
         Title="Menu"
-        Height="167.5"
+        Height="184.5"
         Width="550"
         ResizeMode="NoResize">
     <Grid>
