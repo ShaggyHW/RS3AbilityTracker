@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Rs3Tracker"
         mc:Ignorable="d"
         Title="Menu"
-        Height="200"
+        Height="167.5"
         Width="550"
         ResizeMode="NoResize">
     <Grid>
@@ -31,7 +31,7 @@
                 VerticalAlignment="Top"
                 Width="75"
                 Click="btnClose_Click" />
-        <ComboBox Margin="230,10,104,114"
+        <ComboBox Margin="230,10,104,84"
                   x:Name="cmbMode">
         </ComboBox>
         <Button x:Name="btnAbilityConfig"
@@ -50,6 +50,6 @@
                 Click="btnBars_Click" />
 
         <CheckBox x:Name="TrackCD"
-                  Margin="90,10,317,139">Track CoolDowns?</CheckBox>
+                  Margin="90,10,317,84">Track CoolDowns?</CheckBox>
     </Grid>
 </Window>
