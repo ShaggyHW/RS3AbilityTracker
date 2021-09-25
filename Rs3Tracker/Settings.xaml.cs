@@ -61,8 +61,9 @@ namespace Rs3Tracker {
 
             if (File.Exists(".\\barkeybinds.json")) {
                 keybindingBarList = JsonConvert.DeserializeObject<List<BarKeybindClass>>(File.ReadAllText(".\\barkeybinds.json"));
-                foreach (var barkey in keybindingBarList)
-                    dgSettingsBars.Items.Add(barkey);
+                if (keybindingBarList != null)
+                    foreach (var barkey in keybindingBarList)
+                        dgSettingsBars.Items.Add(barkey);
             }
 
 
