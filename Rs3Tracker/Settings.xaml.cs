@@ -216,8 +216,8 @@ namespace Rs3Tracker {
                 barKeybindClass.name = cmbBarKeybind.Text;
 
             }
-            if (keybindingBarList == null)
-                keybindingBarList = new List<BarKeybindClass>();
+            //if (keybindingBarList == null)
+            //    keybindingBarList = new List<BarKeybindClass>();
 
             //keybindingBarList.Add(barKeybindClass);
             //dgSettingsBars.ItemsSource = null;
@@ -228,7 +228,6 @@ namespace Rs3Tracker {
         }
 
         private void btnSaveBars_Click(object sender, RoutedEventArgs e) {
-
             string json = "";
             List<object> lists = new List<object>();
             foreach (var item in dgSettingsBars.Items) {

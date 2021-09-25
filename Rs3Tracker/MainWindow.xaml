@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="Menu"
         Height="200"
-        Width="550">
+        Width="550"
+        ResizeMode="NoResize">
     <Grid>
         <Button x:Name="btnStartTracker"
                 Content="StartTracker"
