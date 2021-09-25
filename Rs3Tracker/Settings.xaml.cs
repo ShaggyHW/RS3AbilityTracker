@@ -41,18 +41,20 @@ namespace Rs3Tracker {
             if (File.Exists(".\\mongoAbilities.json")) {
                 abilities = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(".\\mongoAbilities.json"));
                 abilities = abilities.OrderBy(i => i.name).ToList();
-                foreach (var abil in abilities) {
-                    ComboboxItem comboboxItem = new ComboboxItem();
-                    comboboxItem.Text = abil.name;
-                    cmbSource.Items.Add(comboboxItem);
-                }
+                if (abilities != null)
+                    foreach (var abil in abilities) {
+                        ComboboxItem comboboxItem = new ComboboxItem();
+                        comboboxItem.Text = abil.name;
+                        cmbSource.Items.Add(comboboxItem);
+                    }
             }
 
             if (File.Exists(".\\keybinds.json")) {
                 keybindingList = JsonConvert.DeserializeObject<List<KeybindClass>>(File.ReadAllText(".\\keybinds.json"));
                 var keybinds = keybindingList.OrderBy(i => i.bar.name).ToList();
-                foreach (var key in keybinds)
-                    dgSettings.Items.Add(key);
+                if (keybinds != null)
+                    foreach (var key in keybinds)
+                        dgSettings.Items.Add(key);
             }
 
             if (File.Exists(".\\barkeybinds.json")) {
@@ -65,13 +67,14 @@ namespace Rs3Tracker {
             if (File.Exists(".\\Bars.json")) {
                 var bars = JsonConvert.DeserializeObject<List<BarClass>>(File.ReadAllText(".\\Bars.json"));
                 cmbBar.Items.Add(new ComboboxItem() { Text = "ALL" });
-                foreach (var bar in bars) {
-                    ComboboxItem comboboxItem = new ComboboxItem();
-                    comboboxItem.Text = bar.name;
-                    cmbBar.Items.Add(comboboxItem);
+                if (bars != null)
+                    foreach (var bar in bars) {
+                        ComboboxItem comboboxItem = new ComboboxItem();
+                        comboboxItem.Text = bar.name;
+                        cmbBar.Items.Add(comboboxItem);
 
-                    cmbBarKeybind.Items.Add(comboboxItem);
-                }
+                        cmbBarKeybind.Items.Add(comboboxItem);
+                    }
             }
         }
 
