@@ -137,7 +137,7 @@ namespace Rs3Tracker {
         private void Images_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (Images.SelectedValue != null) {
                 Bitmap bitmap = new Bitmap(".\\Images\\" + Images.SelectedValue.ToString() + ".png");
-                Bitmap Image;
+                //Bitmap Image;
                 ImageSource imageSource;
                 imageSource = ImageSourceFromBitmap(bitmap);
                 imgAbil.Source = imageSource;
@@ -168,11 +168,11 @@ namespace Rs3Tracker {
         private void CSVAbilParser() {
             var lines = File.ReadAllLines(".\\Abilities.csv");
             List<Ability> abils = new List<Ability>();
-            foreach(var line in lines) {
+            foreach (var line in lines) {
                 Ability ability = new Ability();
                 ability.name = line.Split(',')[0];
                 ability.cooldown = Convert.ToDouble(line.Split(',')[1]);
-                ability.img = ".\\Images\\"+ line.Split(',')[0].Replace(' ','_')+".png";
+                ability.img = ".\\Images\\" + line.Split(',')[0].Replace(' ', '_') + ".png";
                 abils.Add(ability);
             }
 
@@ -185,7 +185,9 @@ namespace Rs3Tracker {
         }
 
         private void Import_Click(object sender, RoutedEventArgs e) {
-            CSVAbilParser();
+            var x = MessageBox.Show("This is going to replace all the abilities! are you sure you want to continue?", "", MessageBoxButton.YesNo);
+            if (MessageBoxResult.Yes == x)
+                CSVAbilParser();
         }
     }
 }

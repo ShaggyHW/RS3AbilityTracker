@@ -57,7 +57,8 @@ namespace Rs3Tracker {
 
             if (File.Exists(".\\barkeybinds.json")) {
                 keybindingBarList = JsonConvert.DeserializeObject<List<BarKeybindClass>>(File.ReadAllText(".\\barkeybinds.json"));
-                dgSettingsBars.ItemsSource = keybindingBarList;
+                foreach (var barkey in keybindingBarList)
+                    dgSettingsBars.Items.Add(barkey);
             }
 
 
@@ -227,14 +228,14 @@ namespace Rs3Tracker {
         }
 
         private void btnSaveBars_Click(object sender, RoutedEventArgs e) {
+
             string json = "";
-
-
-            if (dgSettingsBars.ItemsSource != null) {
-                var lists = (List<BarKeybindClass>)dgSettingsBars.ItemsSource;
-
+            List<object> lists = new List<object>();
+            foreach (var item in dgSettingsBars.Items) {
+                lists.Add(item);
                 json = JsonConvert.SerializeObject(lists, Formatting.Indented);
             }
+
 
             if (File.Exists(".\\barkeybinds.json"))
                 File.Delete(".\\barkeybinds.json");
