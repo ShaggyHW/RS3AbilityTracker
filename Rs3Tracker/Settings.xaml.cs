@@ -16,6 +16,7 @@ using Newtonsoft.Json;
 using System.Data;
 using FMUtils.KeyboardHook;
 
+
 namespace Rs3Tracker {
     /// <summary>
     /// Interaction logic for Settings.xaml
