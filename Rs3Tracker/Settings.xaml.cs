@@ -204,6 +204,7 @@ namespace Rs3Tracker {
                 barKeybindClass.modifier = keySplit[0];
                 barKeybindClass.key = keySplit[1];
                 barKeybindClass.name = cmbBarKeybind.Text;
+                barKeybindClass.bar = new BarClass() { name = cmbBar.Text };
 
             } else {
                 //var barkeybind = keybindingBarList.Where(kb => kb.key.Equals(keySplit[0]) && kb.modifier.Equals("")).Select(kb => kb).FirstOrDefault();
@@ -221,6 +222,7 @@ namespace Rs3Tracker {
                 barKeybindClass.modifier = "";
                 barKeybindClass.key = keySplit[0];
                 barKeybindClass.name = cmbBarKeybind.Text;
+                barKeybindClass.bar = new BarClass() { name = cmbBar.Text };
 
             }
             //if (keybindingBarList == null)
@@ -230,8 +232,6 @@ namespace Rs3Tracker {
             //dgSettingsBars.ItemsSource = null;
             dgSettingsBars.Items.Add(barKeybindClass);
             SelectedBarKey.Content = "Selected Key";
-
-
         }
 
         private void btnSaveBars_Click(object sender, RoutedEventArgs e) {

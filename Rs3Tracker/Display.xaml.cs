@@ -149,7 +149,7 @@ namespace Rs3Tracker {
                 if (abilityList.Count == 0) {
                     var listBarChange2 = keybindBarClasses.Where(p => p.key.ToLower().Equals(e.Key.ToString().ToLower()) && p.modifier.ToLower().Equals(modifier.ToLower())).Select(p => p).FirstOrDefault();
                     if (listBarChange2 != null) {
-                        if (listBarChange2.name.Equals("Clear")) {
+                        if (listBarChange2.name.ToLower().Equals("clear")) {
                             displayImg1.Source = null;
                             displayImg2.Source = null;
                             displayImg3.Source = null;
@@ -269,7 +269,7 @@ namespace Rs3Tracker {
                     if (imgCounter < 9)
                         imgCounter++;
                 }
-                var listBarChange = keybindBarClasses.Where(p => p.key.ToLower().Equals(e.Key.ToString().ToLower()) && p.modifier.ToLower().Equals(modifier.ToLower())).Select(p => p).FirstOrDefault();
+                var listBarChange = keybindBarClasses.Where(p => p.key.ToLower().Equals(e.Key.ToString().ToLower()) && p.modifier.ToLower().Equals(modifier.ToLower()) && p.bar.name.ToLower().Equals(style)).Select(p => p).FirstOrDefault();
                 if (listBarChange != null) {
                     style = listBarChange.name;
                     changeStyle();

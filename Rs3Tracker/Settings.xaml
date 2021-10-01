@@ -85,8 +85,11 @@
                                                 Header="Key"
                                                 Binding="{Binding key}"></DataGridTextColumn>
                             <DataGridTextColumn x:Name="Name"
-                                                Header="Bar"
+                                                Header="BarToUse"
                                                 Binding="{Binding name}"></DataGridTextColumn>
+                            <DataGridTextColumn x:Name="BarBar"
+                                                Header="BarInUse"
+                                                Binding="{Binding bar.name}"></DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                     <StackPanel Orientation="Horizontal"

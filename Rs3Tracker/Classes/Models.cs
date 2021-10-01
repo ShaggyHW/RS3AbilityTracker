@@ -13,6 +13,7 @@ namespace Rs3Tracker {
     public class BarKeybindClass : BarClass {
         public string modifier { get; set; }
         public string key { get; set; }
+        public BarClass bar { get; set; }
     }
 
     public class BarClass {
