@@ -182,6 +182,8 @@ namespace Rs3Tracker {
             var stream = File.Create(".\\mongoAbilities.json");
             stream.Close();
             File.WriteAllText(".\\mongoAbilities.json", JsonConvert.SerializeObject(abils, Formatting.Indented));
+
+            LoadCombo();
         }
 
         private void Import_Click(object sender, RoutedEventArgs e) {

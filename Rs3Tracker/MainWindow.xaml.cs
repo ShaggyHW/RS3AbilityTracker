@@ -44,6 +44,8 @@ namespace Rs3Tracker {
                 MessageBox.Show("Missing Bar Keybinds");            
                 return;
             }
+            if (string.IsNullOrEmpty(cmbMode.Text))
+                return;
 
             Display display = new Display(cmbMode.Text.ToLower(), TrackCD.IsChecked.Value);
             display.ShowDialog();
