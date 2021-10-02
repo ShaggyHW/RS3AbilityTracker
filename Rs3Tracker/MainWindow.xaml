@@ -52,5 +52,7 @@
 
         <CheckBox x:Name="TrackCD"
                   Margin="90,10,317,84">Track CoolDowns?</CheckBox>
+        <CheckBox x:Name="onTop"
+                  Margin="90,76,296,18">Display alway on top?</CheckBox>
     </Grid>
 </Window>

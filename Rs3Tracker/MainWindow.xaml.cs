@@ -30,7 +30,7 @@ namespace Rs3Tracker {
                 foreach (var bar in bars) {
                     ComboboxItem comboboxItem = new ComboboxItem();
                     comboboxItem.Text = bar.name;
-                    cmbMode.Items.Add(comboboxItem);                   
+                    cmbMode.Items.Add(comboboxItem);
                 }
             }
         }
@@ -41,13 +41,13 @@ namespace Rs3Tracker {
                 return;
             }
             if (!File.Exists(".\\barkeybinds.json")) {
-                MessageBox.Show("Missing Bar Keybinds");            
+                MessageBox.Show("Missing Bar Keybinds");
                 return;
             }
             if (string.IsNullOrEmpty(cmbMode.Text))
                 return;
 
-            Display display = new Display(cmbMode.Text.ToLower(), TrackCD.IsChecked.Value);
+            Display display = new Display(cmbMode.Text.ToLower(), TrackCD.IsChecked.Value, onTop.IsChecked.Value);
             display.ShowDialog();
         }
         private void btnAbilityConfig_Click(object sender, RoutedEventArgs e) {
@@ -77,6 +77,6 @@ namespace Rs3Tracker {
             }
         }
 
-       
+
     }
 }

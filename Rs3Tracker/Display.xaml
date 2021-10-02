@@ -8,7 +8,7 @@
         Title="Display"
         Height="120"
         Width="800"
-        Icon="radar.png">
+        Icon="radar.png" >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>

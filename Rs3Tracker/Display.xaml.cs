@@ -31,7 +31,7 @@ namespace Rs3Tracker {
         private List<Keypressed> ListPreviousKeys = new List<Keypressed>();
         private bool trackCD;
 
-        public Display(string _style, bool trackCD) {
+        public Display(string _style, bool trackCD, bool onTop) {
             InitializeComponent();
             KeyboardHook.KeyDownEvent += HookKeyDown;
             style = _style;
@@ -42,6 +42,7 @@ namespace Rs3Tracker {
             stopwatch.Start();
             previousKey.ability = new Ability();
             this.trackCD = trackCD;
+            this.Topmost = onTop;
         }
 
 
