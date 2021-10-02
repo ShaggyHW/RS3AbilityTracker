@@ -24,6 +24,7 @@ namespace Rs3Tracker {
         int imgCounter = 0;
         string style = "";
         public List<Keypressed> ListKeypressed = new List<Keypressed>();
+        public List<Keypressed> ListPreviousKeypressed = new List<Keypressed>();
         public Stopwatch stopwatch = new Stopwatch();
         public bool control = false;
         private Keypressed previousKey = new Keypressed();
@@ -121,6 +122,9 @@ namespace Rs3Tracker {
         private void HookKeyDown(KeyboardHookEventArgs e) {
             #region display
             if (!control) {
+
+
+
                 control = true;
                 Keypressed keypressed = new Keypressed();
                 keypressed.ability = new Ability();
@@ -189,12 +193,22 @@ namespace Rs3Tracker {
                     //keypressed.ability.cmbtStyle = style;
                     keypressed.timepressed = stopwatch.Elapsed.TotalMilliseconds;
 
-                    if (!string.IsNullOrEmpty(previousKey.ability.img))
-                        if (((keypressed.timepressed - previousKey.timepressed) < 1200) && previousKey.ability.img.Equals(keypressed.ability.img)) {
-                            control = false;
-                            return;
+                    for (int i = 0; i < ListPreviousKeypressed.Count; i++) {
+                        var prevabil = ListPreviousKeypressed[i];
+                        if ((keypressed.timepressed - prevabil.timepressed) > 1200) {
+                            ListPreviousKeypressed.RemoveAt(i);
+                            i--;
                         }
+                    }
 
+                    previousKey = ListPreviousKeypressed.Where(a => a.ability.img.Equals(keypressed.ability.img)).Select(a => a).FirstOrDefault();
+                    if (previousKey != null) {
+                        //if (!string.IsNullOrEmpty(previousKey.ability.img))
+                        //if (/*((keypressed.timepressed - previousKey.timepressed) < 1200) && */previousKey.ability.img.Equals(keypressed.ability.img)) {
+                        control = false;
+                        return;
+                        //}
+                    }
                     ListKeypressed.Add(keypressed);
                     previousKey = new Keypressed() {
                         timepressed = keypressed.timepressed,
@@ -203,7 +217,7 @@ namespace Rs3Tracker {
                             name = keypressed.ability.name
                         }
                     };
-
+                    ListPreviousKeypressed.Add(previousKey);
                     Bitmap bitmap = new Bitmap(ability.img);
                     Bitmap Image;
                     ImageSource imageSource;

@@ -187,125 +187,363 @@
     <Resource Include="background.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Images\Anticipation.png" />
-    <Content Include="Images\Asphyxiate.png" />
-    <Content Include="Images\Assault.png" />
-    <Content Include="Images\Backhand.png" />
-    <Content Include="Images\Balanced_Strike.png" />
-    <Content Include="Images\Barge.png" />
-    <Content Include="Images\Barricade.png" />
-    <Content Include="Images\Bash.png" />
-    <Content Include="Images\Berserk.png" />
-    <Content Include="Images\Binding_Shot.png" />
-    <Content Include="Images\Bladed_Dive.png" />
-    <Content Include="Images\Blood_Tendrils.png" />
-    <Content Include="Images\Bombardment.png" />
-    <Content Include="Images\Chain.png" />
-    <Content Include="Images\Cleave.png" />
-    <Content Include="Images\Combust.png" />
-    <Content Include="Images\Concentrated_Blast.png" />
-    <Content Include="Images\Corruption_Blast.png" />
-    <Content Include="Images\Corruption_Shot.png" />
-    <Content Include="Images\Dazing_Shot.png" />
-    <Content Include="Images\Deadshot.png" />
-    <Content Include="Images\Death%27s_Swiftness.png" />
-    <Content Include="Images\Debilitate.png" />
-    <Content Include="Images\Decimate.png" />
-    <Content Include="Images\Deep_Impact.png" />
-    <Content Include="Images\Demoralise.png" />
-    <Content Include="Images\Destroy.png" />
-    <Content Include="Images\Detonate.png" />
-    <Content Include="Images\Devotion.png" />
-    <Content Include="Images\Dismember.png" />
-    <Content Include="Images\Divert.png" />
-    <Content Include="Images\Dragon_Breath.png" />
-    <Content Include="Images\Eat_Food.png" />
-    <Content Include="Images\Escape.png" />
-    <Content Include="Images\Essence_of_Finality.png" />
-    <Content Include="Images\Flurry.png" />
-    <Content Include="Images\Forceful_Backhand.png" />
-    <Content Include="Images\Fragmentation_Shot.png" />
-    <Content Include="Images\Freedom.png" />
-    <Content Include="Images\Frenzy.png" />
-    <Content Include="Images\Fury.png" />
-    <Content Include="Images\Greater_Barge.png" />
-    <Content Include="Images\Greater_Chain.png" />
-    <Content Include="Images\Greater_Dazing_Shot.png" />
-    <Content Include="Images\Greater_Flurry.png" />
-    <Content Include="Images\Greater_Fury.png" />
-    <Content Include="Images\Greater_Ricochet.png" />
-    <Content Include="Images\Guthix%27s_Blessing.png" />
-    <Content Include="Images\Havoc.png" />
-    <Content Include="Images\Horror.png" />
-    <Content Include="Images\Hurricane.png" />
-    <Content Include="Images\Ice_Asylum.png" />
-    <Content Include="Images\Immortality.png" />
-    <Content Include="Images\Impact.png" />
-    <Content Include="Images\Incendiary_Shot.png" />
-    <Content Include="Images\Incite.png" />
-    <Content Include="Images\Ingenuity_of_the_Humans.png" />
-    <Content Include="Images\Kick.png" />
-    <Content Include="Images\Lesser_Combust.png" />
-    <Content Include="Images\Lesser_Concentrated_Blast.png" />
-    <Content Include="Images\Lesser_Dazing_Shot.png" />
-    <Content Include="Images\Lesser_Dismember.png" />
-    <Content Include="Images\Lesser_Dragon_Breath.png" />
-    <Content Include="Images\Lesser_Fragmentation_Shot.png" />
-    <Content Include="Images\Lesser_Havoc.png" />
-    <Content Include="Images\Lesser_Needle_Strike.png" />
-    <Content Include="Images\Lesser_Sever.png" />
-    <Content Include="Images\Lesser_Smash.png" />
-    <Content Include="Images\Lesser_Snipe.png" />
-    <Content Include="Images\Lesser_Sonic_Wave.png" />
-    <Content Include="Images\Massacre.png" />
-    <Content Include="Images\Metamorphosis.png" />
-    <Content Include="Images\Meteor_Strike.png" />
-    <Content Include="Images\Natural_Instinct.png" />
-    <Content Include="Images\Needle_Strike.png" />
-    <Content Include="Images\Omnipower.png" />
-    <Content Include="Images\Onslaught.png" />
-    <Content Include="Images\Overpower.png" />
-    <Content Include="Images\Piercing_Shot.png" />
-    <Content Include="Images\Preparation.png" />
-    <Content Include="Images\Provoke.png" />
-    <Content Include="Images\Pulverise.png" />
-    <Content Include="Images\Punish.png" />
-    <Content Include="Images\Quake.png" />
-    <Content Include="Images\Rapid_Fire.png" />
-    <Content Include="Images\Reflect.png" />
-    <Content Include="Images\Regenerate.png" />
-    <Content Include="Images\Rejuvenate.png" />
-    <Content Include="Images\Reprisal.png" />
-    <Content Include="Images\Resonance.png" />
-    <Content Include="Images\Revenge.png" />
-    <Content Include="Images\Ricochet.png" />
-    <Content Include="Images\Rout.png" />
-    <Content Include="Images\Sacrifice.png" />
-    <Content Include="Images\Salt_the_Wound.png" />
-    <Content Include="Images\Sever.png" />
-    <Content Include="Images\Shadow_Tendrils.png" />
-    <Content Include="Images\Shatter.png" />
-    <Content Include="Images\Shock.png" />
-    <Content Include="Images\Siphon.png" />
-    <Content Include="Images\Slaughter.png" />
-    <Content Include="Images\Slice.png" />
-    <Content Include="Images\Smash.png" />
-    <Content Include="Images\Smoke_Tendrils.png" />
-    <Content Include="Images\Snap_Shot.png" />
-    <Content Include="Images\Snipe.png" />
-    <Content Include="Images\Sonic_Wave.png" />
-    <Content Include="Images\Stomp_%28ability%29.png" />
-    <Content Include="Images\Storm_Shards.png" />
-    <Content Include="Images\Sunshine.png" />
-    <Content Include="Images\Surge.png" />
-    <Content Include="Images\Tight_Bindings.png" />
-    <Content Include="Images\Transfigure.png" />
-    <Content Include="Images\Tsunami.png" />
-    <Content Include="Images\Tuska%27s_Wrath.png" />
-    <Content Include="Images\Unload.png" />
-    <Content Include="Images\Weapon_Special_attack.png" />
-    <Content Include="Images\Wild_Magic.png" />
-    <Content Include="Images\Wrack.png" />
+    <Content Include="Images\Anticipation.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Asphyxiate.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Assault.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Backhand.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Balanced_Strike.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Barge.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Barricade.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Bash.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Berserk.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Binding_Shot.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Bladed_Dive.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Blood_Tendrils.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Bombardment.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Chain.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Cleave.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Combust.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Concentrated_Blast.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Corruption_Blast.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Corruption_Shot.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Dazing_Shot.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Deadshot.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Death%27s_Swiftness.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Debilitate.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Decimate.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Deep_Impact.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Demoralise.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Destroy.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Detonate.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Devotion.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Dismember.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Divert.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Dragon_Breath.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Eat_Food.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Escape.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Essence_of_Finality.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Flurry.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Forceful_Backhand.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Fragmentation_Shot.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Freedom.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Frenzy.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Fury.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Greater_Barge.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Greater_Chain.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Greater_Dazing_Shot.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Greater_Flurry.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Greater_Fury.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Greater_Ricochet.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Guthix%27s_Blessing.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Havoc.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Horror.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Hurricane.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Ice_Asylum.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Immortality.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Impact.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Incendiary_Shot.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Incite.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Ingenuity_of_the_Humans.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Kick.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Lesser_Combust.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Lesser_Concentrated_Blast.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Lesser_Dazing_Shot.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Lesser_Dismember.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Lesser_Dragon_Breath.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Lesser_Fragmentation_Shot.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Lesser_Havoc.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Lesser_Needle_Strike.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Lesser_Sever.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Lesser_Smash.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Lesser_Snipe.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Lesser_Sonic_Wave.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Massacre.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Metamorphosis.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Meteor_Strike.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Natural_Instinct.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Needle_Strike.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Omnipower.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Onslaught.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Overpower.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Piercing_Shot.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Preparation.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Provoke.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Pulverise.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Punish.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Quake.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Rapid_Fire.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Reflect.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Regenerate.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Rejuvenate.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Reprisal.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Resonance.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Revenge.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Ricochet.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Rout.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Sacrifice.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Salt_the_Wound.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Sever.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Shadow_Tendrils.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Shatter.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Shock.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Siphon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Slaughter.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Slice.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Smash.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Smoke_Tendrils.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Snap_Shot.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Snipe.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Sonic_Wave.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Stomp_%28ability%29.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Storm_Shards.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Sunshine.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Surge.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Tight_Bindings.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Transfigure.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Tsunami.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Tuska%27s_Wrath.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Unload.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Weapon_Special_attack.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Wild_Magic.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Wrack.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
