@@ -8,7 +8,8 @@
         Title="Menu"
         Height="184.5"
         Width="550"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        Icon="radar.png">
     <Grid>
         <Button x:Name="btnStartTracker"
                 Content="StartTracker"

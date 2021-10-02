@@ -8,7 +8,8 @@
         Title="Keybinds"
         Height="419.823"
         Width="670.414"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        Icon="radar.png">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
