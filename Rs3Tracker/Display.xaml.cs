@@ -34,6 +34,7 @@ namespace Rs3Tracker {
             InitializeComponent();
             KeyboardHook.KeyDownEvent += HookKeyDown;
             style = _style;
+            TESTLABEL.Content = style;
             keybindClasses = JsonConvert.DeserializeObject<List<KeybindClass>>(File.ReadAllText(".\\keybinds.json"));
             keybindBarClasses = JsonConvert.DeserializeObject<List<BarKeybindClass>>(File.ReadAllText(".\\barkeybinds.json"));
             changeStyle();
@@ -166,12 +167,12 @@ namespace Rs3Tracker {
                     }
 
 
-                    if (listBarChange2 != null) {
-                        style = listBarChange2.name;
-                        changeStyle();
-                    }
-                    control = false;
-                    return;
+                    //if (listBarChange2 != null) {
+                    //    style = listBarChange2.name;
+                    //    changeStyle();
+                    //}
+                    //control = false;
+                    //return;
                 }
 
 
@@ -269,9 +270,10 @@ namespace Rs3Tracker {
                     if (imgCounter < 9)
                         imgCounter++;
                 }
-                var listBarChange = keybindBarClasses.Where(p => p.key.ToLower().Equals(e.Key.ToString().ToLower()) && p.modifier.ToLower().Equals(modifier.ToLower()) && p.bar.name.ToLower().Equals(style)).Select(p => p).FirstOrDefault();
+                var listBarChange = keybindBarClasses.Where(p => p.key.ToLower().Equals(e.Key.ToString().ToLower()) && p.modifier.ToLower().Equals(modifier.ToLower()) && p.bar.name.ToLower().Equals(style.ToLower())).Select(p => p).FirstOrDefault();
                 if (listBarChange != null) {
                     style = listBarChange.name;
+                    TESTLABEL.Content = style;
                     changeStyle();
                 }
                 control = false;

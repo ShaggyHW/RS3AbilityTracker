@@ -25,6 +25,7 @@
         <ImageBrush ImageSource="background.png"
                         Stretch="UniformToFill" />
         </Grid.Background>
+        <Label Foreground="White" x:Name="TESTLABEL" Visibility="Collapsed">assad</Label>
         <Image Grid.Column="0"
                Margin="5"
                x:Name="displayImg1" />
