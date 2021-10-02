@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Runtime.InteropServices;
 using System.Windows.Media;
 using System.Windows.Interop;
+using System.Windows.Input;
 
 namespace Rs3Tracker {
     /// <summary>
@@ -381,5 +382,9 @@ namespace Rs3Tracker {
             }
         }
 
+        private void Window_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            if (e.ChangedButton == MouseButton.Left)
+                this.DragMove();
+        }
     }
 }

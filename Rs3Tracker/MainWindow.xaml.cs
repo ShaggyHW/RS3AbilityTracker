@@ -22,8 +22,11 @@ namespace Rs3Tracker {
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window {
+        Display display;
+
         public MainWindow() {
             InitializeComponent();
+            btnStartTracker.Content = "Start Tracker";
             cmbMode.SelectedIndex = 0;
             if (File.Exists(".\\Bars.json")) {
                 var bars = JsonConvert.DeserializeObject<List<BarClass>>(File.ReadAllText(".\\Bars.json"));
@@ -36,19 +39,28 @@ namespace Rs3Tracker {
         }
 
         private void btnStartTracker_Click(object sender, RoutedEventArgs e) {
-            if (!File.Exists(".\\keybinds.json")) {
-                MessageBox.Show("Missing Keybinds");
-                return;
-            }
-            if (!File.Exists(".\\barkeybinds.json")) {
-                MessageBox.Show("Missing Bar Keybinds");
-                return;
-            }
-            if (string.IsNullOrEmpty(cmbMode.Text))
-                return;
+            if (display != null) {
+                display.Close();
+                display = null;
+                btnStartTracker.Content = "Start Tracker";
+           
+            } else {
+                btnStartTracker.Content = "Close Tracker";
 
-            Display display = new Display(cmbMode.Text.ToLower(), TrackCD.IsChecked.Value, onTop.IsChecked.Value);
-            display.ShowDialog();
+                if (!File.Exists(".\\keybinds.json")) {
+                    MessageBox.Show("Missing Keybinds");
+                    return;
+                }
+                if (!File.Exists(".\\barkeybinds.json")) {
+                    MessageBox.Show("Missing Bar Keybinds");
+                    return;
+                }
+                if (string.IsNullOrEmpty(cmbMode.Text))
+                    return;
+
+                display = new Display(cmbMode.Text.ToLower(), TrackCD.IsChecked.Value, onTop.IsChecked.Value);
+                display.Show();
+            }
         }
         private void btnAbilityConfig_Click(object sender, RoutedEventArgs e) {
             AbilitySettings display = new AbilitySettings();

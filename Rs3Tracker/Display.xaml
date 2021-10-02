@@ -6,9 +6,10 @@
         xmlns:local="clr-namespace:Rs3Tracker"
         mc:Ignorable="d"
         Title="Display"
-        Height="120"
+        Height="80"
         Width="800"
-        Icon="radar.png" >
+        Icon="radar.png"
+        WindowStyle="None" ResizeMode="NoResize" MouseDown="Window_MouseDown">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
