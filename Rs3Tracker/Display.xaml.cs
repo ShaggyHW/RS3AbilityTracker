@@ -50,7 +50,6 @@ namespace Rs3Tracker {
         public void changeStyle() {
             keybindClasses = JsonConvert.DeserializeObject<List<KeybindClass>>(File.ReadAllText(".\\keybinds.json"));
             keybindClasses = keybindClasses.Where(p => p.bar.name.ToLower() == style.ToLower() || p.bar.name.ToLower() == "all").Select(p => p).ToList();
-
         }
 
         #region imageProcessing
@@ -124,20 +123,14 @@ namespace Rs3Tracker {
         private void HookKeyDown(KeyboardHookEventArgs e) {
             #region display
             if (!control) {
-
-
-
                 control = true;
                 Keypressed keypressed = new Keypressed();
                 keypressed.ability = new Ability();
-
                 string modifier = "";
-
                 if (e.Key.ToString().ToLower().Equals("none")) {
                     control = false;
                     return;
                 }
-
                 if (e.isAltPressed)
                     modifier = "ALT";
                 else if (e.isCtrlPressed)
@@ -146,7 +139,6 @@ namespace Rs3Tracker {
                     modifier = "SHIFT";
                 else if (e.isWinPressed)
                     modifier = "WIN";
-
 
                 List<Ability> abilityList = (from r in keybindClasses
                                              where r.key.ToLower() == e.Key.ToString().ToLower()
@@ -286,7 +278,7 @@ namespace Rs3Tracker {
                     if (imgCounter < 9)
                         imgCounter++;
                 }
-                var listBarChange = keybindBarClasses.Where(p => p.key.ToLower().Equals(e.Key.ToString().ToLower()) && p.modifier.ToLower().Equals(modifier.ToLower()) && p.bar.name.ToLower().Equals(style.ToLower())).Select(p => p).FirstOrDefault();
+                var listBarChange = keybindBarClasses.Where(p => p.key.ToLower().Equals(e.Key.ToString().ToLower()) && p.modifier.ToLower().Equals(modifier.ToLower()) && (p.bar.name.ToLower().Equals(style.ToLower()) || p.bar.name.Equals("ALL"))).Select(p => p).FirstOrDefault();
                 if (listBarChange != null) {
                     style = listBarChange.name;
                     TESTLABEL.Content = style;

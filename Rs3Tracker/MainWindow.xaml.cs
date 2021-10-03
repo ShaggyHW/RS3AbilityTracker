@@ -44,9 +44,7 @@ namespace Rs3Tracker {
                 display = null;
                 btnStartTracker.Content = "Start Tracker";
 
-            } else {
-                btnStartTracker.Content = "Close Tracker";
-
+            } else {            
                 if (!File.Exists(".\\keybinds.json")) {
                     MessageBox.Show("Missing Keybinds");
                     return;
@@ -58,6 +56,7 @@ namespace Rs3Tracker {
                 if (string.IsNullOrEmpty(cmbMode.Text))
                     return;
 
+                btnStartTracker.Content = "Close Tracker";
                 display = new Display(cmbMode.Text.ToLower(), TrackCD.IsChecked.Value, onTop.IsChecked.Value);
                 display.Show();
             }
