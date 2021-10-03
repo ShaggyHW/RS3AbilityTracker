@@ -23,7 +23,7 @@ namespace Rs3Tracker {
         List<KeybindClass> keybindClasses = new List<KeybindClass>();
         List<BarKeybindClass> keybindBarClasses = new List<BarKeybindClass>();
         int imgCounter = 0;
-        string style = "";
+        public string style = "";
         public List<Keypressed> ListKeypressed = new List<Keypressed>();
         public List<Keypressed> ListPreviousKeypressed = new List<Keypressed>();
         public Stopwatch stopwatch = new Stopwatch();
@@ -47,7 +47,7 @@ namespace Rs3Tracker {
         }
 
 
-        private void changeStyle() {
+        public void changeStyle() {
             keybindClasses = JsonConvert.DeserializeObject<List<KeybindClass>>(File.ReadAllText(".\\keybinds.json"));
             keybindClasses = keybindClasses.Where(p => p.bar.name.ToLower() == style.ToLower() || p.bar.name.ToLower() == "all").Select(p => p).ToList();
 

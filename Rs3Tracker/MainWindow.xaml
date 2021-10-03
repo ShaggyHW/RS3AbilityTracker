@@ -33,7 +33,7 @@
                 Width="75"
                 Click="btnClose_Click" />
         <ComboBox Margin="230,10,104,84"
-                  x:Name="cmbMode">
+                  x:Name="cmbMode" SelectionChanged="cmbMode_SelectionChanged">
         </ComboBox>
         <Button x:Name="btnAbilityConfig"
                 Content="Abilities"
@@ -53,6 +53,6 @@
         <CheckBox x:Name="TrackCD"
                   Margin="90,10,317,84">Track CoolDowns?</CheckBox>
         <CheckBox x:Name="onTop"
-                  Margin="90,76,296,18">Display alway on top?</CheckBox>
+                  Margin="90,76,317,18">Display alway on top?</CheckBox>
     </Grid>
 </Window>

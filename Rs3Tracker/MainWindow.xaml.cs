@@ -22,7 +22,7 @@ namespace Rs3Tracker {
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window {
-        Display display;
+        Display display = null;
 
         public MainWindow() {
             InitializeComponent();
@@ -43,7 +43,7 @@ namespace Rs3Tracker {
                 display.Close();
                 display = null;
                 btnStartTracker.Content = "Start Tracker";
-           
+
             } else {
                 btnStartTracker.Content = "Close Tracker";
 
@@ -72,6 +72,8 @@ namespace Rs3Tracker {
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e) {
+            if (display != null)
+                display.Close();
             Environment.Exit(1);
         }
 
@@ -89,6 +91,11 @@ namespace Rs3Tracker {
             }
         }
 
-
+        private void cmbMode_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if (display != null) {
+                display.style = ((ComboboxItem)cmbMode.SelectedItem).Text.ToLower();
+                display.changeStyle();
+            }
+        }
     }
 }
