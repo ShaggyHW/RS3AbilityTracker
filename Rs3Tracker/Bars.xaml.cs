@@ -34,7 +34,7 @@ namespace Rs3Tracker {
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e) {
-            if (!string.IsNullOrEmpty(txtBarName.Text)) {             
+            if (!string.IsNullOrEmpty(txtBarName.Text)) {
                 dgSettings.Items.Add(new BarClass() { name = txtBarName.Text });
             }
         }
@@ -57,6 +57,11 @@ namespace Rs3Tracker {
 
         private void dgSettings_BeginningEdit(object sender, DataGridBeginningEditEventArgs e) {
             e.Cancel = true;
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e) {
+            if (dgSettings.SelectedIndex > 0)
+                dgSettings.Items.Remove(dgSettings.Items[dgSettings.SelectedIndex]);
         }
     }
 }

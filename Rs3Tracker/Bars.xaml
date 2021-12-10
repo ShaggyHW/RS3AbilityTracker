@@ -34,8 +34,20 @@
                                         Binding="{Binding name}" />
                 </DataGrid.Columns>
             </DataGrid>
-            <Button x:Name="btnSave" Margin="10" Height="40" Width="200"
-                    Click="btnSave_Click">SAVE BARS</Button>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="btnSave"
+                        Margin="10"
+                        Height="40"
+                        Width="150"
+                        Click="btnSave_Click"
+                        Content="SAVE BARS" />
+                <Button x:Name="btnDelete"
+                        Margin="10"
+                        Height="40"
+                        Width="150"
+                        Click="btnDelete_Click">Delete Selected</Button>
+
+            </StackPanel>
         </StackPanel>
         <Grid Grid.Column="1">
             <StackPanel Orientation="Vertical">
@@ -43,7 +55,7 @@
                     <Label VerticalContentAlignment="Center"
                            Height="50">Name</Label>
                     <TextBox x:Name="txtBarName"
-                        VerticalContentAlignment="Center"
+                             VerticalContentAlignment="Center"
                              Height="50"
                              Width="300"
                              Margin="10"></TextBox>
