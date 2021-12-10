@@ -54,6 +54,8 @@
                         Click="btnAdd_Click">Add Bar</Button>
                 <TextBlock>NAME: CLEAR</TextBlock>
                 <TextBlock>As a keybind it will clear the bar!</TextBlock>
+                <TextBlock>NAME: Pause</TextBlock>
+                <TextBlock>As a keybind it will pause the display!</TextBlock>
             </StackPanel>
 
         </Grid>

@@ -62,51 +62,47 @@ namespace Rs3Tracker {
 
             ColorMatrix cmNewColors = default(ColorMatrix); //Defines a 5 x 5 matrix that contains the coordinates for the RGBAW space
             cmNewColors = new ColorMatrix(new float[][] {
-            new float[] {
-                1,
-                0,
-                0,
-                0,
-                0
-            },
-            new float[] {
-                0,
-                1,
-                0,
-                0,
-                0
-            },
-            new float[] {
-                0,
-                0,
-                1,
-                0,
-                0
-            },
-            new float[] {
-                0,
-                0,
-                0,
-                1,
-                0
-            },
-            new float[] {
-                clrScaleColor.R / 255 * sngScaleDepth,
-                clrScaleColor.G / 255 * sngScaleDepth,
-                clrScaleColor.B / 255 * sngScaleDepth,
-                0,
-                1
-            }
-        });
+                new float[] {
+                    1,
+                    0,
+                    0,
+                    0,
+                    0
+                },
+                new float[] {
+                    0,
+                    1,
+                    0,
+                    0,
+                    0
+                },
+                new float[] {
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                },
+                new float[] {
+                    0,
+                    0,
+                    0,
+                    1,
+                    0
+                },
+                new float[] {
+                    clrScaleColor.R / 255 * sngScaleDepth,
+                    clrScaleColor.G / 255 * sngScaleDepth,
+                    clrScaleColor.B / 255 * sngScaleDepth,
+                    0,
+                    1
+                }
+            });
 
             iaImageProps.SetColorMatrix(cmNewColors); //Apply Matrix
-
             Graphics grpGraphics = Graphics.FromImage(bmpTemp); //Create Graphics Object and Draw Bitmap Onto Graphics Object
-
             grpGraphics.DrawImage(bmpSource, new System.Drawing.Rectangle(0, 0, bmpSource.Width, bmpSource.Height), 0, 0, bmpSource.Width, bmpSource.Height, GraphicsUnit.Pixel, iaImageProps);
-
             return bmpTemp;
-
         }
 
         [DllImport("gdi32.dll", EntryPoint = "DeleteObject")]
@@ -166,14 +162,6 @@ namespace Rs3Tracker {
                             pause = !pause;
                         }
                     }
-
-
-                    //if (listBarChange2 != null) {
-                    //    style = listBarChange2.name;
-                    //    changeStyle();
-                    //}
-                    //control = false;
-                    //return;
                 }
 
                 if (pause)
@@ -189,8 +177,7 @@ namespace Rs3Tracker {
                     keypressed.key = e.Key.ToString();
                     keypressed.ability.name = ability.name;
                     keypressed.ability.img = ability.img;
-                    keypressed.ability.cooldown = ability.cooldown;
-                    //keypressed.ability.cmbtStyle = style;
+                    keypressed.ability.cooldown = ability.cooldown;                 
                     keypressed.timepressed = stopwatch.Elapsed.TotalMilliseconds;
 
                     for (int i = 0; i < ListPreviousKeypressed.Count; i++) {
@@ -202,12 +189,9 @@ namespace Rs3Tracker {
                     }
 
                     previousKey = ListPreviousKeypressed.Where(a => a.ability.img.Equals(keypressed.ability.img)).Select(a => a).FirstOrDefault();
-                    if (previousKey != null) {
-                        //if (!string.IsNullOrEmpty(previousKey.ability.img))
-                        //if (/*((keypressed.timepressed - previousKey.timepressed) < 1200) && */previousKey.ability.img.Equals(keypressed.ability.img)) {
+                    if (previousKey != null) {                     
                         control = false;
-                        return;
-                        //}
+                        return;                       
                     }
                     ListKeypressed.Add(keypressed);
                     previousKey = new Keypressed() {

@@ -45,16 +45,7 @@
                                         Binding="{Binding cooldown}" />
                     <DataGridTextColumn x:Name="Image"
                                         Header="ImagePath"
-                                        Binding="{Binding img}" />
-                    <!--<DataGridTemplateColumn Header="Image"
-                                            Width="60"
-                                            IsReadOnly="True">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Image Source="{Binding img}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>-->
+                                        Binding="{Binding img}" />                  
                 </DataGrid.Columns>
             </DataGrid>
             <StackPanel Orientation="Horizontal"

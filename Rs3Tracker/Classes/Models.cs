@@ -24,12 +24,11 @@ namespace Rs3Tracker {
         public string name { get; set; }
         public double cooldown { get; set; }
         public string img { get; set; }
-      //  public string Image { get; set; }
     }
-     
+
     public class KeybindClass {
         public string modifier { get; set; }
-        public string key { get; set; }              
+        public string key { get; set; }
         public BarClass bar { get; set; }
         public Ability ability { get; set; }
     }

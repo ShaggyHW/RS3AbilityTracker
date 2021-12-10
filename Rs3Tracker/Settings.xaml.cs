@@ -108,15 +108,6 @@ namespace Rs3Tracker {
                 json = JsonConvert.SerializeObject(lists, Formatting.Indented);
             }
 
-            //if (dgSettings.ItemsSource != null) {
-            //    var lists = (List<KeybindClass>)dgSettings.ItemsSource;
-            //    foreach (var item in lists) {
-            //        var updateAbility = abilities.Where(a => a.name == item.ability.name).Select(a => a).FirstOrDefault();
-            //        item.ability = updateAbility;
-            //    }
-            //    json = JsonConvert.SerializeObject(lists, Formatting.Indented);
-            //}
-
             if (File.Exists(".\\keybinds.json"))
                 File.Delete(".\\keybinds.json");
 
@@ -139,23 +130,11 @@ namespace Rs3Tracker {
             string[] keySplit = SelectedKey.Content.ToString().Split('+');
             var abil = abilities.Where(a => a.name == cmbSource.Text).Select(a => a).FirstOrDefault();
             if (keySplit.Length == 2) {
-                //var barkeybind = keybindingBarList.Where(kb => kb.key.Equals(keySplit[1]) && kb.modifier.Equals(keySplit[0])).Select(kb => kb).FirstOrDefault();
-                //if (barkeybind != null) {
-                //    MessageBox.Show("Keybind is already set a Keybind to switch BARS!");
-                //    return;
-                //}
-
-
                 keybindClass.modifier = keySplit[0];
                 keybindClass.key = keySplit[1];
                 keybindClass.ability = abil;
                 keybindClass.bar = new BarClass() { name = cmbBar.Text };
             } else {
-                //var barkeybind = keybindingBarList.Where(kb => kb.key.Equals(keySplit[0]) && kb.modifier.Equals("")).Select(kb => kb).FirstOrDefault();
-                //if (barkeybind != null) {
-                //    MessageBox.Show("Keybind is already set a Keybind to switch BARS!");
-                //    return;
-                //}
                 keybindClass.modifier = "";
                 keybindClass.key = keySplit[0];
                 keybindClass.ability = abil;
@@ -164,8 +143,7 @@ namespace Rs3Tracker {
             if (keybindingList == null)
                 keybindingList = new List<KeybindClass>();
 
-            //keybindingList.Add(keybindClass);
-            //dgSettings.ItemsSource = null;
+
             dgSettings.Items.Add(keybindClass);
 
             SelectedKey.Content = "Selected Key";
@@ -189,47 +167,19 @@ namespace Rs3Tracker {
             string[] keySplit = SelectedBarKey.Content.ToString().Split('+');
 
             if (keySplit.Length == 2) {
-                //var barkeybind = keybindingBarList.Where(kb => kb.key.Equals(keySplit[1]) && kb.modifier.Equals(keySplit[0])).Select(kb => kb).FirstOrDefault();
-                //if (barkeybind != null) {
-                //    MessageBox.Show("Keybind is already set a Keybind to switch BARS!");
-                //    return;
-                //}
-
-                //var keybind = keybindingList.Where(kb => kb.key.Equals(keySplit[1]) && kb.modifier.Equals(keySplit[0])).Select(kb => kb).FirstOrDefault();
-                //if (keybind != null) {
-                //    MessageBox.Show("Keybind is already set a Keybind for an ability!");
-                //    return;
-                //}
-
                 barKeybindClass.modifier = keySplit[0];
                 barKeybindClass.key = keySplit[1];
                 barKeybindClass.name = cmbBarKeybind.Text;
                 barKeybindClass.bar = new BarClass() { name = cmbBar.Text };
 
             } else {
-                //var barkeybind = keybindingBarList.Where(kb => kb.key.Equals(keySplit[0]) && kb.modifier.Equals("")).Select(kb => kb).FirstOrDefault();
-                //if (barkeybind != null) {
-                //    MessageBox.Show("Keybind is already set a Keybind to switch BARS!");
-                //    return;
-                //}
-
-                //var keybind = keybindingList.Where(kb => kb.key.Equals(keySplit[0]) && kb.modifier.Equals("")).Select(kb => kb).FirstOrDefault();
-                //if (keybind != null) {
-                //    MessageBox.Show("Keybind is already set a Keybind for an ability!");
-                //    return;
-                //}
-
                 barKeybindClass.modifier = "";
                 barKeybindClass.key = keySplit[0];
                 barKeybindClass.name = cmbBarKeybind.Text;
                 barKeybindClass.bar = new BarClass() { name = cmbBar.Text };
 
             }
-            //if (keybindingBarList == null)
-            //    keybindingBarList = new List<BarKeybindClass>();
 
-            //keybindingBarList.Add(barKeybindClass);
-            //dgSettingsBars.ItemsSource = null;
             dgSettingsBars.Items.Add(barKeybindClass);
             SelectedBarKey.Content = "Selected Key";
         }

@@ -30,21 +30,7 @@ namespace Rs3Tracker {
         public AbilitySettings() {
             InitializeComponent();
             if (File.Exists(".\\mongoAbilities.json")) {
-                abilities = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(".\\mongoAbilities.json"));
-                //DataGridTextColumn textColumn1 = new DataGridTextColumn();
-                //textColumn1.Header = "Image";
-                //textColumn1.Binding = new Binding("img");
-                //dgSettings.Columns.Add(textColumn1);
-
-                //foreach (var ability in abilities) {
-                //    if (!string.IsNullOrEmpty(ability.img)) {
-                //        var s = ability.img.Split('\\');
-
-
-                //        string path = "/AssemblyName;content/Images/" + s[s.Length - 1];
-                //        ability.img = path;
-                //    }
-                //}
+                abilities = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(".\\mongoAbilities.json"));          
                 var keybinds = abilities.OrderBy(i => i.name).ToList();
                 foreach (var key in keybinds) {
                     dgSettings.Items.Add(key);
@@ -100,7 +86,6 @@ namespace Rs3Tracker {
 
             if (Images.SelectedValue != null)
                 ability.img = ".\\Images\\" + Images.SelectedValue.ToString() + ".png";
-
 
             var Exists = abilities.Where(p => p.name == ability.name).Select(p => p).FirstOrDefault();
 
@@ -175,14 +160,12 @@ namespace Rs3Tracker {
                 ability.img = ".\\Images\\" + line.Split(',')[0].Replace(' ', '_') + ".png";
                 abils.Add(ability);
             }
-
             if (File.Exists(".\\mongoAbilities.json"))
                 File.Delete(".\\mongoAbilities.json");
 
             var stream = File.Create(".\\mongoAbilities.json");
             stream.Close();
             File.WriteAllText(".\\mongoAbilities.json", JsonConvert.SerializeObject(abils, Formatting.Indented));
-
             LoadCombo();
         }
 
