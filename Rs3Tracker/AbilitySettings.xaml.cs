@@ -167,6 +167,10 @@ namespace Rs3Tracker {
             stream.Close();
             File.WriteAllText(".\\mongoAbilities.json", JsonConvert.SerializeObject(abils, Formatting.Indented));
             LoadCombo();
+            var keybinds = abils.OrderBy(i => i.name).ToList();
+            foreach (var key in keybinds) {
+                dgSettings.Items.Add(key);
+            }
         }
 
         private void Import_Click(object sender, RoutedEventArgs e) {
