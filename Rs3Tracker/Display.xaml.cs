@@ -31,6 +31,7 @@ namespace Rs3Tracker {
         private Keypressed previousKey = new Keypressed();
         private List<Keypressed> ListPreviousKeys = new List<Keypressed>();
         private bool trackCD;
+        private bool pause = false;
 
         public Display(string _style, bool trackCD, bool onTop) {
             InitializeComponent();
@@ -120,7 +121,7 @@ namespace Rs3Tracker {
         }
         #endregion
 
-        private void HookKeyDown(KeyboardHookEventArgs e) {
+        private void HookKeyDown(KeyboardHookEventArgs e) {            
             #region display
             if (!control) {
                 control = true;
@@ -161,6 +162,8 @@ namespace Rs3Tracker {
                             displayImg10.Source = null;
                             control = false;
                             return;
+                        }else if(listBarChange2.name.ToLower().Equals("pause")) {
+                            pause = !pause;
                         }
                     }
 
@@ -172,6 +175,9 @@ namespace Rs3Tracker {
                     //control = false;
                     //return;
                 }
+
+                if (pause)
+                    return;
 
 
                 foreach (var ability in abilityList) {
