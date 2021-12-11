@@ -19,8 +19,8 @@ namespace Rs3Tracker.Classes {
 
         public string SaveImage(string name) {
             string finalName = name.Replace(" ", "_");
-            if (name.Contains("Regenerate")) {
-
+            if (name.Contains("Destroy")) {
+                finalName = name.Replace(" ", "_") + "_(ability)";
             }
 
             string url = "http://runescape.wiki/images/" + finalName + ".png";
@@ -34,6 +34,7 @@ namespace Rs3Tracker.Classes {
                         client.DownloadFile(new Uri(url), @".\Images\" + name.Replace(" ", "_") + ".png");
                     } catch (Exception ex2) {
                         try {
+                            destroy:
                             finalName = name.Replace(" ", "_") + "_(ability)";
                             url = "http://runescape.wiki/images/" + finalName + ".png";
                             client.DownloadFile(new Uri(url), @".\Images\" + name.Replace(" ", "_") + ".png");
