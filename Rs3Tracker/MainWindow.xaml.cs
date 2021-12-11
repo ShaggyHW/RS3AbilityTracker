@@ -31,9 +31,9 @@ namespace Rs3Tracker {
             if (File.Exists(".\\Bars.json")) {
                 var bars = JsonConvert.DeserializeObject<List<BarClass>>(File.ReadAllText(".\\Bars.json"));
                 foreach (var bar in bars) {
-                    ComboboxItem comboboxItem = new ComboboxItem();
-                    comboboxItem.Text = bar.name;
-                    cmbMode.Items.Add(comboboxItem);
+                    ComboBoxItem ComboBoxItem = new ComboBoxItem();
+                    ComboBoxItem.Content = bar.name;
+                    cmbMode.Items.Add(ComboBoxItem);
                 }
             }
 
@@ -86,16 +86,16 @@ namespace Rs3Tracker {
                 cmbMode.Items.Clear();
                 var bars2 = JsonConvert.DeserializeObject<List<BarClass>>(File.ReadAllText(".\\Bars.json"));
                 foreach (var bar in bars2) {
-                    ComboboxItem comboboxItem = new ComboboxItem();
-                    comboboxItem.Text = bar.name;
-                    cmbMode.Items.Add(comboboxItem);
+                    ComboBoxItem ComboBoxItem = new ComboBoxItem();
+                    ComboBoxItem.Content = bar.name;
+                    cmbMode.Items.Add(ComboBoxItem);
                 }
             }
         }
 
         private void cmbMode_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (display != null) {
-                display.style = ((ComboboxItem)cmbMode.SelectedItem).Text.ToLower();
+                display.style = ((ComboBoxItem)cmbMode.SelectedItem).Content.ToString().ToLower();
                 display.changeStyle();
             }
         }

@@ -35,6 +35,8 @@ namespace Rs3Tracker {
             InitializeComponent();
             if (!Directory.Exists(".\\Images"))
                 Directory.CreateDirectory(".\\Images");
+            if (!Directory.Exists(".\\PersonalImages"))
+                Directory.CreateDirectory(".\\PersonalImages");
             if (File.Exists(".\\mongoAbilities.json")) {
                 abilities = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(".\\mongoAbilities.json"));
                 if (abilities != null) {
@@ -53,9 +55,18 @@ namespace Rs3Tracker {
             var Abils = Directory.GetFiles(".\\Images", "*.*").Where(s => s.ToLower().EndsWith(".png") || s.ToLower().EndsWith(".jpg")).ToList();
 
             foreach (var name in Abils) {
-                ComboboxItem comboboxItem = new ComboboxItem();
-                comboboxItem.Text = name.Split('\\')[2].Split('.')[0];
-                Images.Items.Add(comboboxItem);
+                ComboBoxItem ComboBoxItem = new ComboBoxItem();
+                ComboBoxItem.Content = name.Split('\\')[2].Split('.')[0];
+                ComboBoxItem.Tag = ".\\Images";
+                Images.Items.Add(ComboBoxItem);
+            }
+            Abils = Directory.GetFiles(".\\PersonalImages", "*.*").Where(s => s.ToLower().EndsWith(".png") || s.ToLower().EndsWith(".jpg")).ToList();
+
+            foreach (var name in Abils) {
+                ComboBoxItem ComboBoxItem = new ComboBoxItem();
+                ComboBoxItem.Content = name.Split('\\')[2].Split('.')[0];
+                ComboBoxItem.Tag = ".\\PersonalImages";
+                Images.Items.Add(ComboBoxItem);
             }
         }
 
@@ -92,8 +103,10 @@ namespace Rs3Tracker {
                 return;
             //ability.cmbtStyle = txtCmbtStyle.Text;
 
-            if (Images.SelectedValue != null)
-                ability.img = ".\\Images\\" + Images.SelectedValue.ToString() + ".png";
+            if (Images.SelectedValue != null) {            
+                ability.img = ((ComboBoxItem)Images.SelectedValue).Tag.ToString()+"\\" + ((ComboBoxItem)Images.SelectedValue).Content.ToString() + ".png";
+            
+            }
 
             var Exists = abilities.Where(p => p.name == ability.name).Select(p => p).FirstOrDefault();
 
@@ -129,13 +142,13 @@ namespace Rs3Tracker {
         }
         private void Images_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (Images.SelectedValue != null) {
-                Bitmap bitmap = new Bitmap(".\\Images\\" + Images.SelectedValue.ToString() + ".png");
+                Bitmap bitmap = new Bitmap(((ComboBoxItem)Images.SelectedValue).Tag.ToString() +"\\"+ ((ComboBoxItem)Images.SelectedValue).Content.ToString() + ".png");
                 //Bitmap Image;
                 ImageSource imageSource;
                 imageSource = ImageSourceFromBitmap(bitmap);
                 imgAbil.Source = imageSource;
 
-                txtAbilName.Text = Images.SelectedValue.ToString().Replace("_", " ");
+                txtAbilName.Text = ((ComboBoxItem)Images.SelectedValue).Content.ToString().Replace("_", " ");
 
             } else {
                 imgAbil.Source = null;

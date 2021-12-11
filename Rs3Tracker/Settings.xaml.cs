@@ -27,15 +27,8 @@ namespace Rs3Tracker {
         private List<BarKeybindClass> keybindingBarList = new List<BarKeybindClass>();
         private List<Ability> abilities = new List<Ability>();
 
-        public class ComboboxItem {
-            public string Text { get; set; }
-            public object Value { get; set; }
-            public override string ToString() {
-                return Text;
-            }
-        }
 
-        List<ComboboxItem> comboboxItems = new List<ComboboxItem>();
+        List<ComboBoxItem> ComboBoxItems = new List<ComboBoxItem>();
         public Settings() {
             InitializeComponent();
             KeyboardHook.KeyDownEvent += KeyDown;
@@ -44,9 +37,9 @@ namespace Rs3Tracker {
                 abilities = abilities.OrderBy(i => i.name).ToList();
                 if (abilities != null)
                     foreach (var abil in abilities) {
-                        ComboboxItem comboboxItem = new ComboboxItem();
-                        comboboxItem.Text = abil.name;
-                        cmbSource.Items.Add(comboboxItem);
+                        ComboBoxItem ComboBoxItem = new ComboBoxItem();
+                        ComboBoxItem.Content = abil.name;
+                        cmbSource.Items.Add(ComboBoxItem);
                     }
             }
 
@@ -70,14 +63,15 @@ namespace Rs3Tracker {
 
             if (File.Exists(".\\Bars.json")) {
                 var bars = JsonConvert.DeserializeObject<List<BarClass>>(File.ReadAllText(".\\Bars.json"));
-                cmbBar.Items.Add(new ComboboxItem() { Text = "ALL" });
+                cmbBar.Items.Add(new ComboBoxItem() { Content = "ALL" });
                 if (bars != null)
                     foreach (var bar in bars) {
-                        ComboboxItem comboboxItem = new ComboboxItem();
-                        comboboxItem.Text = bar.name;
-                        cmbBar.Items.Add(comboboxItem);
-
-                        cmbBarKeybind.Items.Add(comboboxItem);
+                        ComboBoxItem ComboBoxItem = new ComboBoxItem();
+                        ComboBoxItem.Content = bar.name;
+                        cmbBar.Items.Add(ComboBoxItem);
+                        ComboBoxItem = new ComboBoxItem();
+                        ComboBoxItem.Content = bar.name;
+                        cmbBarKeybind.Items.Add(ComboBoxItem);
                     }
             }
         }
@@ -228,26 +222,27 @@ namespace Rs3Tracker {
         }
         int cmbtxtLen = 0;
         private void cmbSource_TextChanged(object sender, TextChangedEventArgs e) {
-         
+
             if (cmbtxtLen != 0) {
-                if(cmbtxtLen> cmbSource.Text.Length)
-                if (File.Exists(".\\mongoAbilities.json")) {
-                    cmbSource.Items.Clear();
-                    abilities = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(".\\mongoAbilities.json"));
-                    abilities = abilities.OrderBy(i => i.name).ToList();
-                    if (abilities != null)
-                        foreach (var abil in abilities) {
-                            ComboboxItem comboboxItem = new ComboboxItem();
-                            comboboxItem.Text = abil.name;
-                            cmbSource.Items.Add(comboboxItem);
-                        }
-                }
+                if (cmbtxtLen > cmbSource.Text.Length)
+                    if (File.Exists(".\\mongoAbilities.json")) {
+                        cmbSource.Items.Clear();
+                        abilities = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(".\\mongoAbilities.json"));
+                        abilities = abilities.OrderBy(i => i.name).ToList();
+                        if (abilities != null)
+                            foreach (var abil in abilities) {
+                                ComboBoxItem ComboBoxItem = new ComboBoxItem();
+                                ComboBoxItem.Content = abil.name;
+                                ComboBoxItem.Tag = abil.img;
+                                cmbSource.Items.Add(ComboBoxItem);
+                            }
+                    }
             }
 
             if (!string.IsNullOrEmpty(cmbSource.Text)) {
                 cmbtxtLen = cmbSource.Text.Length;
                 for (int i = 0; i < cmbSource.Items.Count; i++) {
-                    if (!((ComboboxItem)cmbSource.Items[i]).Text.ToLower().Contains(cmbSource.Text.ToLower())) {
+                    if (!((ComboBoxItem)cmbSource.Items[i]).Content.ToString().ToLower().Contains(cmbSource.Text.ToLower())) {
                         cmbSource.Items.RemoveAt(i);
                         i--;
                     }
