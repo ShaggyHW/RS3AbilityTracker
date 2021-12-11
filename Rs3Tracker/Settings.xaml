@@ -30,7 +30,7 @@
                               MinRowHeight="2"
                               CanUserResizeRows="False"
                               CanUserAddRows="False"
-                              BeginningEdit="dgSettings_BeginningEdit">                   
+                              BeginningEdit="dgSettings_BeginningEdit">
                         <DataGrid.Columns>
                             <DataGridTextColumn x:Name="Modifier"
                                                 Header="Modifier"
@@ -123,7 +123,11 @@
                           Visibility="Visible"
                           Margin="10"
                           Height="40"
-                          SelectionChanged="cmbSource_SelectionChanged" />
+                          IsEditable="True"
+                          PreviewMouseDown="cmbSource_PreviewMouseDown"
+                          IsTextSearchEnabled="False"
+                          SelectionChanged="cmbSource_SelectionChanged"
+                          TextBoxBase.TextChanged="cmbSource_TextChanged" />
                 <ComboBox x:Name="cmbBar"
                           Visibility="Visible"
                           Height="40"

@@ -32,7 +32,7 @@
                 VerticalAlignment="Top"
                 Width="75"
                 Click="btnClose_Click" />
-        <ComboBox Margin="230,10,104,84"
+        <ComboBox Margin="230,10,104,84"                  
                   x:Name="cmbMode" SelectionChanged="cmbMode_SelectionChanged">
         </ComboBox>
         <Button x:Name="btnAbilityConfig"

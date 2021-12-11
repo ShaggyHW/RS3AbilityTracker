@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Rs3Tracker.Classes {
     public class WikiParser {
         public string getHTMLCode(string endpoint) {
-            string url = "http://runescape.wiki/w";
+            string url = "http://runescape.wiki/w/";
             string pageHTML = "";
             using (WebClient web = new WebClient()) {
                 pageHTML = web.DownloadString(url + endpoint);
@@ -19,24 +19,24 @@ namespace Rs3Tracker.Classes {
 
         public string SaveImage(string name) {
             string finalName = name.Replace(" ", "_");
-            if (name.Contains("Cease")) {
+            if (name.Contains("Regenerate")) {
 
             }
 
             string url = "http://runescape.wiki/images/" + finalName + ".png";
             using (WebClient client = new WebClient()) {
                 try {
-                    client.DownloadFileAsync(new Uri(url), @".\Images\" + name.Replace(" ", "_") + ".png");
+                    client.DownloadFile(new Uri(url), @".\Images\" + name.Replace(" ", "_") + ".png");
                 } catch (Exception ex) {
                     try {
                         finalName = name.Replace(" ", "_") + "_(Ability)";
                         url = "http://runescape.wiki/images/" + finalName + ".png";
-                        client.DownloadFileAsync(new Uri(url), @".\Images\" + name.Replace(" ", "_") + ".png");
+                        client.DownloadFile(new Uri(url), @".\Images\" + name.Replace(" ", "_") + ".png");
                     } catch (Exception ex2) {
                         try {
                             finalName = name.Replace(" ", "_") + "_(ability)";
                             url = "http://runescape.wiki/images/" + finalName + ".png";
-                            client.DownloadFileAsync(new Uri(url), @".\Images\" + name.Replace(" ", "_") + ".png");
+                            client.DownloadFile(new Uri(url), @".\Images\" + name.Replace(" ", "_") + ".png");
                         } catch(Exception ex3) {
 
                         }

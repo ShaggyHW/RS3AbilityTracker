@@ -181,13 +181,35 @@ namespace Rs3Tracker {
 
         public void GetAbils() {
             WikiParser wikiParser = new WikiParser();
-            string Code = wikiParser.getHTMLCode("/Abilities");
+            string Code = wikiParser.getHTMLCode("Abilities");
             var doc = new HtmlDocument();
             doc.LoadHtml(Code);
             var tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sortable']");
             abils = new List<Ability>();
             List<Task> tasks = new List<Task>();
-            foreach (var table in tables) {
+            for (int k=0;k<tables.Count();k++) {
+                var table = tables[k];
+                string type = "";
+                switch (k) {
+                    case 0:
+                        type = "Melee_";
+                        break;
+                    case 1:
+                        type = "Melee_";
+                        break;
+                    case 2:
+                        type = "Mage_";
+                        break;
+                    case 3:
+                        type = "Range_";
+                        break;
+                    case 4:
+                        type = "Defense_";
+                        break;
+                    case 5:
+                        type = "Constitution_";
+                        break;
+                }
                 for (int i = 1; i < table.ChildNodes.Count(); i++) {
                     for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
                         string name = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerText.Replace("\n", "").Trim();
@@ -195,13 +217,13 @@ namespace Rs3Tracker {
                         double CD = 0;
                         try {
                             CD = Convert.ToDouble(coolDown);
-                        } catch {                        }
-                        tasks.Add(Task.Factory.StartNew(() =>  SetAbility(wikiParser, name, CD)));
+                        } catch { }
+                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name, type, CD)));
                     }
                 }
             }
 
-            Code = wikiParser.getHTMLCode("/Ancient_Curses");
+            Code = wikiParser.getHTMLCode("Ancient_Curses");
             doc = new HtmlDocument();
             doc.LoadHtml(Code);
             tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sticky-header align-left-2 align-left-4']");
@@ -209,13 +231,14 @@ namespace Rs3Tracker {
                 for (int i = 1; i < table.ChildNodes.Count(); i++) {
                     for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
                         string name = table.ChildNodes[i].ChildNodes[j].ChildNodes[3].InnerText.Replace("\n", "").Trim();
-                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name)));
+                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name, "Curses_")));
                         //abils.Add(ability);
                     }
                 }
+                break;
             }
 
-            Code = wikiParser.getHTMLCode("/Prayer");
+            Code = wikiParser.getHTMLCode("Prayer");
             doc = new HtmlDocument();
             doc.LoadHtml(Code);
             tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sticky-header sortable align-left-7']");
@@ -224,7 +247,7 @@ namespace Rs3Tracker {
                     for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
                         //Ability ability = new Ability();
                         string name = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerText.Replace("\n", "").Trim();
-                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name)));
+                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name, "Prayer_")));
                     }
                 }
             }
@@ -255,11 +278,11 @@ namespace Rs3Tracker {
             }
         }
 
-        private void SetAbility(WikiParser wikiParser, string name, double cooldown = 0) {
+        private void SetAbility(WikiParser wikiParser, string name, string table = "", double cooldown = 0) {
             Ability ability = new Ability();
             string fileName = wikiParser.SaveImage(name);
             //string img = table.ChildNodes[i].ChildNodes[2].ChildNodes[3].InnerText.Replace("\n", "");                            
-            ability.name = name + "_Import";
+            ability.name = table + name + "_Import";
             ability.cooldown = cooldown;
             ability.img = ".\\Images\\" + fileName + ".png";
             abils.Add(ability);

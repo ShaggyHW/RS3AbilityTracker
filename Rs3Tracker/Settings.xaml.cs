@@ -150,7 +150,7 @@ namespace Rs3Tracker {
         }
 
         private void cmbSource_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            this.Focus();
+
         }
 
         private void btnAddBarKey_Click(object sender, RoutedEventArgs e) {
@@ -225,6 +225,39 @@ namespace Rs3Tracker {
                 dgSettingsBars.Items.Remove(dgSettingsBars.SelectedItems[i]);
                 i--;
             }
+        }
+        int cmbtxtLen = 0;
+        private void cmbSource_TextChanged(object sender, TextChangedEventArgs e) {
+         
+            if (cmbtxtLen != 0) {
+                if(cmbtxtLen> cmbSource.Text.Length)
+                if (File.Exists(".\\mongoAbilities.json")) {
+                    cmbSource.Items.Clear();
+                    abilities = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(".\\mongoAbilities.json"));
+                    abilities = abilities.OrderBy(i => i.name).ToList();
+                    if (abilities != null)
+                        foreach (var abil in abilities) {
+                            ComboboxItem comboboxItem = new ComboboxItem();
+                            comboboxItem.Text = abil.name;
+                            cmbSource.Items.Add(comboboxItem);
+                        }
+                }
+            }
+
+            if (!string.IsNullOrEmpty(cmbSource.Text)) {
+                cmbtxtLen = cmbSource.Text.Length;
+                for (int i = 0; i < cmbSource.Items.Count; i++) {
+                    if (!((ComboboxItem)cmbSource.Items[i]).Text.ToLower().Contains(cmbSource.Text.ToLower())) {
+                        cmbSource.Items.RemoveAt(i);
+                        i--;
+                    }
+                }
+            }
+
+        }
+
+        private void cmbSource_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
+            cmbSource.IsDropDownOpen = true;
         }
     }
 }
