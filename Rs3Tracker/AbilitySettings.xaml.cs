@@ -16,10 +16,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+using Rs3Tracker.Classes;
 using Newtonsoft;
 using Newtonsoft.Json;
 
 using static Rs3Tracker.Settings;
+using HtmlAgilityPack;
 
 namespace Rs3Tracker {
     /// <summary>
@@ -30,7 +32,7 @@ namespace Rs3Tracker {
         public AbilitySettings() {
             InitializeComponent();
             if (File.Exists(".\\mongoAbilities.json")) {
-                abilities = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(".\\mongoAbilities.json"));          
+                abilities = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(".\\mongoAbilities.json"));
                 var keybinds = abilities.OrderBy(i => i.name).ToList();
                 foreach (var key in keybinds) {
                     dgSettings.Items.Add(key);
@@ -149,7 +151,7 @@ namespace Rs3Tracker {
                 i--;
             }
         }
-
+        //Deprecated
         private void CSVAbilParser() {
             var lines = File.ReadAllLines(".\\Abilities.csv");
             List<Ability> abils = new List<Ability>();
@@ -175,8 +177,48 @@ namespace Rs3Tracker {
 
         private void Import_Click(object sender, RoutedEventArgs e) {
             var x = MessageBox.Show("This is going to replace all the abilities! are you sure you want to continue?", "", MessageBoxButton.YesNo);
-            if (MessageBoxResult.Yes == x)
-                CSVAbilParser();
+            if (MessageBoxResult.Yes == x) {
+                //CSVAbilParser();
+                WikiParser wikiParser = new WikiParser();
+                string Code = wikiParser.getHTMLCode("/Abilities");
+                var doc = new HtmlDocument();
+                doc.LoadHtml(Code);
+                var tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sortable']");
+                List<Ability> abils = new List<Ability>();
+                foreach (var table in tables) {
+                    for (int i = 1; i < table.ChildNodes.Count(); i++) {
+                        for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
+                            Ability ability = new Ability();
+                            string name = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerText.Replace("\n", "").Trim();
+                            string fileName = wikiParser.SaveImage(name);
+                            //string img = table.ChildNodes[i].ChildNodes[2].ChildNodes[3].InnerText.Replace("\n", "");
+                            string coolDown = table.ChildNodes[i].ChildNodes[j].ChildNodes[13].InnerText.Replace("\n", "").Trim();
+                            ability.name = name;
+                            try {
+                                ability.cooldown = Convert.ToDouble(coolDown);
+                            } catch {
+                                ability.cooldown = 0;
+                            }
+                            ability.img = ".\\Images\\"+ fileName+".png";
+                            abils.Add(ability);
+                        }
+                    }
+                }
+
+
+                if (File.Exists(".\\mongoAbilities.json"))
+                    File.Delete(".\\mongoAbilities.json");
+
+                var stream = File.Create(".\\mongoAbilities.json");
+                stream.Close();
+                File.WriteAllText(".\\mongoAbilities.json", JsonConvert.SerializeObject(abils, Formatting.Indented));
+                LoadCombo();
+                var keybinds = abils.OrderBy(i => i.name).ToList();
+                foreach (var key in keybinds) {
+                    dgSettings.Items.Add(key);
+                }
+
+            }
         }
     }
 }
