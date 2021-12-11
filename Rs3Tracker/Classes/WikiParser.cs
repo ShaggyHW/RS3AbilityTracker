@@ -24,17 +24,17 @@ namespace Rs3Tracker.Classes {
             string url = "http://runescape.wiki/images/" + finalName + ".png";
             using (WebClient client = new WebClient()) {
                 try {
-                    client.DownloadFile(new Uri(url), @".\Images\" + finalName + ".png");
+                    client.DownloadFileAsync(new Uri(url), @".\Images\" + finalName + ".png");
                 } catch {
                     try {
                         finalName = name.Replace(" ", "_") + "_(Ability)";
                         url = "http://runescape.wiki/images/" + finalName + ".png";
-                        client.DownloadFile(new Uri(url), @".\Images\" + finalName + ".png");
+                        client.DownloadFileAsync(new Uri(url), @".\Images\" + finalName + ".png");
                     } catch {
                         try {
                             finalName = name.Replace(" ", "_") + "_(ability)";
                             url = "http://runescape.wiki/images/" + finalName + ".png";
-                            client.DownloadFile(new Uri(url), @".\Images\" + finalName + ".png");
+                            client.DownloadFileAsync(new Uri(url), @".\Images\" + finalName + ".png");
                         } catch {
 
                         }

@@ -33,9 +33,11 @@ namespace Rs3Tracker {
             InitializeComponent();
             if (File.Exists(".\\mongoAbilities.json")) {
                 abilities = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(".\\mongoAbilities.json"));
-                var keybinds = abilities.OrderBy(i => i.name).ToList();
-                foreach (var key in keybinds) {
-                    dgSettings.Items.Add(key);
+                if (abilities != null) {
+                    var keybinds = abilities.OrderBy(i => i.name).ToList();
+                    foreach (var key in keybinds) {
+                        dgSettings.Items.Add(key);
+                    }
                 }
             }
 
@@ -178,6 +180,7 @@ namespace Rs3Tracker {
         private void Import_Click(object sender, RoutedEventArgs e) {
             var x = MessageBox.Show("This is going to replace all the abilities! are you sure you want to continue?", "", MessageBoxButton.YesNo);
             if (MessageBoxResult.Yes == x) {
+                Mouse.OverrideCursor = Cursors.Wait;
                 //CSVAbilParser();
                 WikiParser wikiParser = new WikiParser();
                 string Code = wikiParser.getHTMLCode("/Abilities");
@@ -193,25 +196,72 @@ namespace Rs3Tracker {
                             string fileName = wikiParser.SaveImage(name);
                             //string img = table.ChildNodes[i].ChildNodes[2].ChildNodes[3].InnerText.Replace("\n", "");
                             string coolDown = table.ChildNodes[i].ChildNodes[j].ChildNodes[13].InnerText.Replace("\n", "").Trim();
-                            ability.name = name;
+                            ability.name = name + "_Import";
                             try {
                                 ability.cooldown = Convert.ToDouble(coolDown);
                             } catch {
                                 ability.cooldown = 0;
                             }
-                            ability.img = ".\\Images\\"+ fileName+".png";
+                            ability.img = ".\\Images\\" + fileName + ".png";
                             abils.Add(ability);
                         }
                     }
                 }
 
+                Code = wikiParser.getHTMLCode("/Ancient_Curses");
+                doc = new HtmlDocument();
+                doc.LoadHtml(Code);
+                tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sticky-header align-left-2 align-left-4']");
+                foreach (var table in tables) {
+                    for (int i = 1; i < table.ChildNodes.Count(); i++) {
+                        for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
+                            Ability ability = new Ability();
+                            string name = table.ChildNodes[i].ChildNodes[j].ChildNodes[3].InnerText.Replace("\n", "").Trim();
+                            string fileName = wikiParser.SaveImage(name);
+                            //string img = table.ChildNodes[i].ChildNodes[2].ChildNodes[3].InnerText.Replace("\n", "");                            
+                            ability.name = name + "_Import";
+                            ability.cooldown = 0;
+                            ability.img = ".\\Images\\" + fileName + ".png";
+                            abils.Add(ability);
+                        }
+                    }
+                }
 
-                if (File.Exists(".\\mongoAbilities.json"))
-                    File.Delete(".\\mongoAbilities.json");
+                Code = wikiParser.getHTMLCode("/Prayer");
+                doc = new HtmlDocument();
+                doc.LoadHtml(Code);
+                tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sticky-header sortable align-left-7']");
+                foreach (var table in tables) {
+                    for (int i = 1; i < table.ChildNodes.Count(); i++) {
+                        for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
+                            Ability ability = new Ability();
+                            string name = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerText.Replace("\n", "").Trim();
+                            string fileName = wikiParser.SaveImage(name);
+                            //string img = table.ChildNodes[i].ChildNodes[2].ChildNodes[3].InnerText.Replace("\n", "");                            
+                            ability.name = name + "_Import";
+                            ability.cooldown = 0;
+                            ability.img = ".\\Images\\" + fileName + ".png";
+                            abils.Add(ability);
+                        }
+                    }
+                }
 
+                var preImport = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(".\\mongoAbilities.json"));
+                if (preImport != null) {
+                    for (int i = 0; i < preImport.Count(); i++) {
+                        if (preImport[i].name.Contains("_Import")) {
+                            preImport.RemoveAt(i);
+                            i--;
+                        }
+                    }
+
+                    preImport.AddRange(abils);
+                } else {
+                    preImport = abils;
+                }
                 var stream = File.Create(".\\mongoAbilities.json");
                 stream.Close();
-                File.WriteAllText(".\\mongoAbilities.json", JsonConvert.SerializeObject(abils, Formatting.Indented));
+                File.WriteAllText(".\\mongoAbilities.json", JsonConvert.SerializeObject(preImport, Formatting.Indented));
                 LoadCombo();
                 var keybinds = abils.OrderBy(i => i.name).ToList();
                 foreach (var key in keybinds) {
@@ -219,6 +269,7 @@ namespace Rs3Tracker {
                 }
 
             }
+            Mouse.OverrideCursor = null;
         }
     }
 }
