@@ -33,6 +33,8 @@ namespace Rs3Tracker {
         List<Ability> abils = new List<Ability>();
         public AbilitySettings() {
             InitializeComponent();
+            if (!Directory.Exists(".\\Images"))
+                Directory.CreateDirectory(".\\Images");
             if (File.Exists(".\\mongoAbilities.json")) {
                 abilities = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(".\\mongoAbilities.json"));
                 if (abilities != null) {
