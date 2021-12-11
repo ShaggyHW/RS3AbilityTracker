@@ -187,7 +187,7 @@ namespace Rs3Tracker {
             var tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sortable']");
             abils = new List<Ability>();
             List<Task> tasks = new List<Task>();
-            for (int k=0;k<tables.Count();k++) {
+            for (int k = 0; k < tables.Count(); k++) {
                 var table = tables[k];
                 string type = "";
                 switch (k) {
@@ -234,8 +234,7 @@ namespace Rs3Tracker {
                         tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name, "Curses_")));
                         //abils.Add(ability);
                     }
-                }
-                break;
+                }              
             }
 
             Code = wikiParser.getHTMLCode("Prayer");
@@ -248,6 +247,49 @@ namespace Rs3Tracker {
                         //Ability ability = new Ability();
                         string name = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerText.Replace("\n", "").Trim();
                         tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name, "Prayer_")));
+                    }
+                }
+            }
+
+            Code = wikiParser.getHTMLCode("Standard_spells");
+            doc = new HtmlDocument();
+            doc.LoadHtml(Code);
+            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sortable align-left-7']");
+            foreach (var table in tables) {
+                for (int i = 1; i < table.ChildNodes.Count(); i++) {
+                    for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
+                        //Ability ability = new Ability();
+                        string name = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerText.Replace("\n", "").Trim();
+                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name, "Spells_")));
+                    }
+                }            
+            }
+
+
+            Code = wikiParser.getHTMLCode("Ancient_Magicks");
+            doc = new HtmlDocument();
+            doc.LoadHtml(Code);
+            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sortable align-left-7']");
+            foreach (var table in tables) {
+                for (int i = 1; i < table.ChildNodes.Count(); i++) {
+                    for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
+                        //Ability ability = new Ability();
+                        string name = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerText.Replace("\n", "").Trim();
+                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name, "Spells_")));
+                    }
+                }
+            }
+
+            Code = wikiParser.getHTMLCode("Lunar_spells");
+            doc = new HtmlDocument();
+            doc.LoadHtml(Code);
+            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sortable align-center-2 align-center-4 align-center-6']");
+            foreach (var table in tables) {
+                for (int i = 1; i < table.ChildNodes.Count(); i++) {
+                    for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
+                        //Ability ability = new Ability();
+                        string name = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerText.Replace("\n", "").Trim();
+                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name, "Spells_")));
                     }
                 }
             }
@@ -280,7 +322,14 @@ namespace Rs3Tracker {
 
         private void SetAbility(WikiParser wikiParser, string name, string table = "", double cooldown = 0) {
             Ability ability = new Ability();
-            string fileName = wikiParser.SaveImage(name);
+            string fileName = "";
+            if (table.Equals("Spells_"))
+                fileName = wikiParser.SaveImage(name + "_icon");
+            else
+                fileName = wikiParser.SaveImage(name);
+
+            if (string.IsNullOrEmpty(fileName))
+                return;
             //string img = table.ChildNodes[i].ChildNodes[2].ChildNodes[3].InnerText.Replace("\n", "");                            
             ability.name = table + name + "_Import";
             ability.cooldown = cooldown;
