@@ -36,6 +36,9 @@ namespace Rs3Tracker {
                     cmbMode.Items.Add(comboboxItem);
                 }
             }
+
+            if (!File.Exists(".\\mongoAbilities.json"))
+                File.Create(".\\mongoAbilities.json");
         }
 
         private void btnStartTracker_Click(object sender, RoutedEventArgs e) {

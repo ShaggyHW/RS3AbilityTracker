@@ -30,6 +30,7 @@ namespace Rs3Tracker {
     /// </summary>
     public partial class AbilitySettings : Window {
         private List<Ability> abilities = new List<Ability>();
+        List<Ability> abils = new List<Ability>();
         public AbilitySettings() {
             InitializeComponent();
             if (File.Exists(".\\mongoAbilities.json")) {
@@ -184,23 +185,18 @@ namespace Rs3Tracker {
             var doc = new HtmlDocument();
             doc.LoadHtml(Code);
             var tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sortable']");
-            List<Ability> abils = new List<Ability>();
+            abils = new List<Ability>();
+            List<Task> tasks = new List<Task>();
             foreach (var table in tables) {
                 for (int i = 1; i < table.ChildNodes.Count(); i++) {
                     for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
-                        Ability ability = new Ability();
                         string name = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerText.Replace("\n", "").Trim();
-                        string fileName = wikiParser.SaveImage(name);
-                        //string img = table.ChildNodes[i].ChildNodes[2].ChildNodes[3].InnerText.Replace("\n", "");
                         string coolDown = table.ChildNodes[i].ChildNodes[j].ChildNodes[13].InnerText.Replace("\n", "").Trim();
-                        ability.name = name + "_Import";
+                        double CD = 0;
                         try {
-                            ability.cooldown = Convert.ToDouble(coolDown);
-                        } catch {
-                            ability.cooldown = 0;
-                        }
-                        ability.img = ".\\Images\\" + fileName + ".png";
-                        abils.Add(ability);
+                            CD = Convert.ToDouble(coolDown);
+                        } catch {                        }
+                        tasks.Add(Task.Factory.StartNew(() =>  SetAbility(wikiParser, name, CD)));
                     }
                 }
             }
@@ -212,14 +208,9 @@ namespace Rs3Tracker {
             foreach (var table in tables) {
                 for (int i = 1; i < table.ChildNodes.Count(); i++) {
                     for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
-                        Ability ability = new Ability();
                         string name = table.ChildNodes[i].ChildNodes[j].ChildNodes[3].InnerText.Replace("\n", "").Trim();
-                        string fileName = wikiParser.SaveImage(name);
-                        //string img = table.ChildNodes[i].ChildNodes[2].ChildNodes[3].InnerText.Replace("\n", "");                            
-                        ability.name = name + "_Import";
-                        ability.cooldown = 0;
-                        ability.img = ".\\Images\\" + fileName + ".png";
-                        abils.Add(ability);
+                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name)));
+                        //abils.Add(ability);
                     }
                 }
             }
@@ -231,18 +222,14 @@ namespace Rs3Tracker {
             foreach (var table in tables) {
                 for (int i = 1; i < table.ChildNodes.Count(); i++) {
                     for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
-                        Ability ability = new Ability();
+                        //Ability ability = new Ability();
                         string name = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerText.Replace("\n", "").Trim();
-                        string fileName = wikiParser.SaveImage(name);
-                        //string img = table.ChildNodes[i].ChildNodes[2].ChildNodes[3].InnerText.Replace("\n", "");                            
-                        ability.name = name + "_Import";
-                        ability.cooldown = 0;
-                        ability.img = ".\\Images\\" + fileName + ".png";
-                        abils.Add(ability);
+                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name)));
                     }
                 }
             }
 
+            Task.WaitAll(tasks.ToArray());
             var preImport = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(".\\mongoAbilities.json"));
             if (preImport != null) {
                 for (int i = 0; i < preImport.Count(); i++) {
@@ -259,25 +246,32 @@ namespace Rs3Tracker {
             var stream = File.Create(".\\mongoAbilities.json");
             stream.Close();
             File.WriteAllText(".\\mongoAbilities.json", JsonConvert.SerializeObject(preImport, Formatting.Indented));
+
+            LoadCombo();
+            var abilsOrder = abils.OrderBy(i => i.name).ToList();
+            dgSettings.Items.Clear();
+            foreach (var ab in abilsOrder) {
+                dgSettings.Items.Add(ab);
+            }
         }
+
+        private void SetAbility(WikiParser wikiParser, string name, double cooldown = 0) {
+            Ability ability = new Ability();
+            string fileName = wikiParser.SaveImage(name);
+            //string img = table.ChildNodes[i].ChildNodes[2].ChildNodes[3].InnerText.Replace("\n", "");                            
+            ability.name = name + "_Import";
+            ability.cooldown = cooldown;
+            ability.img = ".\\Images\\" + fileName + ".png";
+            abils.Add(ability);
+        }
+
 
         private async void Import_Click(object sender, RoutedEventArgs e) {
             var x = MessageBox.Show("This is going to replace all the abilities! are you sure you want to continue?", "", MessageBoxButton.YesNo);
             if (MessageBoxResult.Yes == x) {
                 Mouse.OverrideCursor = Cursors.Wait;
                 //CSVAbilParser();
-
-
-                Task.Run(() => GetAbils());
-                //LoadCombo();
-                //var abils=  JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(".\\mongoAbilities.json"));
-                //var abilsOrder = abils.OrderBy(i => i.name).ToList();
-                //dgSettings.Items.Clear();
-                //foreach (var ab in abilsOrder) {
-                //    dgSettings.Items.Add(ab);
-                //}
-
-
+                GetAbils();
             }
             Mouse.OverrideCursor = null;
         }

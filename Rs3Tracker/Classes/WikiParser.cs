@@ -19,30 +19,32 @@ namespace Rs3Tracker.Classes {
 
         public string SaveImage(string name) {
             string finalName = name.Replace(" ", "_");
+            if (name.Contains("Cease")) {
 
+            }
 
             string url = "http://runescape.wiki/images/" + finalName + ".png";
             using (WebClient client = new WebClient()) {
                 try {
-                    client.DownloadFileAsync(new Uri(url), @".\Images\" + finalName + ".png");
-                } catch {
+                    client.DownloadFileAsync(new Uri(url), @".\Images\" + name.Replace(" ", "_") + ".png");
+                } catch (Exception ex) {
                     try {
                         finalName = name.Replace(" ", "_") + "_(Ability)";
                         url = "http://runescape.wiki/images/" + finalName + ".png";
-                        client.DownloadFileAsync(new Uri(url), @".\Images\" + finalName + ".png");
-                    } catch {
+                        client.DownloadFileAsync(new Uri(url), @".\Images\" + name.Replace(" ", "_") + ".png");
+                    } catch (Exception ex2) {
                         try {
                             finalName = name.Replace(" ", "_") + "_(ability)";
                             url = "http://runescape.wiki/images/" + finalName + ".png";
-                            client.DownloadFileAsync(new Uri(url), @".\Images\" + finalName + ".png");
-                        } catch {
+                            client.DownloadFileAsync(new Uri(url), @".\Images\" + name.Replace(" ", "_") + ".png");
+                        } catch(Exception ex3) {
 
                         }
                     }
                 }
 
             }
-            return finalName;
+            return name.Replace(" ", "_");
         }
     }
 }
