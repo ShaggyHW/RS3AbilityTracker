@@ -132,11 +132,13 @@
                           Visibility="Visible"
                           Height="40"
                           Margin="10"
+                       
                           SelectionChanged="cmbSource_SelectionChanged" />
-                <Label x:Name="SelectedKey"
+                <TextBox x:Name="SelectedKey"
                        Visibility="Visible"
-                       Margin="10"
-                       Content="Selected Key" />
+                         Margin="10"
+                         IsEnabled="False"
+                         Text="Selected Key" />
                 <Button x:Name="btnAddKey"
                         Content="Add Keybind"
                         Visibility="Visible"

@@ -89,7 +89,7 @@ namespace Rs3Tracker {
             if (e.isWinPressed)
                 content += "WIN+";
 
-            SelectedKey.Content = content + e.Key.ToString();
+            SelectedKey.Text = content + e.Key.ToString();
             SelectedBarKey.Content = content + e.Key.ToString();
         }
 
@@ -116,12 +116,12 @@ namespace Rs3Tracker {
                 MessageBox.Show("please select an ability");
                 return;
             }
-            if (SelectedKey.Content.ToString().Equals("Selected Key")) {
+            if (SelectedKey.Text.ToString().Equals("Selected Key")) {
                 MessageBox.Show("please select a keybind");
                 return;
             }
             KeybindClass keybindClass = new KeybindClass();
-            string[] keySplit = SelectedKey.Content.ToString().Split('+');
+            string[] keySplit = SelectedKey.Text.ToString().Split('+');
             var abil = abilities.Where(a => a.name == cmbSource.Text).Select(a => a).FirstOrDefault();
             if (keySplit.Length == 2) {
                 keybindClass.modifier = keySplit[0];
@@ -140,15 +140,17 @@ namespace Rs3Tracker {
 
             dgSettings.Items.Add(keybindClass);
 
-            SelectedKey.Content = "Selected Key";
+            SelectedKey.Text = "Selected Key";
         }
 
         private void cmbSource_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-
+            SelectedKey.IsEnabled = true;
+            SelectedKey.Focus();
+            SelectedKey.IsEnabled = false;
         }
 
         private void btnAddBarKey_Click(object sender, RoutedEventArgs e) {
-            if (SelectedKey.Content.ToString().Equals("Selected Key")) {
+            if (SelectedKey.Text.ToString().Equals("Selected Key")) {
                 MessageBox.Show("please select a keybind");
                 return;
             }
@@ -165,17 +167,16 @@ namespace Rs3Tracker {
                 barKeybindClass.key = keySplit[1];
                 barKeybindClass.name = cmbBarKeybind.Text;
                 barKeybindClass.bar = new BarClass() { name = cmbBar.Text };
-
             } else {
                 barKeybindClass.modifier = "";
                 barKeybindClass.key = keySplit[0];
                 barKeybindClass.name = cmbBarKeybind.Text;
                 barKeybindClass.bar = new BarClass() { name = cmbBar.Text };
-
             }
 
             dgSettingsBars.Items.Add(barKeybindClass);
             SelectedBarKey.Content = "Selected Key";
+            cmbSource.Focus();
         }
 
         private void btnSaveBars_Click(object sender, RoutedEventArgs e) {
