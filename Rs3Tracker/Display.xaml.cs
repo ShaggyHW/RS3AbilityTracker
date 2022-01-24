@@ -47,6 +47,7 @@ namespace Rs3Tracker {
             this.Topmost = onTop;
         }
 
+//        private void 
 
         public void changeStyle() {
             keybindClasses = JsonConvert.DeserializeObject<List<KeybindClass>>(File.ReadAllText(".\\keybinds.json"));

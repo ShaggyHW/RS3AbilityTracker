@@ -194,6 +194,11 @@ namespace Rs3Tracker {
             }
         }
 
+        public async void Wiki() {
+
+        }
+
+
         public void GetAbils() {
             WikiParser wikiParser = new WikiParser();
             string Code = wikiParser.getHTMLCode("Abilities");

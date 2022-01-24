@@ -95,8 +95,10 @@ namespace Rs3Tracker {
 
         private void cmbMode_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (display != null) {
-                display.style = ((ComboBoxItem)cmbMode.SelectedItem).Content.ToString().ToLower();
-                display.changeStyle();
+                if (cmbMode.SelectedItem != null) {
+                    display.style = ((ComboBoxItem)cmbMode.SelectedItem).Content.ToString().ToLower();
+                    display.changeStyle();
+                }
             }
         }
     }
