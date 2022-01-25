@@ -144,23 +144,25 @@ namespace Rs3Tracker {
                                              select r.ability).ToList();
 
                 if (abilityList.Count == 0) {
-                    var listBarChange2 = keybindBarClasses.Where(p => p.key.ToLower().Equals(e.Key.ToString().ToLower()) && p.modifier.ToLower().Equals(modifier.ToLower())).Select(p => p).FirstOrDefault();
-                    if (listBarChange2 != null) {
-                        if (listBarChange2.name.ToLower().Equals("clear")) {
-                            displayImg1.Source = null;
-                            displayImg2.Source = null;
-                            displayImg3.Source = null;
-                            displayImg4.Source = null;
-                            displayImg5.Source = null;
-                            displayImg6.Source = null;
-                            displayImg7.Source = null;
-                            displayImg8.Source = null;
-                            displayImg9.Source = null;
-                            displayImg10.Source = null;
-                            control = false;
-                            return;
-                        }else if(listBarChange2.name.ToLower().Equals("pause")) {
-                            pause = !pause;
+                    if (keybindBarClasses != null) {
+                        var listBarChange2 = keybindBarClasses.Where(p => p.key.ToLower().Equals(e.Key.ToString().ToLower()) && p.modifier.ToLower().Equals(modifier.ToLower())).Select(p => p).FirstOrDefault();
+                        if (listBarChange2 != null) {
+                            if (listBarChange2.name.ToLower().Equals("clear")) {
+                                displayImg1.Source = null;
+                                displayImg2.Source = null;
+                                displayImg3.Source = null;
+                                displayImg4.Source = null;
+                                displayImg5.Source = null;
+                                displayImg6.Source = null;
+                                displayImg7.Source = null;
+                                displayImg8.Source = null;
+                                displayImg9.Source = null;
+                                displayImg10.Source = null;
+                                control = false;
+                                return;
+                            } else if (listBarChange2.name.ToLower().Equals("pause")) {
+                                pause = !pause;
+                            }
                         }
                     }
                 }
@@ -269,11 +271,13 @@ namespace Rs3Tracker {
                     if (imgCounter < 9)
                         imgCounter++;
                 }
-                var listBarChange = keybindBarClasses.Where(p => p.key.ToLower().Equals(e.Key.ToString().ToLower()) && p.modifier.ToLower().Equals(modifier.ToLower()) && (p.bar.name.ToLower().Equals(style.ToLower()) || p.bar.name.Equals("ALL"))).Select(p => p).FirstOrDefault();
-                if (listBarChange != null) {
-                    style = listBarChange.name;
-                    TESTLABEL.Content = style;
-                    changeStyle();
+                if (keybindBarClasses != null) {
+                    var listBarChange = keybindBarClasses.Where(p => p.key.ToLower().Equals(e.Key.ToString().ToLower()) && p.modifier.ToLower().Equals(modifier.ToLower()) && (p.bar.name.ToLower().Equals(style.ToLower()) || p.bar.name.Equals("ALL"))).Select(p => p).FirstOrDefault();
+                    if (listBarChange != null) {
+                        style = listBarChange.name;
+                        TESTLABEL.Content = style;
+                        changeStyle();
+                    }
                 }
                 control = false;
 
