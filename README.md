@@ -6,5 +6,6 @@ This is still a WIP so feel free to make sugestions!
 
 Check it out on these CHannels
 
-twitch.tv/thebigsteeve
+https://www.twitch.tv/thebigsteeve
+
 https://www.twitch.tv/brain_rs
