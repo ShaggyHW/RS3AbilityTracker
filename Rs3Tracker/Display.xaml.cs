@@ -47,7 +47,7 @@ namespace Rs3Tracker {
             this.Topmost = onTop;
         }
 
-//        private void 
+        //        private void 
 
         public void changeStyle() {
             keybindClasses = JsonConvert.DeserializeObject<List<KeybindClass>>(File.ReadAllText(".\\keybinds.json"));
@@ -118,7 +118,7 @@ namespace Rs3Tracker {
         }
         #endregion
 
-        private void HookKeyDown(KeyboardHookEventArgs e) {            
+        private void HookKeyDown(KeyboardHookEventArgs e) {
             #region display
             if (!control) {
                 control = true;
@@ -167,9 +167,10 @@ namespace Rs3Tracker {
                     }
                 }
 
-                if (pause)
+                if (pause) {
+                    control = false;
                     return;
-
+                }
 
                 foreach (var ability in abilityList) {
 
@@ -180,7 +181,7 @@ namespace Rs3Tracker {
                     keypressed.key = e.Key.ToString();
                     keypressed.ability.name = ability.name;
                     keypressed.ability.img = ability.img;
-                    keypressed.ability.cooldown = ability.cooldown;                 
+                    keypressed.ability.cooldown = ability.cooldown;
                     keypressed.timepressed = stopwatch.Elapsed.TotalMilliseconds;
 
                     for (int i = 0; i < ListPreviousKeypressed.Count; i++) {
@@ -192,9 +193,9 @@ namespace Rs3Tracker {
                     }
 
                     previousKey = ListPreviousKeypressed.Where(a => a.ability.img.Equals(keypressed.ability.img)).Select(a => a).FirstOrDefault();
-                    if (previousKey != null) {                     
+                    if (previousKey != null) {
                         control = false;
-                        return;                       
+                        return;
                     }
                     ListKeypressed.Add(keypressed);
                     previousKey = new Keypressed() {
@@ -274,9 +275,11 @@ namespace Rs3Tracker {
                 if (keybindBarClasses != null) {
                     var listBarChange = keybindBarClasses.Where(p => p.key.ToLower().Equals(e.Key.ToString().ToLower()) && p.modifier.ToLower().Equals(modifier.ToLower()) && (p.bar.name.ToLower().Equals(style.ToLower()) || p.bar.name.Equals("ALL"))).Select(p => p).FirstOrDefault();
                     if (listBarChange != null) {
-                        style = listBarChange.name;
-                        TESTLABEL.Content = style;
-                        changeStyle();
+                        if (!listBarChange.name.ToLower().Equals("pause") && !listBarChange.name.ToLower().Equals("clear")) {
+                            style = listBarChange.name;
+                            TESTLABEL.Content = style;
+                            changeStyle();
+                        }
                     }
                 }
                 control = false;
