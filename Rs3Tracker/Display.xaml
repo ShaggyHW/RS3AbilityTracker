@@ -9,7 +9,7 @@
         Height="80"
         Width="800"
         Icon="radar.png"
-        WindowStyle="None" ResizeMode="CanResizeWithGrip" MouseDown="Window_MouseDown">
+        WindowStyle="None" ResizeMode="NoResize" MouseDown="Window_MouseDown">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
