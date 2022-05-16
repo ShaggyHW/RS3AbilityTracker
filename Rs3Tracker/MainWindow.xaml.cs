@@ -36,7 +36,7 @@ namespace Rs3Tracker {
                     cmbMode.Items.Add(ComboBoxItem);
                 }
             }
-
+        
             if (!File.Exists(".\\mongoAbilities.json"))
                 File.Create(".\\mongoAbilities.json");
         }
@@ -100,6 +100,17 @@ namespace Rs3Tracker {
                     display.changeStyle();
                 }
             }
+        }
+
+        private void CanResize_Checked(object sender, RoutedEventArgs e) {
+            if (display != null) {
+                display.ResizeON();
+            }
+        }
+    
+
+        private void CanResize_Unchecked(object sender, RoutedEventArgs e) {
+            display.ResizeOFF();
         }
     }
 }
