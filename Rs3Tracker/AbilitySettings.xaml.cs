@@ -103,9 +103,9 @@ namespace Rs3Tracker {
                 return;
             //ability.cmbtStyle = txtCmbtStyle.Text;
 
-            if (Images.SelectedValue != null) {            
-                ability.img = ((ComboBoxItem)Images.SelectedValue).Tag.ToString()+"\\" + ((ComboBoxItem)Images.SelectedValue).Content.ToString() + ".png";
-            
+            if (Images.SelectedValue != null) {
+                ability.img = ((ComboBoxItem)Images.SelectedValue).Tag.ToString() + "\\" + ((ComboBoxItem)Images.SelectedValue).Content.ToString() + ".png";
+
             }
 
             var Exists = abilities.Where(p => p.name == ability.name).Select(p => p).FirstOrDefault();
@@ -142,7 +142,7 @@ namespace Rs3Tracker {
         }
         private void Images_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (Images.SelectedValue != null) {
-                Bitmap bitmap = new Bitmap(((ComboBoxItem)Images.SelectedValue).Tag.ToString() +"\\"+ ((ComboBoxItem)Images.SelectedValue).Content.ToString() + ".png");
+                Bitmap bitmap = new Bitmap(((ComboBoxItem)Images.SelectedValue).Tag.ToString() + "\\" + ((ComboBoxItem)Images.SelectedValue).Content.ToString() + ".png");
                 //Bitmap Image;
                 ImageSource imageSource;
                 imageSource = ImageSourceFromBitmap(bitmap);
@@ -218,27 +218,62 @@ namespace Rs3Tracker {
                         type = "Melee_";
                         break;
                     case 2:
-                        type = "Mage_";
-                        break;
-                    case 3:
                         type = "Range_";
                         break;
+                    case 3:
+                        type = "Mage_";
+                        break;
                     case 4:
-                        type = "Defense_";
+                        type = "Necromancy_";
+
                         break;
                     case 5:
+                        type = "Defense_";
+
+                        break;
+                    case 6:
                         type = "Constitution_";
                         break;
                 }
                 for (int i = 1; i < table.ChildNodes.Count(); i++) {
                     for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
                         string name = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerText.Replace("\n", "").Trim();
-                        string coolDown = table.ChildNodes[i].ChildNodes[j].ChildNodes[13].InnerText.Replace("\n", "").Trim();
+                      
+                        string imgURL = "";
+                        try {
+                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[3].InnerHtml.Replace("\n", "").Trim();
+                            var index = imgHTML.IndexOf("srcset");
+
+                            string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("srcset=\"", "");
+                            index = htmlrest.IndexOf("?");
+                             imgURL = htmlrest.Substring(0, index);
+
+
+                        }catch(Exception ex) {
+                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[3].InnerHtml.Replace("\n", "").Trim();
+                            var index = imgHTML.IndexOf("src");
+
+                            string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("src=\"", "");
+                            index = htmlrest.IndexOf("?");
+                             imgURL = htmlrest.Substring(0, index);
+                        }
+                        if(!imgURL.Contains("images") || !imgURL.Contains(".png")) {
+                            imgURL = "";
+                        }
+                        if (type.Equals("Necromancy_") && j.Equals(2)) {
+                            name = name + "_Auto";
+                        }
+                        string coolDown = "";
+                        if (type.Equals("Necromancy_")) {
+                            coolDown = table.ChildNodes[i].ChildNodes[j].ChildNodes[17].InnerText.Replace("\n", "").Trim();
+                        } else {
+                            coolDown = table.ChildNodes[i].ChildNodes[j].ChildNodes[15].InnerText.Replace("\n", "").Trim();
+                        }
                         double CD = 0;
                         try {
                             CD = Convert.ToDouble(coolDown);
                         } catch { }
-                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name, type, CD)));
+                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name, type, CD, imgURL)));
                     }
                 }
             }
@@ -249,12 +284,33 @@ namespace Rs3Tracker {
             tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sticky-header align-left-2 align-left-4']");
             foreach (var table in tables) {
                 for (int i = 1; i < table.ChildNodes.Count(); i++) {
-                    for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
+                    for (int j = 4; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
                         string name = table.ChildNodes[i].ChildNodes[j].ChildNodes[3].InnerText.Replace("\n", "").Trim();
-                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name, "Curses_")));
+                        string imgURL = "";
+                        try {
+                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerHtml.Replace("\n", "").Trim();
+                            var index = imgHTML.IndexOf("srcset");
+
+                            string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("srcset=\"", "");
+                            index = htmlrest.IndexOf("?");
+                            imgURL = htmlrest.Substring(0, index);
+
+
+                        } catch (Exception ex) {
+                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerHtml.Replace("\n", "").Trim();
+                            var index = imgHTML.IndexOf("src");
+
+                            string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("src=\"", "");
+                            index = htmlrest.IndexOf("?");
+                            imgURL = htmlrest.Substring(0, index);
+                        }
+                        if (!imgURL.Contains("images") || !imgURL.Contains(".png")) {
+                            imgURL = "";
+                        }
+                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name, "Curses_",0,imgURL)));
                         //abils.Add(ability);
                     }
-                }              
+                }
             }
 
             Code = wikiParser.getHTMLCode("Prayer");
@@ -266,7 +322,29 @@ namespace Rs3Tracker {
                     for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
                         //Ability ability = new Ability();
                         string name = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerText.Replace("\n", "").Trim();
-                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name, "Prayer_")));
+
+                        string imgURL = "";
+                        try {
+                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[3].InnerHtml.Replace("\n", "").Trim();
+                            var index = imgHTML.IndexOf("srcset");
+
+                            string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("srcset=\"", "");
+                            index = htmlrest.IndexOf("?");
+                            imgURL = htmlrest.Substring(0, index);
+
+
+                        } catch (Exception ex) {
+                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[3].InnerHtml.Replace("\n", "").Trim();
+                            var index = imgHTML.IndexOf("src");
+
+                            string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("src=\"", "");
+                            index = htmlrest.IndexOf("?");
+                            imgURL = htmlrest.Substring(0, index);
+                        }
+                        if (!imgURL.Contains("images") || !imgURL.Contains(".png")) {
+                            imgURL = "";
+                        }
+                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name, "Prayer_",0,imgURL)));
                     }
                 }
             }
@@ -274,15 +352,36 @@ namespace Rs3Tracker {
             Code = wikiParser.getHTMLCode("Standard_spells");
             doc = new HtmlDocument();
             doc.LoadHtml(Code);
-            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sortable align-left-7']");
+            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sortable align-center-2 align-left-7']");
             foreach (var table in tables) {
                 for (int i = 1; i < table.ChildNodes.Count(); i++) {
                     for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
                         //Ability ability = new Ability();
                         string name = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerText.Replace("\n", "").Trim();
-                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name, "Spells_")));
+                        string imgURL = "";
+                        try {
+                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[3].InnerHtml.Replace("\n", "").Trim();
+                            var index = imgHTML.IndexOf("srcset");
+
+                            string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("srcset=\"", "");
+                            index = htmlrest.IndexOf("?");
+                            imgURL = htmlrest.Substring(0, index);
+
+
+                        } catch (Exception ex) {
+                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[3].InnerHtml.Replace("\n", "").Trim();
+                            var index = imgHTML.IndexOf("src");
+
+                            string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("src=\"", "");
+                            index = htmlrest.IndexOf("?");
+                            imgURL = htmlrest.Substring(0, index);
+                        }
+                        if (!imgURL.Contains("images") || !imgURL.Contains(".png")) {
+                            imgURL = "";
+                        }
+                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name, "Spells_", 0, imgURL)));
                     }
-                }            
+                }
             }
 
 
@@ -295,7 +394,28 @@ namespace Rs3Tracker {
                     for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
                         //Ability ability = new Ability();
                         string name = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerText.Replace("\n", "").Trim();
-                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name, "Spells_")));
+                        string imgURL = "";
+                        try {
+                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[3].InnerHtml.Replace("\n", "").Trim();
+                            var index = imgHTML.IndexOf("srcset");
+
+                            string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("srcset=\"", "");
+                            index = htmlrest.IndexOf("?");
+                            imgURL = htmlrest.Substring(0, index);
+
+
+                        } catch (Exception ex) {
+                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[3].InnerHtml.Replace("\n", "").Trim();
+                            var index = imgHTML.IndexOf("src");
+
+                            string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("src=\"", "");
+                            index = htmlrest.IndexOf("?");
+                            imgURL = htmlrest.Substring(0, index);
+                        }
+                        if (!imgURL.Contains("images") || !imgURL.Contains(".png")) {
+                            imgURL = "";
+                        }
+                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name, "Spells_", 0, imgURL)));
                     }
                 }
             }
@@ -309,7 +429,80 @@ namespace Rs3Tracker {
                     for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
                         //Ability ability = new Ability();
                         string name = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerText.Replace("\n", "").Trim();
-                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name, "Spells_")));
+                 
+                        string imgURL = "";
+                        try {
+                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[3].InnerHtml.Replace("\n", "").Trim();
+                            var index = imgHTML.IndexOf("srcset");
+
+                            string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("srcset=\"", "");
+                            index = htmlrest.IndexOf("?");
+                            imgURL = htmlrest.Substring(0, index);
+
+
+                        } catch (Exception ex) {
+                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[3].InnerHtml.Replace("\n", "").Trim();
+                            var index = imgHTML.IndexOf("src");
+
+                            string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("src=\"", "");
+                            index = htmlrest.IndexOf("?");
+                            imgURL = htmlrest.Substring(0, index);
+                        }
+                        if (!imgURL.Contains("images") || !imgURL.Contains(".png")) {
+                            imgURL = "";
+                        }
+                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name, "Spells_", 0, imgURL)));
+                    }
+                }
+            }
+
+            Code = wikiParser.getHTMLCode("Incantations");
+            doc = new HtmlDocument();
+            doc.LoadHtml(Code);
+            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sortable align-left-7']");
+            foreach (var table in tables) {
+                for (int i = 1; i < table.ChildNodes.Count(); i++) {
+                    for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
+                        //Ability ability = new Ability();
+                        string name = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerText.Replace("\n", "").Replace("&#160;","").Trim();
+                        string coolDown = "";
+
+                        coolDown = table.ChildNodes[i].ChildNodes[j].ChildNodes[9].InnerText.Replace("\n", "").Replace("seconds", "").Trim();
+                        bool itsMinutes = false;
+                        if (coolDown.Contains("minute")) {
+                            itsMinutes = true;
+                            coolDown = coolDown.Replace("minute", "");
+                        }
+                        double CD = 0;
+                        try {
+                            CD = Convert.ToDouble(coolDown);
+                            if (itsMinutes)
+                                CD = CD * 60;
+                        } catch { }
+                        string imgURL = "";
+                        try {
+                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerHtml.Replace("\n", "").Trim();
+                            var index = imgHTML.IndexOf("srcset");
+
+                            string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("srcset=\"", "");
+                            index = htmlrest.IndexOf("?");
+                            imgURL = htmlrest.Substring(0, index);
+
+
+                        } catch (Exception ex) {
+                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[3].InnerHtml.Replace("\n", "").Trim();
+                            var index = imgHTML.IndexOf("src");
+
+                            string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("src=\"", "");
+                            index = htmlrest.IndexOf("?");
+                            imgURL = htmlrest.Substring(0, index);
+                        }
+                        if (!imgURL.Contains("images") || !imgURL.Contains(".png")) {
+                            imgURL = "";
+                        }
+
+
+                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name, "Spells_", CD,imgURL)));
                     }
                 }
             }
@@ -340,14 +533,17 @@ namespace Rs3Tracker {
             }
         }
 
-        private void SetAbility(WikiParser wikiParser, string name, string table = "", double cooldown = 0) {
+        private void SetAbility(WikiParser wikiParser, string name, string table = "", double cooldown = 0, string imgURL = "") {
             Ability ability = new Ability();
             string fileName = "";
-            if (table.Equals("Spells_"))
-                fileName = wikiParser.SaveImage(name + "_icon");
-            else
-                fileName = wikiParser.SaveImage(name);
-
+            if (string.IsNullOrEmpty(imgURL)) {
+                if (table.Equals("Spells_"))
+                    fileName = wikiParser.SaveImage(name + "_icon");
+                else
+                    fileName = wikiParser.SaveImage(name);
+            } else {
+                fileName = wikiParser.SaveImageFROMURL(name,imgURL);
+            }
             if (string.IsNullOrEmpty(fileName))
                 return;
             //string img = table.ChildNodes[i].ChildNodes[2].ChildNodes[3].InnerText.Replace("\n", "");                            
@@ -356,7 +552,6 @@ namespace Rs3Tracker {
             ability.img = ".\\Images\\" + fileName + ".png";
             abils.Add(ability);
         }
-
 
         private async void Import_Click(object sender, RoutedEventArgs e) {
             var x = MessageBox.Show("This is going to replace all the abilities! are you sure you want to continue?", "", MessageBoxButton.YesNo);
