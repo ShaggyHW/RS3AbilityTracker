@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using IniParser.Model;
+using IniParser;
+using Newtonsoft.Json;
 
 using System;
 using System.Collections.Generic;
@@ -16,14 +18,19 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 using static Rs3Tracker.Settings;
+using System.Windows.Media.Media3D;
 
 namespace Rs3Tracker {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+   
     public partial class MainWindow : Window {
         Display display = null;
-
+        public static double displayX = 0;
+        public static double displayY = 0;
+        public static double DisplayHeight = 80;
+        public static double DisplayWidth = 800;
         public MainWindow() {
             InitializeComponent();
             btnStartTracker.Content = "Start Tracker";
@@ -36,18 +43,30 @@ namespace Rs3Tracker {
                     cmbMode.Items.Add(ComboBoxItem);
                 }
             }
-        
+            if (File.Exists("Configuration.ini")) {
+                var parser = new FileIniDataParser();
+                IniData data = parser.ReadFile("Configuration.ini");
+                displayX = Convert.ToDouble(data["UI"]["LEFT"]);
+                displayY = Convert.ToDouble(data["UI"]["TOP"]);
+                DisplayHeight = Convert.ToDouble(data["UI"]["HEIGHT"]);
+                DisplayWidth = Convert.ToDouble(data["UI"]["WIDTH"]);
+            }
+
             if (!File.Exists(".\\mongoAbilities.json"))
                 File.Create(".\\mongoAbilities.json");
         }
 
         private void btnStartTracker_Click(object sender, RoutedEventArgs e) {
             if (display != null) {
+                displayX = display.Left; 
+                displayY = display.Top;
+                DisplayHeight = display.Height;
+                DisplayWidth = display.Width;
                 display.Close();
                 display = null;
                 btnStartTracker.Content = "Start Tracker";
 
-            } else {            
+            } else {
                 if (!File.Exists(".\\keybinds.json")) {
                     MessageBox.Show("Missing Keybinds");
                     return;
@@ -60,8 +79,13 @@ namespace Rs3Tracker {
                     return;
 
                 btnStartTracker.Content = "Close Tracker";
-                display = new Display(cmbMode.Text.ToLower(), TrackCD.IsChecked.Value, onTop.IsChecked.Value);
+                display = new Display(cmbMode.Text.ToLower(), TrackCD.IsChecked.Value, onTop.IsChecked.Value, CanResize.IsChecked.Value);
+                display.Top = displayY;
+                display.Left = displayX;
+                display.Height = DisplayHeight;
+                display.Width = DisplayWidth;
                 display.Show();
+
             }
         }
         private void btnAbilityConfig_Click(object sender, RoutedEventArgs e) {
@@ -74,8 +98,22 @@ namespace Rs3Tracker {
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e) {
-            if (display != null)
+            if (display != null) {
+                displayX = display.Left;
+                displayY = display.Top;
+                DisplayHeight = display.Height;
+                DisplayWidth = display.Width;               
+                
+              
                 display.Close();
+            }
+            var parser = new FileIniDataParser();
+            IniData data = new IniData();
+            data["UI"]["LEFT"] = displayX.ToString();
+            data["UI"]["TOP"] = displayY.ToString();
+            data["UI"]["HEIGHT"] = DisplayHeight.ToString();
+            data["UI"]["WIDTH"] = DisplayWidth.ToString();
+            parser.WriteFile("Configuration.ini", data);
             Environment.Exit(1);
         }
 
@@ -107,10 +145,12 @@ namespace Rs3Tracker {
                 display.ResizeON();
             }
         }
-    
+
 
         private void CanResize_Unchecked(object sender, RoutedEventArgs e) {
-            display.ResizeOFF();
+            if (display != null) {
+                display.ResizeOFF();
+            }
         }
     }
 }

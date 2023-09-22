@@ -9,7 +9,10 @@
         Height="80"
         Width="800"
         Icon="radar.png"
-        WindowStyle="None" ResizeMode="NoResize" MouseDown="Window_MouseDown">
+        WindowStartupLocation="Manual"
+        WindowStyle="None"  ResizeMode="NoResize" MouseDown="Window_MouseDown"
+  
+        Background="{x:Null}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
@@ -24,7 +27,7 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.Background>
-        <ImageBrush ImageSource="background.png"
+            <ImageBrush ImageSource="background.png"
                         Stretch="UniformToFill" />
         </Grid.Background>
         <Label Foreground="White" x:Name="TESTLABEL" Visibility="Collapsed">assad</Label>

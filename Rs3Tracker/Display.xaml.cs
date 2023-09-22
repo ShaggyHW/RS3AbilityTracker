@@ -13,6 +13,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Media;
 using System.Windows.Interop;
 using System.Windows.Input;
+using System.Windows.Media.Media3D;
 
 namespace Rs3Tracker {
     /// <summary>
@@ -32,9 +33,62 @@ namespace Rs3Tracker {
         private List<Keypressed> ListPreviousKeys = new List<Keypressed>();
         private bool trackCD;
         private bool pause = false;
+        protected override void OnSourceInitialized(EventArgs e) {
+            base.OnSourceInitialized(e);
 
-        public Display(string _style, bool trackCD, bool onTop) {
+            // Make entire window and everything in it "transparent" to the Mouse
+            var windowHwnd = new WindowInteropHelper(this).Handle;
+            WindowsServices.SetWindowExTransparent(windowHwnd);
+
+            // Make the button "visible" to the Mouse
+            //var buttonHwndSource = (HwndSource)HwndSource.FromVisual(btn);
+            //var buttonHwnd = buttonHwndSource.Handle;
+            //WindowsServices.SetWindowExNotTransparent(buttonHwnd);
+        }
+        public static class WindowsServices {
+            const int WS_EX_TRANSPARENT = 0x00000020;
+            const int GWL_EXSTYLE = (-20);
+
+            [DllImport("user32.dll")]
+            static extern int GetWindowLong(IntPtr hwnd, int index);
+
+            [DllImport("user32.dll")]
+            static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
+
+            public static void SetWindowExTransparent(IntPtr hwnd) {
+                var extendedStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
+                SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle | WS_EX_TRANSPARENT);
+            }
+
+            public static void SetWindowExNotTransparent(IntPtr hwnd) {
+                var extendedStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
+                SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle & ~WS_EX_TRANSPARENT);               
+            }
+        }
+        double TopPos = 0;
+        double LeftPos = 0;
+        double height = 0;
+        double width = 0;
+
+        public Display(string _style, bool trackCD, bool onTop, bool resize) {
+            
+            //this.Left = LeftPos;
+            //this.Top = TopPos;
             InitializeComponent();
+            if (resize) {
+                AllowsTransparency = false;
+                ResizeOFF();
+            } else {
+                AllowsTransparency = true;
+                ResizeON();
+            }
+            //this.LeftPos = LeftPos;
+            //this.TopPos = TopPos;
+            //this.height = height;
+            //this.width = width;
+            Loaded += Display_Loaded;
+            var windowHwnd = new WindowInteropHelper(this).Handle;
+            WindowsServices.SetWindowExNotTransparent(windowHwnd);
             KeyboardHook.KeyDownEvent += HookKeyDown;
             style = _style;
             TESTLABEL.Content = style;
@@ -44,16 +98,26 @@ namespace Rs3Tracker {
             stopwatch.Start();
             previousKey.ability = new Ability();
             this.trackCD = trackCD;
-            this.Topmost = onTop;
+            this.Topmost = onTop;            
+        }
+
+        private void Display_Loaded(object sender, RoutedEventArgs e) {
+         
+            //this.Height = height;
+            //this.Width = width;
         }
 
         //        private void 
 
         public void ResizeON() {
-            this.ResizeMode = ResizeMode.CanResize;
+            this.ResizeMode = ResizeMode.CanResize;        
+            var windowHwnd = new WindowInteropHelper(this).Handle;
+            WindowsServices.SetWindowExNotTransparent(windowHwnd);
         }
 
         public void ResizeOFF() {
+            var windowHwnd = new WindowInteropHelper(this).Handle;          
+            WindowsServices.SetWindowExTransparent(windowHwnd);
             this.ResizeMode = ResizeMode.NoResize;
         }
 
@@ -381,8 +445,13 @@ namespace Rs3Tracker {
         }
 
         private void Window_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            if (e.ChangedButton == MouseButton.Left)
+            if (e.ChangedButton == MouseButton.Left) {
                 this.DragMove();
+                //MainWindow.displayX = this.Top;
+                //MainWindow.displayY = this.Left;
+                //MainWindow.Height = this.Height;
+                //MainWindow.Width = this.Width;
+            }
         }
     }
 }
