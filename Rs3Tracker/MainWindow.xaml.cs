@@ -102,9 +102,7 @@ namespace Rs3Tracker {
                 displayX = display.Left;
                 displayY = display.Top;
                 DisplayHeight = display.Height;
-                DisplayWidth = display.Width;               
-                
-              
+                DisplayWidth = display.Width;                                          
                 display.Close();
             }
             var parser = new FileIniDataParser();

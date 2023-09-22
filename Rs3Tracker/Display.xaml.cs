@@ -65,13 +65,10 @@ namespace Rs3Tracker {
                 SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle & ~WS_EX_TRANSPARENT);               
             }
         }
-        double TopPos = 0;
-        double LeftPos = 0;
-        double height = 0;
-        double width = 0;
+        bool resize = false;
 
         public Display(string _style, bool trackCD, bool onTop, bool resize) {
-            
+            this.resize = resize;
             //this.Left = LeftPos;
             //this.Top = TopPos;
             InitializeComponent();
@@ -102,7 +99,13 @@ namespace Rs3Tracker {
         }
 
         private void Display_Loaded(object sender, RoutedEventArgs e) {
-         
+            if (resize) {
+                
+                ResizeON();
+            } else {
+             
+                ResizeOFF();
+            }
             //this.Height = height;
             //this.Width = width;
         }

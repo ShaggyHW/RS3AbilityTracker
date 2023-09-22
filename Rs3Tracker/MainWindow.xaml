@@ -55,6 +55,6 @@
         <CheckBox x:Name="onTop"
                Margin="90,70,317,59"   >Display alway on top?</CheckBox>
         <CheckBox x:Name="CanResize"
-            Margin="90,120,165,10" Content="Can Resize (Requires to restart of display window)" Checked="CanResize_Checked" Unchecked="CanResize_Unchecked"/>
+            Margin="90,120,17,10" Content="Can Resize and not ClickThrough (Requires to restart of display window)" Checked="CanResize_Checked" Unchecked="CanResize_Unchecked"/>
     </Grid>
 </Window>
