@@ -32,8 +32,17 @@ namespace Rs3Tracker {
         public Settings() {
             InitializeComponent();
             KeyboardHook.KeyDownEvent += KeyDown;
+            Loaded += Settings_Loaded;
+           
+        }
+
+        private void Settings_Loaded(object sender, RoutedEventArgs e) {
             if (File.Exists(".\\mongoAbilities.json")) {
                 abilities = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(".\\mongoAbilities.json"));
+                if (abilities == null) {
+                    this.Close();
+                    return;
+                }
                 abilities = abilities.OrderBy(i => i.name).ToList();
                 if (abilities != null)
                     foreach (var abil in abilities) {

@@ -10,7 +10,7 @@
         xmlns:local="clr-namespace:Rs3Tracker"
         mc:Ignorable="d"
         Title="Menu"
-        Height="210"
+        Height="270"
         Width="550"
         ResizeMode="NoResize"
         Icon="radar.png">
@@ -19,9 +19,10 @@
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <WrapPanel  Orientation="Horizontal"
-                    HorizontalAlignment="Center"
-                    Grid.Row="0">
+        <StackPanel  Orientation="Horizontal"
+                     HorizontalAlignment="Center"
+                     Grid.Row="0"
+                     Margin="5">
             <Button x:Name="btnBars"
                     Width="150"
                     Margin="5"
@@ -44,18 +45,23 @@
                     Margin="5"
                     Click="btnSettings_Click" />
 
-        </WrapPanel>
-        <StackPanel Grid.Row="1" Orientation="Vertical">
-            <WrapPanel Orientation="Vertical" HorizontalAlignment="Center">
-            <CheckBox x:Name="TrackCD">Track CoolDowns?</CheckBox>
-            <CheckBox x:Name="onTop">Display alway on top?</CheckBox>
-            <CheckBox x:Name="CanResize"
-                      Content="Can Resize and not ClickThrough (Requires to restart of display window)"
-                      Checked="CanResize_Checked"
-                      Unchecked="CanResize_Unchecked" />
+        </StackPanel>
+        <StackPanel Grid.Row="1"
+                    Orientation="Vertical"
+                    Margin="5">
+            <WrapPanel Orientation="Vertical"
+                       HorizontalAlignment="Center"
+                       Margin="5">
+                <CheckBox x:Name="TrackCD">Track CoolDowns?</CheckBox>
+                <CheckBox x:Name="onTop">Display alway on top?</CheckBox>
+                <CheckBox x:Name="CanResize"
+                          Content="Can Resize and not ClickThrough (Requires to restart of display window)"
+                          Checked="CanResize_Checked"
+                          Unchecked="CanResize_Unchecked" />
             </WrapPanel>
             <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Center">
+                        HorizontalAlignment="Center"
+                        Margin="5">
                 <ComboBox x:Name="cmbMode"
                           Width="200"
                           Margin="5"
@@ -69,7 +75,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         Width="150"
-                        Margin="5" 
+                        Margin="5"
                         Click="btnStartTracker_Click" />
             </StackPanel>
 
@@ -81,7 +87,6 @@
                     Margin="5"
                     Click="btnClose_Click" />
 
-        
         </StackPanel>
 
     </Grid>
