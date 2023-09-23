@@ -64,27 +64,51 @@
                         Margin="10"
                         Click="btnDelete_Click" />
                 <Button x:Name="Import"
-                        Content="Import"
+                        Content="Import From WIKI"
                         Height="30"
-                        Width="100"
+                        Width="180"
                         Margin="10"
                         Click="Import_Click" />
             </StackPanel>
         </Grid>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
+                <RowDefinition Height="30" ></RowDefinition>
+                <RowDefinition ></RowDefinition>
                 <RowDefinition Height="50"></RowDefinition>
                 <RowDefinition Height="50"></RowDefinition>
-                <RowDefinition Height="50"></RowDefinition>
-                <RowDefinition></RowDefinition>
                 <RowDefinition Height="50"></RowDefinition>
             </Grid.RowDefinitions>
+          
+            <TextBlock VerticalAlignment="Center" TextAlignment="Center"
+                       Grid.Row="0"
+                       Margin="10">ADD ABILITIES MANUALLY</TextBlock>
+
+            <StackPanel Orientation="Vertical"
+                        VerticalAlignment="Center"
+                        Grid.Row="1"
+                        Margin="10">
+                <Button x:Name="reloadCombo"
+                        Click="reloadCombo_Click"
+                        Height="50"
+                        Width="200"
+                        Margin="5">Reload</Button>
+                <TextBlock TextWrapping="Wrap"
+                           Margin="5">SELECT IMAGE (TO ADD NEW IMAGES PLACE THEM IN THE "PERSONAL IMAGES" FOLDER AND RELOAD THE PROGRAM</TextBlock>
+                <ComboBox x:Name="Images"
+                          Margin="5"
+                          SelectionChanged="Images_SelectionChanged"></ComboBox>
+                <Image x:Name="imgAbil"
+                       Height="60"
+                       Width="60"></Image>
+            </StackPanel>
             <StackPanel Orientation="Horizontal"
                         VerticalAlignment="Center"
-                        Grid.Row="0"
+                        Grid.Row="2"
                         Width="275">
+             
                 <TextBlock VerticalAlignment="Center"
-                           Margin="10">Name</TextBlock>
+                           Margin="10"> ABILITY NAME</TextBlock>
                 <TextBox x:Name="txtAbilName"
                          Width="150"
                          Height="30"
@@ -96,7 +120,7 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal"
                         VerticalAlignment="Center"
-                        Grid.Row="1">
+                        Grid.Row="3">
                 <TextBlock VerticalAlignment="Center"
                            Margin="10">CoolDown (S)</TextBlock>
                 <TextBox x:Name="txtCooldDown"
@@ -108,23 +132,7 @@
                          VerticalContentAlignment="Center"
                          HorizontalContentAlignment="Center"></TextBox>
             </StackPanel>
-            <StackPanel Orientation="Vertical"
-                        VerticalAlignment="Center"
-                        Grid.Row="3"
-                        Margin="10">
-                <Button x:Name="reloadCombo"
-                        Click="reloadCombo_Click"
-                        Height="50"
-                        Width="200"
-                        Margin="5">Reload</Button>
-                <ComboBox x:Name="Images"
-                          SelectionChanged="Images_SelectionChanged"></ComboBox>
-                <Image x:Name="imgAbil"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       Height="60"
-                       Width="60"></Image>
-            </StackPanel>
+           
             <Button x:Name="btnAdd"
                     Grid.Row="4"
                     Content="Add"

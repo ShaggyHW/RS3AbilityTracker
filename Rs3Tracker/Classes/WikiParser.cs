@@ -79,7 +79,7 @@ namespace Rs3Tracker.Classes {
                             client.Headers.Add("user-agent", "PostmanRuntime/7.26.1");
                             client.DownloadFile(new Uri(url), @".\Images\" + name.Replace(" ", "_") + ".png");
                         } catch (Exception ex3) {
-                            MessageBox.Show(endpoint);
+                            MessageBox.Show("ERROR LOADING IMAGE:"+endpoint +"\r\nONCE IT FINISHES CLICK IMPORT AGAIN UNTIL YOU DONT GET ERRORS");
                         }
                     }
                 }

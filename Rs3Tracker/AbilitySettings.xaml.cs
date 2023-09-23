@@ -531,26 +531,32 @@ namespace Rs3Tracker {
             foreach (var ab in abilsOrder) {
                 dgSettings.Items.Add(ab);
             }
+
+            MessageBox.Show("ABILITIES IMPORTED");
         }
 
         private void SetAbility(WikiParser wikiParser, string name, string table = "", double cooldown = 0, string imgURL = "") {
-            Ability ability = new Ability();
-            string fileName = "";
-            if (string.IsNullOrEmpty(imgURL)) {
-                if (table.Equals("Spells_"))
-                    fileName = wikiParser.SaveImage(name + "_icon");
-                else
-                    fileName = wikiParser.SaveImage(name);
-            } else {
-                fileName = wikiParser.SaveImageFROMURL(name,imgURL);
+            try {
+                Ability ability = new Ability();
+                string fileName = "";
+                if (string.IsNullOrEmpty(imgURL)) {
+                    if (table.Equals("Spells_"))
+                        fileName = wikiParser.SaveImage(name + "_icon");
+                    else
+                        fileName = wikiParser.SaveImage(name);
+                } else {
+                    fileName = wikiParser.SaveImageFROMURL(name, imgURL);
+                }
+                if (string.IsNullOrEmpty(fileName))
+                    return;
+                //string img = table.ChildNodes[i].ChildNodes[2].ChildNodes[3].InnerText.Replace("\n", "");                            
+                ability.name = table + name + "_Import";
+                ability.cooldown = cooldown;
+                ability.img = ".\\Images\\" + fileName + ".png";
+                abils.Add(ability);
+            }catch(Exception ex) {
+
             }
-            if (string.IsNullOrEmpty(fileName))
-                return;
-            //string img = table.ChildNodes[i].ChildNodes[2].ChildNodes[3].InnerText.Replace("\n", "");                            
-            ability.name = table + name + "_Import";
-            ability.cooldown = cooldown;
-            ability.img = ".\\Images\\" + fileName + ".png";
-            abils.Add(ability);
         }
 
         private async void Import_Click(object sender, RoutedEventArgs e) {
