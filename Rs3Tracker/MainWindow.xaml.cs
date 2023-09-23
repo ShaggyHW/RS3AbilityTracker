@@ -33,6 +33,7 @@ namespace Rs3Tracker {
         public static double DisplayWidth = 800;
         public MainWindow() {
             InitializeComponent();
+            Closing += MainWindow_Closing;
             btnStartTracker.Content = "Start Tracker";
             cmbMode.SelectedIndex = 0;
             if (File.Exists(".\\Bars.json")) {
@@ -54,6 +55,10 @@ namespace Rs3Tracker {
 
             if (!File.Exists(".\\mongoAbilities.json"))
                 File.Create(".\\mongoAbilities.json");
+        }
+
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
+            btnClose_Click(null, null);
         }
 
         private void btnStartTracker_Click(object sender, RoutedEventArgs e) {

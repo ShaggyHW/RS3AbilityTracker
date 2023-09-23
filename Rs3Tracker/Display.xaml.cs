@@ -74,10 +74,10 @@ namespace Rs3Tracker {
             InitializeComponent();
             if (resize) {
                 AllowsTransparency = false;
-                ResizeOFF();
+                ResizeON();
             } else {
                 AllowsTransparency = true;
-                ResizeON();
+                ResizeOFF();
             }
             //this.LeftPos = LeftPos;
             //this.TopPos = TopPos;
