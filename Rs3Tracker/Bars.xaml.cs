@@ -60,7 +60,7 @@ namespace Rs3Tracker {
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e) {
-            if (dgSettings.SelectedIndex > 0)
+            if (dgSettings.SelectedIndex > -1)
                 dgSettings.Items.Remove(dgSettings.Items[dgSettings.SelectedIndex]);
         }
     }

@@ -12,7 +12,8 @@
         Icon="radar.png">
     <Grid>
         <TabControl>
-            <TabItem Header="Ability Keybinds">
+            <TabItem Header="Ability Keybinds"
+                     Background="Black">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
@@ -105,7 +106,7 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
-            <TabItem Header="Bar Keybinds">
+            <TabItem Header="Bar Keybinds" Background="Purple">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
