@@ -3,58 +3,86 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
         xmlns:local="clr-namespace:Rs3Tracker"
         mc:Ignorable="d"
         Title="Menu"
-        Height="184.5"
+        Height="210"
         Width="550"
         ResizeMode="NoResize"
         Icon="radar.png">
     <Grid>
-        <Button x:Name="btnStartTracker"
-                Content="StartTracker"
-                HorizontalAlignment="Left"
-                Margin="10,10,0,0"
-                VerticalAlignment="Top"
-                Width="75"
-                Click="btnStartTracker_Click" />
-        <Button x:Name="btnSettings"
-                Content="Keybinds"
-                HorizontalAlignment="Left"
-                Margin="10,85,0,0"
-                VerticalAlignment="Top"
-                Width="75"
-                Click="btnSettings_Click" />
-        <Button x:Name="btnClose"
-                Content="Close"
-                HorizontalAlignment="Left"
-                Margin="10,110,0,0"
-                VerticalAlignment="Top"
-                Width="75"
-                Click="btnClose_Click" />
-        <ComboBox Margin="269,10,65,84"                  
-                  x:Name="cmbMode" SelectionChanged="cmbMode_SelectionChanged">
-        </ComboBox>
-        <Button x:Name="btnAbilityConfig"
-                Content="Abilities"
-                HorizontalAlignment="Left"
-                Margin="10,35,0,0"
-                VerticalAlignment="Top"
-                Width="75"
-                Click="btnAbilityConfig_Click" />
-        <Button x:Name="btnBars"
-                Content="Bars"
-                HorizontalAlignment="Left"
-                Margin="10,60,0,0"
-                VerticalAlignment="Top"
-                Width="75"
-                Click="btnBars_Click" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <WrapPanel  Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Grid.Row="0">
+            <Button x:Name="btnBars"
+                    Width="150"
+                    Margin="5"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Click="btnBars_Click"
+                    Content="Bars" />
+            <Button x:Name="btnAbilityConfig"
+                    Content="Abilities"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Width="150"
+                    Margin="5"
+                    Click="btnAbilityConfig_Click" />
+            <Button x:Name="btnSettings"
+                    Content="Keybinds"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Width="150"
+                    Margin="5"
+                    Click="btnSettings_Click" />
 
-        <CheckBox x:Name="TrackCD"
-                  Margin="90,10,317,114">Track CoolDowns?</CheckBox>
-        <CheckBox x:Name="onTop"
-               Margin="90,70,317,59"   >Display alway on top?</CheckBox>
-        <CheckBox x:Name="CanResize"
-            Margin="90,120,17,10" Content="Can Resize and not ClickThrough (Requires to restart of display window)" Checked="CanResize_Checked" Unchecked="CanResize_Unchecked"/>
+        </WrapPanel>
+        <StackPanel Grid.Row="1" Orientation="Vertical">
+            <WrapPanel Orientation="Vertical" HorizontalAlignment="Center">
+            <CheckBox x:Name="TrackCD">Track CoolDowns?</CheckBox>
+            <CheckBox x:Name="onTop">Display alway on top?</CheckBox>
+            <CheckBox x:Name="CanResize"
+                      Content="Can Resize and not ClickThrough (Requires to restart of display window)"
+                      Checked="CanResize_Checked"
+                      Unchecked="CanResize_Unchecked" />
+            </WrapPanel>
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+                <ComboBox x:Name="cmbMode"
+                          Width="200"
+                          Margin="5"
+                          SelectionChanged="cmbMode_SelectionChanged"
+                          materialDesign:HintAssist.Hint="Select Bar"
+                          Height="45"
+                          VerticalAlignment="Center">
+                </ComboBox>
+                <Button x:Name="btnStartTracker"
+                        Content="StartTracker"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Width="150"
+                        Margin="5" 
+                        Click="btnStartTracker_Click" />
+            </StackPanel>
+
+            <Button x:Name="btnClose"
+                    Content="Close"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Width="150"
+                    Margin="5"
+                    Click="btnClose_Click" />
+
+        
+        </StackPanel>
+
     </Grid>
 </Window>
