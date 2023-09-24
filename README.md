@@ -61,6 +61,6 @@ Good luck and have fun.
 
 https://www.twitch.tv/thersguy
 
-https://www.twitch.tv/thebigsteeve
+https://www.twitch.tv/glotzfrosch
 
-https://www.twitch.tv/brain_rs
+https://www.twitch.tv/thebigsteeve
