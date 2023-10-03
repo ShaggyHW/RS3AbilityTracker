@@ -58,6 +58,8 @@
                           Content="Can Resize and not ClickThrough (Requires to restart of display window)"
                           Checked="CanResize_Checked"
                           Unchecked="CanResize_Unchecked" />
+                <CheckBox x:Name="Server"
+                          Content="Activate Server Comms (Contact the DEV to be able to use this!)" />
             </WrapPanel>
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Center"
@@ -78,15 +80,23 @@
                         Margin="5"
                         Click="btnStartTracker_Click" />
             </StackPanel>
-
-            <Button x:Name="btnClose"
-                    Content="Close"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Bottom"
-                    Width="150"
-                    Margin="5"
-                    Click="btnClose_Click" />
-
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+                <Button x:Name="btnServer"
+                        Content="Server"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Bottom"
+                        Width="150"
+                        Margin="5"
+                        Click="btnServer_Click" />
+                <Button x:Name="btnClose"
+                        Content="Close"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Bottom"
+                        Width="150"
+                        Margin="5"
+                        Click="btnClose_Click" />
+            </StackPanel>
         </StackPanel>
 
     </Grid>

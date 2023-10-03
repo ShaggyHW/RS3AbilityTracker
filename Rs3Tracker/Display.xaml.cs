@@ -14,6 +14,8 @@ using System.Windows.Media;
 using System.Windows.Interop;
 using System.Windows.Input;
 using System.Windows.Media.Media3D;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Rs3Tracker {
     /// <summary>
@@ -62,13 +64,14 @@ namespace Rs3Tracker {
 
             public static void SetWindowExNotTransparent(IntPtr hwnd) {
                 var extendedStyle = GetWindowLong(hwnd, GWL_EXSTYLE);
-                SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle & ~WS_EX_TRANSPARENT);               
+                SetWindowLong(hwnd, GWL_EXSTYLE, extendedStyle & ~WS_EX_TRANSPARENT);
             }
         }
         bool resize = false;
-
-        public Display(string _style, bool trackCD, bool onTop, bool resize) {
+        bool serverConn = false;
+        public Display(string _style, bool trackCD, bool onTop, bool resize, bool serverConnection) {
             this.resize = resize;
+            this.serverConn = serverConnection;
             //this.Left = LeftPos;
             //this.Top = TopPos;
             InitializeComponent();
@@ -95,15 +98,15 @@ namespace Rs3Tracker {
             stopwatch.Start();
             previousKey.ability = new Ability();
             this.trackCD = trackCD;
-            this.Topmost = onTop;            
+            this.Topmost = onTop;
         }
 
         private void Display_Loaded(object sender, RoutedEventArgs e) {
             if (resize) {
-                
+
                 ResizeON();
             } else {
-             
+
                 ResizeOFF();
             }
             //this.Height = height;
@@ -113,13 +116,13 @@ namespace Rs3Tracker {
         //        private void 
 
         public void ResizeON() {
-            this.ResizeMode = ResizeMode.CanResize;        
+            this.ResizeMode = ResizeMode.CanResize;
             var windowHwnd = new WindowInteropHelper(this).Handle;
             WindowsServices.SetWindowExNotTransparent(windowHwnd);
         }
 
         public void ResizeOFF() {
-            var windowHwnd = new WindowInteropHelper(this).Handle;          
+            var windowHwnd = new WindowInteropHelper(this).Handle;
             WindowsServices.SetWindowExTransparent(windowHwnd);
             this.ResizeMode = ResizeMode.NoResize;
         }
@@ -213,6 +216,13 @@ namespace Rs3Tracker {
                 else if (e.isWinPressed)
                     modifier = "WIN";
 
+
+                if (serverConn) {
+                    //DualPC_Connection dualPC_Connection = new DualPC_Connection();
+                    Task.Factory.StartNew(() => DualPC_Connection.POST(e.Key.ToString().ToLower(), modifier));
+                }
+
+
                 List<Ability> abilityList = (from r in keybindClasses
                                              where r.key.ToLower() == e.Key.ToString().ToLower()
                                              where r.modifier.ToString().ToLower() == modifier.ToLower()
@@ -281,6 +291,8 @@ namespace Rs3Tracker {
                         }
                     };
                     ListPreviousKeypressed.Add(previousKey);
+
+
                     Bitmap bitmap = new Bitmap(ability.img);
                     Bitmap Image;
                     ImageSource imageSource;

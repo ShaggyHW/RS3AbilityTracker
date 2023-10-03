@@ -84,7 +84,7 @@ namespace Rs3Tracker {
                     return;
 
                 btnStartTracker.Content = "Close Tracker";
-                display = new Display(cmbMode.Text.ToLower(), TrackCD.IsChecked.Value, onTop.IsChecked.Value, CanResize.IsChecked.Value);
+                display = new Display(cmbMode.Text.ToLower(), TrackCD.IsChecked.Value, onTop.IsChecked.Value, CanResize.IsChecked.Value,true);
                 display.Top = displayY;
                 display.Left = displayX;
                 display.Height = DisplayHeight;
@@ -154,6 +154,11 @@ namespace Rs3Tracker {
             if (display != null) {
                 display.ResizeOFF();
             }
+        }
+
+        private void btnServer_Click(object sender, RoutedEventArgs e) {
+            Server.ServerMenu serverMenu = new Server.ServerMenu();
+            serverMenu.ShowDialog();
         }
     }
 }
