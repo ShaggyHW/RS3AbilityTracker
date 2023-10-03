@@ -58,7 +58,7 @@
                           Content="Can Resize and not ClickThrough (Requires to restart of display window)"
                           Checked="CanResize_Checked"
                           Unchecked="CanResize_Unchecked" />
-                <CheckBox x:Name="Server"
+                <CheckBox x:Name="ServerCheck"
                           Content="Activate Server Comms (Contact the DEV to be able to use this!)" />
             </WrapPanel>
             <StackPanel Orientation="Horizontal"
