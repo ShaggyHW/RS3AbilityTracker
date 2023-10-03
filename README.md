@@ -3,6 +3,12 @@ Feel Free to contact me with question or sugestions through the Issues on Github
 
 This is still a WIP so feel free to make sugestions!
 
+# TODO:
+
+Implementation for dual PC setups for streaming
+
+Better UI for Setting keybinds.
+
 # USAGE AND CONFIGURATION
 
 Run Rs3Tracker.exe
@@ -61,6 +67,6 @@ Good luck and have fun.
 
 https://www.twitch.tv/thersguy
 
-https://www.twitch.tv/thebigsteeve
+https://www.twitch.tv/glotzfrosch
 
-https://www.twitch.tv/brain_rs
+https://www.twitch.tv/thebigsteeve
