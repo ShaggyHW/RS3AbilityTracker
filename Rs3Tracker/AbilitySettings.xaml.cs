@@ -147,13 +147,10 @@ namespace Rs3Tracker {
                 ImageSource imageSource;
                 imageSource = ImageSourceFromBitmap(bitmap);
                 imgAbil.Source = imageSource;
-
                 txtAbilName.Text = ((ComboBoxItem)Images.SelectedValue).Content.ToString().Replace("_", " ");
-
             } else {
                 imgAbil.Source = null;
             }
-
         }
 
         private void reloadCombo_Click(object sender, RoutedEventArgs e) {
@@ -304,6 +301,7 @@ namespace Rs3Tracker {
                             index = htmlrest.IndexOf("?");
                             imgURL = htmlrest.Substring(0, index);
                         }
+                 
                         if (!imgURL.Contains("images") || !imgURL.Contains(".png")) {
                             imgURL = "";
                         }
@@ -388,7 +386,7 @@ namespace Rs3Tracker {
             Code = wikiParser.getHTMLCode("Ancient_Magicks");
             doc = new HtmlDocument();
             doc.LoadHtml(Code);
-            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sortable align-left-7']");
+            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sortable align-center-2 align-left-7']");
             foreach (var table in tables) {
                 for (int i = 1; i < table.ChildNodes.Count(); i++) {
                     for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
@@ -537,6 +535,9 @@ namespace Rs3Tracker {
 
         private void SetAbility(WikiParser wikiParser, string name, string table = "", double cooldown = 0, string imgURL = "") {
             try {
+                if (imgURL.Contains("Affliction")) { 
+                    
+                }
                 Ability ability = new Ability();
                 string fileName = "";
                 if (string.IsNullOrEmpty(imgURL)) {

@@ -16,6 +16,7 @@ using System.Windows.Input;
 using System.Windows.Media.Media3D;
 using System.Threading;
 using System.Threading.Tasks;
+using NLog;
 
 namespace Rs3Tracker {
     /// <summary>
@@ -197,182 +198,186 @@ namespace Rs3Tracker {
         #endregion
 
         private void HookKeyDown(KeyboardHookEventArgs e) {
-            #region display
-            if (!control) {
-                control = true;
-                Keypressed keypressed = new Keypressed();
-                keypressed.ability = new Ability();
-                string modifier = "";
-                if (e.Key.ToString().ToLower().Equals("none")) {
-                    control = false;
-                    return;
-                }
-                if (e.isAltPressed)
-                    modifier = "ALT";
-                else if (e.isCtrlPressed)
-                    modifier = "CTRL";
-                else if (e.isShiftPressed)
-                    modifier = "SHIFT";
-                else if (e.isWinPressed)
-                    modifier = "WIN";
-
-
-                if (serverConn) {
-                    //DualPC_Connection dualPC_Connection = new DualPC_Connection();
-                    Task.Factory.StartNew(() => DualPC_Connection.POST(e.Key.ToString().ToLower(), modifier));
-                }
-
-
-                List<Ability> abilityList = (from r in keybindClasses
-                                             where r.key.ToLower() == e.Key.ToString().ToLower()
-                                             where r.modifier.ToString().ToLower() == modifier.ToLower()
-                                             select r.ability).ToList();
-
-                if (abilityList.Count == 0) {
-                    if (keybindBarClasses != null) {
-                        var listBarChange2 = keybindBarClasses.Where(p => p.key.ToLower().Equals(e.Key.ToString().ToLower()) && p.modifier.ToLower().Equals(modifier.ToLower())).Select(p => p).FirstOrDefault();
-                        if (listBarChange2 != null) {
-                            if (listBarChange2.name.ToLower().Equals("clear")) {
-                                displayImg1.Source = null;
-                                displayImg2.Source = null;
-                                displayImg3.Source = null;
-                                displayImg4.Source = null;
-                                displayImg5.Source = null;
-                                displayImg6.Source = null;
-                                displayImg7.Source = null;
-                                displayImg8.Source = null;
-                                displayImg9.Source = null;
-                                displayImg10.Source = null;
-                                control = false;
-                                return;
-                            } else if (listBarChange2.name.ToLower().Equals("pause")) {
-                                pause = !pause;
-                            }
-                        }
-                    }
-                }
-
-                if (pause) {
-                    control = false;
-                    return;
-                }
-
-                foreach (var ability in abilityList) {
-
-                    if (ability == null)
-                        continue;
-
-                    keypressed.modifier = modifier;
-                    keypressed.key = e.Key.ToString();
-                    keypressed.ability.name = ability.name;
-                    keypressed.ability.img = ability.img;
-                    keypressed.ability.cooldown = ability.cooldown;
-                    keypressed.timepressed = stopwatch.Elapsed.TotalMilliseconds;
-
-                    for (int i = 0; i < ListPreviousKeypressed.Count; i++) {
-                        var prevabil = ListPreviousKeypressed[i];
-                        if ((keypressed.timepressed - prevabil.timepressed) > 1200) {
-                            ListPreviousKeypressed.RemoveAt(i);
-                            i--;
-                        }
-                    }
-
-                    previousKey = ListPreviousKeypressed.Where(a => a.ability.img.Equals(keypressed.ability.img)).Select(a => a).FirstOrDefault();
-                    if (previousKey != null) {
+            NLog.Logger logger = LogManager.GetLogger("");
+            try {
+                #region display
+                if (!control) {
+                    control = true;
+                    Keypressed keypressed = new Keypressed();
+                    keypressed.ability = new Ability();
+                    string modifier = "";
+                    if (e.Key.ToString().ToLower().Equals("none")) {
                         control = false;
                         return;
                     }
-                    ListKeypressed.Add(keypressed);
-                    previousKey = new Keypressed() {
-                        timepressed = keypressed.timepressed,
-                        ability = new Ability {
-                            img = keypressed.ability.img,
-                            name = keypressed.ability.name
+                    if (e.isAltPressed)
+                        modifier = "ALT";
+                    else if (e.isCtrlPressed)
+                        modifier = "CTRL";
+                    else if (e.isShiftPressed)
+                        modifier = "SHIFT";
+                    else if (e.isWinPressed)
+                        modifier = "WIN";
+
+
+                    if (serverConn) {
+                        //DualPC_Connection dualPC_Connection = new DualPC_Connection();
+                        //Task.Factory.StartNew(() => DualPC_Connection.POST(e.Key.ToString().ToLower(), modifier));
+                    }
+
+
+                    List<Ability> abilityList = (from r in keybindClasses
+                                                 where r.key.ToLower() == e.Key.ToString().ToLower()
+                                                 where r.modifier.ToString().ToLower() == modifier.ToLower()
+                                                 select r.ability).ToList();
+
+                    if (abilityList.Count == 0) {
+                        if (keybindBarClasses != null) {
+                            var listBarChange2 = keybindBarClasses.Where(p => p.key.ToLower().Equals(e.Key.ToString().ToLower()) && p.modifier.ToLower().Equals(modifier.ToLower())).Select(p => p).FirstOrDefault();
+                            if (listBarChange2 != null) {
+                                if (listBarChange2.name.ToLower().Equals("clear")) {
+                                    displayImg1.Source = null;
+                                    displayImg2.Source = null;
+                                    displayImg3.Source = null;
+                                    displayImg4.Source = null;
+                                    displayImg5.Source = null;
+                                    displayImg6.Source = null;
+                                    displayImg7.Source = null;
+                                    displayImg8.Source = null;
+                                    displayImg9.Source = null;
+                                    displayImg10.Source = null;
+                                    control = false;
+                                    return;
+                                } else if (listBarChange2.name.ToLower().Equals("pause")) {
+                                    pause = !pause;
+                                }
+                            }
                         }
-                    };
-                    ListPreviousKeypressed.Add(previousKey);
+                    }
+
+                    if (pause) {
+                        control = false;
+                        return;
+                    }
+
+                    foreach (var ability in abilityList) {
+
+                        if (ability == null)
+                            continue;
+
+                        keypressed.modifier = modifier;
+                        keypressed.key = e.Key.ToString();
+                        keypressed.ability.name = ability.name;
+                        keypressed.ability.img = ability.img;
+                        keypressed.ability.cooldown = ability.cooldown;
+                        keypressed.timepressed = stopwatch.Elapsed.TotalMilliseconds;
+
+                        for (int i = 0; i < ListPreviousKeypressed.Count; i++) {
+                            var prevabil = ListPreviousKeypressed[i];
+                            if ((keypressed.timepressed - prevabil.timepressed) > 1200) {
+                                ListPreviousKeypressed.RemoveAt(i);
+                                i--;
+                            }
+                        }
+
+                        previousKey = ListPreviousKeypressed.Where(a => a.ability.img.Equals(keypressed.ability.img)).Select(a => a).FirstOrDefault();
+                        if (previousKey != null) {
+                            control = false;
+                            return;
+                        }
+                        ListKeypressed.Add(keypressed);
+                        previousKey = new Keypressed() {
+                            timepressed = keypressed.timepressed,
+                            ability = new Ability {
+                                img = keypressed.ability.img,
+                                name = keypressed.ability.name
+                            }
+                        };
+                        ListPreviousKeypressed.Add(previousKey);
 
 
-                    Bitmap bitmap = new Bitmap(ability.img);
-                    Bitmap Image;
-                    ImageSource imageSource;
-                    if (trackCD) {
-                        bool onCD = abilCoolDown(ListPreviousKeys, keypressed);
-                        if (onCD) {
-                            Image = Tint(bitmap, System.Drawing.Color.Red, 0.5f);
-                            imageSource = ImageSourceFromBitmap(Image);
+                       Bitmap bitmap = new Bitmap(ability.img);
+                        Bitmap Image;
+                        ImageSource imageSource;
+                        if (trackCD) {
+                            bool onCD = abilCoolDown(ListPreviousKeys, keypressed);
+                            if (onCD) {
+                                Image = Tint(bitmap, System.Drawing.Color.Red, 0.5f);
+                                imageSource = ImageSourceFromBitmap(Image);
+                            } else {
+                                imageSource = ImageSourceFromBitmap(bitmap);
+                                ListPreviousKeys.Add(previousKey);
+                            }
                         } else {
                             imageSource = ImageSourceFromBitmap(bitmap);
                             ListPreviousKeys.Add(previousKey);
                         }
-                    } else {
-                        imageSource = ImageSourceFromBitmap(bitmap);
-                        ListPreviousKeys.Add(previousKey);
-                    }
 
-                    //Display
-                    switch (imgCounter) {
-                        case 0:
-                            displayImg10.Source = imageSource;
-                            break;
-                        case 1:
-                            moveImgs(imgCounter);
-                            displayImg10.Source = imageSource;
-                            break;
-                        case 2:
-                            moveImgs(imgCounter);
-                            displayImg10.Source = imageSource;
-                            break;
-                        case 3:
-                            moveImgs(imgCounter);
-                            displayImg10.Source = imageSource;
-                            break;
-                        case 4:
-                            moveImgs(imgCounter);
-                            displayImg10.Source = imageSource;
-                            break;
-                        case 5:
-                            moveImgs(imgCounter);
-                            displayImg10.Source = imageSource;
-                            break;
-                        case 6:
-                            moveImgs(imgCounter);
-                            displayImg10.Source = imageSource;
-                            break;
-                        case 7:
-                            moveImgs(imgCounter);
-                            displayImg10.Source = imageSource;
-                            break;
-                        case 8:
-                            moveImgs(imgCounter);
-                            displayImg10.Source = imageSource;
-                            break;
-                        case 9:
-                            moveImgs(imgCounter);
-                            displayImg10.Source = imageSource;
-                            break;
-                        default:
-                            moveImgs(imgCounter);
-                            displayImg10.Source = imageSource;
-                            break;
+                        //Display
+                        switch (imgCounter) {
+                            case 0:
+                                displayImg10.Source = imageSource;
+                                break;
+                            case 1:
+                                moveImgs(imgCounter);
+                                displayImg10.Source = imageSource;
+                                break;
+                            case 2:
+                                moveImgs(imgCounter);
+                                displayImg10.Source = imageSource;
+                                break;
+                            case 3:
+                                moveImgs(imgCounter);
+                                displayImg10.Source = imageSource;
+                                break;
+                            case 4:
+                                moveImgs(imgCounter);
+                                displayImg10.Source = imageSource;
+                                break;
+                            case 5:
+                                moveImgs(imgCounter);
+                                displayImg10.Source = imageSource;
+                                break;
+                            case 6:
+                                moveImgs(imgCounter);
+                                displayImg10.Source = imageSource;
+                                break;
+                            case 7:
+                                moveImgs(imgCounter);
+                                displayImg10.Source = imageSource;
+                                break;
+                            case 8:
+                                moveImgs(imgCounter);
+                                displayImg10.Source = imageSource;
+                                break;
+                            case 9:
+                                moveImgs(imgCounter);
+                                displayImg10.Source = imageSource;
+                                break;
+                            default:
+                                moveImgs(imgCounter);
+                                displayImg10.Source = imageSource;
+                                break;
+                        }
+                        if (imgCounter < 9)
+                            imgCounter++;
                     }
-                    if (imgCounter < 9)
-                        imgCounter++;
-                }
-                if (keybindBarClasses != null) {
-                    var listBarChange = keybindBarClasses.Where(p => p.key.ToLower().Equals(e.Key.ToString().ToLower()) && p.modifier.ToLower().Equals(modifier.ToLower()) && (p.bar.name.ToLower().Equals(style.ToLower()) || p.bar.name.Equals("ALL"))).Select(p => p).FirstOrDefault();
-                    if (listBarChange != null) {
-                        if (!listBarChange.name.ToLower().Equals("pause") && !listBarChange.name.ToLower().Equals("clear")) {
-                            style = listBarChange.name;
-                            TESTLABEL.Content = style;
-                            changeStyle();
+                    if (keybindBarClasses != null) {
+                        var listBarChange = keybindBarClasses.Where(p => p.key.ToLower().Equals(e.Key.ToString().ToLower()) && p.modifier.ToLower().Equals(modifier.ToLower()) && (p.bar.name.ToLower().Equals(style.ToLower()) || p.bar.name.Equals("ALL"))).Select(p => p).FirstOrDefault();
+                        if (listBarChange != null) {
+                            if (!listBarChange.name.ToLower().Equals("pause") && !listBarChange.name.ToLower().Equals("clear")) {
+                                style = listBarChange.name;
+                                TESTLABEL.Content = style;
+                                changeStyle();
+                            }
                         }
                     }
-                }
-                control = false;
+                    control = false;
 
-            }
-            #endregion
+                }
+                #endregion
+            } catch (Exception ex) { control = false; 
+                logger.Error(ex, ex.ToString()); }
         }
 
         private bool abilCoolDown(List<Keypressed> prevKeys, Keypressed keypressed) {
