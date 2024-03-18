@@ -5,9 +5,11 @@ This is still a WIP so feel free to make sugestions!
 
 # TODO:
 
-Implementation for dual PC setups for streaming
-
 Better UI for Setting keybinds.
+
+# Implementation for dual PC setups for streaming
+
+CONTACT ME FOR INFO ON HOW TO SET THIS UP.
 
 # USAGE AND CONFIGURATION
 
