@@ -350,7 +350,7 @@ namespace Rs3Tracker {
             Code = wikiParser.getHTMLCode("Standard_spells");
             doc = new HtmlDocument();
             doc.LoadHtml(Code);
-            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sortable align-center-2 align-left-7']");
+            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sortable sticky-header align-center-2 align-center-3 align-center-5 align-left-7']");
             foreach (var table in tables) {
                 for (int i = 1; i < table.ChildNodes.Count(); i++) {
                     for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
@@ -457,7 +457,7 @@ namespace Rs3Tracker {
             Code = wikiParser.getHTMLCode("Incantations");
             doc = new HtmlDocument();
             doc.LoadHtml(Code);
-            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sortable align-left-7']");
+            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sortable sticky-header align-center-2']");
             foreach (var table in tables) {
                 for (int i = 1; i < table.ChildNodes.Count(); i++) {
                     for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
