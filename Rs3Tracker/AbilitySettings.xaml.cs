@@ -201,10 +201,11 @@ namespace Rs3Tracker {
             string Code = wikiParser.getHTMLCode("Abilities");
             var doc = new HtmlDocument();
             doc.LoadHtml(Code);
-            var tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sortable']");
+            var tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sortable sticky-header']");
             abils = new List<Ability>();
             List<Task> tasks = new List<Task>();
             for (int k = 0; k < tables.Count(); k++) {
+        
                 var table = tables[k];
                 string type = "";
                 switch (k) {
