@@ -315,16 +315,18 @@ namespace Rs3Tracker {
             Code = wikiParser.getHTMLCode("Prayer");
             doc = new HtmlDocument();
             doc.LoadHtml(Code);
-            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sticky-header sortable align-left-7']");
+            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sticky-header sortable align-left-2 align-left-6 align-center-7']");
             foreach (var table in tables) {
                 for (int i = 1; i < table.ChildNodes.Count(); i++) {
                     for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
                         //Ability ability = new Ability();
-                        string name = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerText.Replace("\n", "").Trim();
-
+                        string name = table.ChildNodes[i].ChildNodes[j].ChildNodes[3].InnerText.Replace("\n", "").Trim();
+                        if (string.IsNullOrEmpty(name)) {
+                            continue;
+                        }
                         string imgURL = "";
                         try {
-                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[3].InnerHtml.Replace("\n", "").Trim();
+                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerHtml.Replace("\n", "").Trim();
                             var index = imgHTML.IndexOf("srcset");
 
                             string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("srcset=\"", "");
@@ -333,7 +335,7 @@ namespace Rs3Tracker {
 
 
                         } catch (Exception ex) {
-                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[3].InnerHtml.Replace("\n", "").Trim();
+                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerHtml.Replace("\n", "").Trim();
                             var index = imgHTML.IndexOf("src");
 
                             string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("src=\"", "");
