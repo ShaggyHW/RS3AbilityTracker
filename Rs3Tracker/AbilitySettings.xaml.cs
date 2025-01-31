@@ -88,7 +88,7 @@ namespace Rs3Tracker {
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e) {
-            if (string.IsNullOrEmpty(txtAbilName.Text) || string.IsNullOrEmpty(txtCooldDown.Text)) {
+            if (string.IsNullOrEmpty(txtAbilName.Text)) {
                 MessageBox.Show("Data Missing");
                 return;
             }
@@ -142,12 +142,16 @@ namespace Rs3Tracker {
         }
         private void Images_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             if (Images.SelectedValue != null) {
-                Bitmap bitmap = new Bitmap(((ComboBoxItem)Images.SelectedValue).Tag.ToString() + "\\" + ((ComboBoxItem)Images.SelectedValue).Content.ToString() + ".png");
-                //Bitmap Image;
-                ImageSource imageSource;
-                imageSource = ImageSourceFromBitmap(bitmap);
-                imgAbil.Source = imageSource;
-                txtAbilName.Text = ((ComboBoxItem)Images.SelectedValue).Content.ToString().Replace("_", " ");
+                try {
+                    Bitmap bitmap = new Bitmap(((ComboBoxItem)Images.SelectedValue).Tag.ToString() + "\\" + ((ComboBoxItem)Images.SelectedValue).Content.ToString() + ".png");
+                    //Bitmap Image;
+                    ImageSource imageSource;
+                    imageSource = ImageSourceFromBitmap(bitmap);
+                    imgAbil.Source = imageSource;
+                    txtAbilName.Text = ((ComboBoxItem)Images.SelectedValue).Content.ToString().Replace("_", " ");
+                }catch(Exception ex) {
+                    MessageBox.Show("Image not supported... Verify if you download a jpg");
+                }
             } else {
                 imgAbil.Source = null;
             }
@@ -315,7 +319,7 @@ namespace Rs3Tracker {
             Code = wikiParser.getHTMLCode("Prayer");
             doc = new HtmlDocument();
             doc.LoadHtml(Code);
-            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sticky-header sortable align-left-2 align-left-6 align-center-7']");
+            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable align-right-3 align-right-4 align-right-5']");
             foreach (var table in tables) {
                 for (int i = 1; i < table.ChildNodes.Count(); i++) {
                     for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
@@ -353,7 +357,7 @@ namespace Rs3Tracker {
             Code = wikiParser.getHTMLCode("Standard_spells");
             doc = new HtmlDocument();
             doc.LoadHtml(Code);
-            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sortable sticky-header align-center-2 align-center-3 align-center-5 align-left-7']");
+            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable align-right-1 align-center-2 align-left-3 align-center-4 align-left-5 align-left-6 align-left-7 align-left-8 align-left-9 align-center-10']");
             foreach (var table in tables) {
                 for (int i = 1; i < table.ChildNodes.Count(); i++) {
                     for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
@@ -389,7 +393,7 @@ namespace Rs3Tracker {
             Code = wikiParser.getHTMLCode("Ancient_Magicks");
             doc = new HtmlDocument();
             doc.LoadHtml(Code);
-            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sortable align-center-2 align-left-7']");
+            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable align-right-1 align-center-2 align-left-3 align-center-4 align-left-5 align-left-6 align-left-7 align-left-8 align-left-9 align-center-10']");
             foreach (var table in tables) {
                 for (int i = 1; i < table.ChildNodes.Count(); i++) {
                     for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
@@ -424,7 +428,7 @@ namespace Rs3Tracker {
             Code = wikiParser.getHTMLCode("Lunar_spells");
             doc = new HtmlDocument();
             doc.LoadHtml(Code);
-            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sortable align-center-2 align-center-4 align-center-6']");
+            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable align-right-1 align-center-2 align-left-3 align-center-4 align-left-5 align-left-6 align-left-7 align-left-8 align-left-9 align-center-10']");
             foreach (var table in tables) {
                 for (int i = 1; i < table.ChildNodes.Count(); i++) {
                     for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
@@ -460,7 +464,7 @@ namespace Rs3Tracker {
             Code = wikiParser.getHTMLCode("Incantations");
             doc = new HtmlDocument();
             doc.LoadHtml(Code);
-            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sortable sticky-header align-center-2']");
+            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable align-right-1 align-center-2 align-left-3 align-center-4 align-left-5 align-left-6 align-center-7']");
             foreach (var table in tables) {
                 for (int i = 1; i < table.ChildNodes.Count(); i++) {
                     for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {

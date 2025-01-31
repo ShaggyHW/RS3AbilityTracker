@@ -110,13 +110,15 @@ namespace Rs3Tracker {
                 DisplayWidth = display.Width;
                 display.Close();
             }
-            var parser = new FileIniDataParser();
-            IniData data = new IniData();
-            data["UI"]["LEFT"] = displayX.ToString();
-            data["UI"]["TOP"] = displayY.ToString();
-            data["UI"]["HEIGHT"] = DisplayHeight.ToString();
-            data["UI"]["WIDTH"] = DisplayWidth.ToString();
-            parser.WriteFile("Configuration.ini", data);
+
+            //TODO CHECK THIS FOR AUTO RESIZES
+            //var parser = new FileIniDataParser();
+            //IniData data = new IniData();
+            //data["UI"]["LEFT"] = displayX.ToString();
+            //data["UI"]["TOP"] = displayY.ToString();
+            //data["UI"]["HEIGHT"] = DisplayHeight.ToString();
+            //data["UI"]["WIDTH"] = DisplayWidth.ToString();
+            //parser.WriteFile("Configuration.ini", data);
             Environment.Exit(1);
         }
 

@@ -9,9 +9,9 @@
         Height="80"
         Width="800"
         Icon="radar.png"
-        WindowStartupLocation="Manual"
+        WindowStartupLocation="CenterScreen"
         WindowStyle="None"  ResizeMode="NoResize" MouseDown="Window_MouseDown"
-  
+
         Background="{x:Null}">
     <Grid>
         <Grid.ColumnDefinitions>

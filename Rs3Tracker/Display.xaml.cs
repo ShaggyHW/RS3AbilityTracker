@@ -71,7 +71,7 @@ namespace Rs3Tracker {
         bool resize = false;
         bool serverConn = false;
         public Display(string _style, bool trackCD, bool onTop, bool resize, bool serverConnection) {
-            this.resize = resize;
+            this.resize = resize;          
             this.serverConn = serverConnection;
             //this.Left = LeftPos;
             //this.Top = TopPos;
