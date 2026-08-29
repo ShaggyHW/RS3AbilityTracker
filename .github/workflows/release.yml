@@ -1,0 +1,53 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - '*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag/name for the release'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v2
+
+      - name: Restore packages
+        run: nuget restore Rs3Tracker.sln
+
+      - name: Build
+        run: msbuild Rs3Tracker.sln /p:Configuration=Release /p:Platform="Any CPU" /m
+
+      - name: Package
+        shell: pwsh
+        run: |
+          Compress-Archive -Path Rs3Tracker\bin\Release\* -DestinationPath Rs3Tracker.zip
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Rs3Tracker
+          path: Rs3Tracker/bin/Release/
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.tag || github.ref_name }}
+          name: ${{ github.event.inputs.tag || github.ref_name }}
+          files: Rs3Tracker.zip
+          generate_release_notes: true
+          prerelease: ${{ contains(github.event.inputs.tag || github.ref_name, 'rc') || contains(github.event.inputs.tag || github.ref_name, 'beta') }}
