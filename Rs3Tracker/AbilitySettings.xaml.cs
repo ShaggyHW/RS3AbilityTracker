@@ -200,320 +200,48 @@ namespace Rs3Tracker {
         }
 
 
+        /// <summary>Maps the section headings of the ability page onto the prefixes used by the tracker.</summary>
+        private static readonly Dictionary<string, string> AbilitySections = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) {
+            { "Melee", "Melee_" },
+            { "Ranged", "Range_" },
+            { "Magic", "Mage_" },
+            { "Necromancy", "Necromancy_" },
+            { "Defence", "Defense_" },
+            { "Defense", "Defense_" },
+            { "Constitution", "Constitution_" },
+        };
+
+        /// <summary>One entry read off the wiki, before its icon has been downloaded.</summary>
+        private class ScrapedAbility {
+            public string Prefix;
+            public string Name;
+            public double Cooldown;
+            public string ImageUrl;
+        }
+
         public void GetAbils() {
             WikiParser wikiParser = new WikiParser();
-            string Code = wikiParser.getHTMLCode("Abilities");
-            var doc = new HtmlDocument();
-            doc.LoadHtml(Code);
-            var tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sortable sticky-header']");
+            wikiParser.ClearFailures();
+
+            List<ScrapedAbility> scraped;
+            try {
+                scraped = ScrapeWiki(wikiParser);
+            } catch (Exception ex) {
+                MessageBox.Show("Could not read the wiki:\r\n" + ex.Message);
+                return;
+            }
+            if (scraped.Count == 0) {
+                MessageBox.Show("The wiki returned no abilities. Nothing was imported.");
+                return;
+            }
+
             abils = new List<Ability>();
-            List<Task> tasks = new List<Task>();
-            for (int k = 0; k < tables.Count(); k++) {
-        
-                var table = tables[k];
-                string type = "";
-                switch (k) {
-                    case 0:
-                        type = "Melee_";
-                        break;
-                    case 1:
-                        type = "Melee_";
-                        break;
-                    case 2:
-                        type = "Range_";
-                        break;
-                    case 3:
-                        type = "Mage_";
-                        break;
-                    case 4:
-                        type = "Necromancy_";
+            Parallel.ForEach(scraped, new ParallelOptions { MaxDegreeOfParallelism = 8 },
+                entry => SetAbility(wikiParser, entry.Name, entry.Prefix, entry.Cooldown, entry.ImageUrl));
 
-                        break;
-                    case 5:
-                        type = "Defense_";
-
-                        break;
-                    case 6:
-                        type = "Constitution_";
-                        break;
-                }
-                for (int i = 1; i < table.ChildNodes.Count(); i++) {
-                    for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
-                        string name = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerText.Replace("\n", "").Trim();
-                      
-                        string imgURL = "";
-                        try {
-                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[3].InnerHtml.Replace("\n", "").Trim();
-                            var index = imgHTML.IndexOf("srcset");
-
-                            string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("srcset=\"", "");
-                            index = htmlrest.IndexOf("?");
-                             imgURL = htmlrest.Substring(0, index);
-
-
-                        }catch(Exception ex) {
-                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[3].InnerHtml.Replace("\n", "").Trim();
-                            var index = imgHTML.IndexOf("src");
-
-                            string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("src=\"", "");
-                            index = htmlrest.IndexOf("?");
-                             imgURL = htmlrest.Substring(0, index);
-                        }
-                        if(!imgURL.Contains("images") || !imgURL.Contains(".png")) {
-                            imgURL = "";
-                        }
-                        if (type.Equals("Necromancy_") && j.Equals(2)) {
-                            name = name + "_Auto";
-                        }
-                        string coolDown = "";
-                        if (type.Equals("Necromancy_")) {
-                            coolDown = table.ChildNodes[i].ChildNodes[j].ChildNodes[17].InnerText.Replace("\n", "").Trim();
-                        } else {
-                            coolDown = table.ChildNodes[i].ChildNodes[j].ChildNodes[15].InnerText.Replace("\n", "").Trim();
-                        }
-                        double CD = 0;
-                        try {
-                            CD = Convert.ToDouble(coolDown);
-                        } catch { }
-                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name, type, CD, imgURL)));
-                    }
-                }
-            }
-
-            Code = wikiParser.getHTMLCode("Ancient_Curses");
-            doc = new HtmlDocument();
-            doc.LoadHtml(Code);
-            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable sticky-header align-left-2 align-left-4']");
-            foreach (var table in tables) {
-                for (int i = 1; i < table.ChildNodes.Count(); i++) {
-                    for (int j = 4; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
-                        string name = table.ChildNodes[i].ChildNodes[j].ChildNodes[3].InnerText.Replace("\n", "").Trim();
-                        string imgURL = "";
-                        try {
-                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerHtml.Replace("\n", "").Trim();
-                            var index = imgHTML.IndexOf("srcset");
-
-                            string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("srcset=\"", "");
-                            index = htmlrest.IndexOf("?");
-                            imgURL = htmlrest.Substring(0, index);
-
-
-                        } catch (Exception ex) {
-                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerHtml.Replace("\n", "").Trim();
-                            var index = imgHTML.IndexOf("src");
-
-                            string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("src=\"", "");
-                            index = htmlrest.IndexOf("?");
-                            imgURL = htmlrest.Substring(0, index);
-                        }
-                 
-                        if (!imgURL.Contains("images") || !imgURL.Contains(".png")) {
-                            imgURL = "";
-                        }
-                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name, "Curses_",0,imgURL)));
-                        //abils.Add(ability);
-                    }
-                }
-            }
-
-            Code = wikiParser.getHTMLCode("Prayer");
-            doc = new HtmlDocument();
-            doc.LoadHtml(Code);
-            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable align-right-3 align-right-4 align-right-5']");
-            foreach (var table in tables) {
-                for (int i = 1; i < table.ChildNodes.Count(); i++) {
-                    for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
-                        //Ability ability = new Ability();
-                        string name = table.ChildNodes[i].ChildNodes[j].ChildNodes[3].InnerText.Replace("\n", "").Trim();
-                        if (string.IsNullOrEmpty(name)) {
-                            continue;
-                        }
-                        string imgURL = "";
-                        try {
-                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerHtml.Replace("\n", "").Trim();
-                            var index = imgHTML.IndexOf("srcset");
-
-                            string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("srcset=\"", "");
-                            index = htmlrest.IndexOf("?");
-                            imgURL = htmlrest.Substring(0, index);
-
-
-                        } catch (Exception ex) {
-                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerHtml.Replace("\n", "").Trim();
-                            var index = imgHTML.IndexOf("src");
-
-                            string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("src=\"", "");
-                            index = htmlrest.IndexOf("?");
-                            imgURL = htmlrest.Substring(0, index);
-                        }
-                        if (!imgURL.Contains("images") || !imgURL.Contains(".png")) {
-                            imgURL = "";
-                        }
-                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name, "Prayer_",0,imgURL)));
-                    }
-                }
-            }
-
-            Code = wikiParser.getHTMLCode("Standard_spells");
-            doc = new HtmlDocument();
-            doc.LoadHtml(Code);
-            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable align-right-1 align-center-2 align-left-3 align-center-4 align-left-5 align-left-6 align-left-7 align-left-8 align-left-9 align-center-10']");
-            foreach (var table in tables) {
-                for (int i = 1; i < table.ChildNodes.Count(); i++) {
-                    for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
-                        //Ability ability = new Ability();
-                        string name = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerText.Replace("\n", "").Trim();
-                        string imgURL = "";
-                        try {
-                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[3].InnerHtml.Replace("\n", "").Trim();
-                            var index = imgHTML.IndexOf("srcset");
-
-                            string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("srcset=\"", "");
-                            index = htmlrest.IndexOf("?");
-                            imgURL = htmlrest.Substring(0, index);
-
-
-                        } catch (Exception ex) {
-                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[3].InnerHtml.Replace("\n", "").Trim();
-                            var index = imgHTML.IndexOf("src");
-
-                            string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("src=\"", "");
-                            index = htmlrest.IndexOf("?");
-                            imgURL = htmlrest.Substring(0, index);
-                        }
-                        if (!imgURL.Contains("images") || !imgURL.Contains(".png")) {
-                            imgURL = "";
-                        }
-                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name, "Spells_", 0, imgURL)));
-                    }
-                }
-            }
-
-
-            Code = wikiParser.getHTMLCode("Ancient_Magicks");
-            doc = new HtmlDocument();
-            doc.LoadHtml(Code);
-            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable align-right-1 align-center-2 align-left-3 align-center-4 align-left-5 align-left-6 align-left-7 align-left-8 align-left-9 align-center-10']");
-            foreach (var table in tables) {
-                for (int i = 1; i < table.ChildNodes.Count(); i++) {
-                    for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
-                        //Ability ability = new Ability();
-                        string name = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerText.Replace("\n", "").Trim();
-                        string imgURL = "";
-                        try {
-                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[3].InnerHtml.Replace("\n", "").Trim();
-                            var index = imgHTML.IndexOf("srcset");
-
-                            string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("srcset=\"", "");
-                            index = htmlrest.IndexOf("?");
-                            imgURL = htmlrest.Substring(0, index);
-
-
-                        } catch (Exception ex) {
-                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[3].InnerHtml.Replace("\n", "").Trim();
-                            var index = imgHTML.IndexOf("src");
-
-                            string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("src=\"", "");
-                            index = htmlrest.IndexOf("?");
-                            imgURL = htmlrest.Substring(0, index);
-                        }
-                        if (!imgURL.Contains("images") || !imgURL.Contains(".png")) {
-                            imgURL = "";
-                        }
-                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name, "Spells_", 0, imgURL)));
-                    }
-                }
-            }
-
-            Code = wikiParser.getHTMLCode("Lunar_spells");
-            doc = new HtmlDocument();
-            doc.LoadHtml(Code);
-            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable align-right-1 align-center-2 align-left-3 align-center-4 align-left-5 align-left-6 align-left-7 align-left-8 align-left-9 align-center-10']");
-            foreach (var table in tables) {
-                for (int i = 1; i < table.ChildNodes.Count(); i++) {
-                    for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
-                        //Ability ability = new Ability();
-                        string name = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerText.Replace("\n", "").Trim();
-                 
-                        string imgURL = "";
-                        try {
-                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[3].InnerHtml.Replace("\n", "").Trim();
-                            var index = imgHTML.IndexOf("srcset");
-
-                            string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("srcset=\"", "");
-                            index = htmlrest.IndexOf("?");
-                            imgURL = htmlrest.Substring(0, index);
-
-
-                        } catch (Exception ex) {
-                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[3].InnerHtml.Replace("\n", "").Trim();
-                            var index = imgHTML.IndexOf("src");
-
-                            string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("src=\"", "");
-                            index = htmlrest.IndexOf("?");
-                            imgURL = htmlrest.Substring(0, index);
-                        }
-                        if (!imgURL.Contains("images") || !imgURL.Contains(".png")) {
-                            imgURL = "";
-                        }
-                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name, "Spells_", 0, imgURL)));
-                    }
-                }
-            }
-
-            Code = wikiParser.getHTMLCode("Incantations");
-            doc = new HtmlDocument();
-            doc.LoadHtml(Code);
-            tables = doc.DocumentNode.SelectNodes("//table[@class='wikitable align-right-1 align-center-2 align-left-3 align-center-4 align-left-5 align-left-6 align-center-7']");
-            foreach (var table in tables) {
-                for (int i = 1; i < table.ChildNodes.Count(); i++) {
-                    for (int j = 2; j < table.ChildNodes[i].ChildNodes.Count(); j += 2) {
-                        //Ability ability = new Ability();
-                        string name = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerText.Replace("\n", "").Replace("&#160;","").Trim();
-                        string coolDown = "";
-
-                        coolDown = table.ChildNodes[i].ChildNodes[j].ChildNodes[9].InnerText.Replace("\n", "").Replace("seconds", "").Trim();
-                        bool itsMinutes = false;
-                        if (coolDown.Contains("minute")) {
-                            itsMinutes = true;
-                            coolDown = coolDown.Replace("minute", "");
-                        }
-                        double CD = 0;
-                        try {
-                            CD = Convert.ToDouble(coolDown);
-                            if (itsMinutes)
-                                CD = CD * 60;
-                        } catch { }
-                        string imgURL = "";
-                        try {
-                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[1].InnerHtml.Replace("\n", "").Trim();
-                            var index = imgHTML.IndexOf("srcset");
-
-                            string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("srcset=\"", "");
-                            index = htmlrest.IndexOf("?");
-                            imgURL = htmlrest.Substring(0, index);
-
-
-                        } catch (Exception ex) {
-                            string imgHTML = table.ChildNodes[i].ChildNodes[j].ChildNodes[3].InnerHtml.Replace("\n", "").Trim();
-                            var index = imgHTML.IndexOf("src");
-
-                            string htmlrest = imgHTML.Substring(index, imgHTML.Length - 1 - index).Replace("src=\"", "");
-                            index = htmlrest.IndexOf("?");
-                            imgURL = htmlrest.Substring(0, index);
-                        }
-                        if (!imgURL.Contains("images") || !imgURL.Contains(".png")) {
-                            imgURL = "";
-                        }
-
-
-                        tasks.Add(Task.Factory.StartNew(() => SetAbility(wikiParser, name, "Spells_", CD,imgURL)));
-                    }
-                }
-            }
-
-            Task.WaitAll(tasks.ToArray());
-            var preImport = JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(".\\mongoAbilities.json"));
+            var preImport = File.Exists(".\\mongoAbilities.json")
+                ? JsonConvert.DeserializeObject<List<Ability>>(File.ReadAllText(".\\mongoAbilities.json"))
+                : null;
             if (preImport != null) {
                 for (int i = 0; i < preImport.Count(); i++) {
                     if (preImport[i].name.Contains("_Import")) {
@@ -537,32 +265,113 @@ namespace Rs3Tracker {
                 dgSettings.Items.Add(ab);
             }
 
-            MessageBox.Show("ABILITIES IMPORTED");
+            var failures = wikiParser.Failures;
+            if (failures.Count > 0) {
+                MessageBox.Show(abils.Count + " ABILITIES IMPORTED\r\n\r\n" + failures.Count
+                    + " could not be downloaded and were skipped:\r\n"
+                    + string.Join(", ", failures.Take(20))
+                    + (failures.Count > 20 ? ", ..." : "")
+                    + "\r\n\r\nRUN THE IMPORT AGAIN TO RETRY THEM");
+            } else {
+                MessageBox.Show(abils.Count + " ABILITIES IMPORTED");
+            }
+        }
+
+        /// <summary>
+        /// Reads every wiki page the tracker imports from. Tables are located by their headers rather
+        /// than by their class attribute, because the wiki rewrites those regularly.
+        /// </summary>
+        private List<ScrapedAbility> ScrapeWiki(WikiParser wikiParser) {
+            var scraped = new List<ScrapedAbility>();
+            var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+            // Abilities: one table per combat style, the style comes from the section it sits under.
+            var doc = wikiParser.getPage("Abilities");
+            if (doc != null) {
+                foreach (var table in WikiTables.FindTables(doc, "Ability")) {
+                    string prefix;
+                    if (!AbilitySections.TryGetValue(WikiTables.SectionOf(table), out prefix))
+                        continue;
+                    bool firstRow = true;
+                    foreach (var row in WikiTables.ParseRows(table, "Ability", "Cooldown")) {
+                        // The first necromancy row is the auto attack the tracker tracks separately.
+                        string name = prefix.Equals("Necromancy_") && firstRow ? row.Name + "_Auto" : row.Name;
+                        firstRow = false;
+                        Collect(scraped, seen, prefix, name, row.Cooldown, row.ImageUrl);
+                    }
+                }
+            }
+            if (scraped.Count == 0)
+                throw new Exception("The ability tables could not be found on " + "https://runescape.wiki/w/Abilities");
+
+            // Ancient curses: only the forms table, the curses themselves come with the prayers below.
+            doc = wikiParser.getPage("Ancient_Curses");
+            if (doc != null) {
+                foreach (var table in WikiTables.FindTables(doc, "Prayer")) {
+                    if (WikiTables.Column(WikiTables.GetColumns(table), "Effects") == null)
+                        continue;
+                    foreach (var row in WikiTables.ParseRows(table, "Prayer", null))
+                        Collect(scraped, seen, "Curses_", row.Name, 0, row.ImageUrl);
+                }
+            }
+
+            // Prayers, both the standard book and the curses.
+            doc = wikiParser.getPage("Prayer");
+            if (doc != null) {
+                foreach (var table in WikiTables.FindTables(doc, "Prayer"))
+                    foreach (var row in WikiTables.ParseRows(table, "Prayer", null))
+                        Collect(scraped, seen, "Prayer_", row.Name, 0, row.ImageUrl);
+            }
+
+            // Spellbooks. None of these tables carry a cooldown column.
+            foreach (string page in new[] { "Standard_spells", "Ancient_Magicks", "Lunar_spells" }) {
+                doc = wikiParser.getPage(page);
+                if (doc == null)
+                    continue;
+                foreach (var table in WikiTables.FindTables(doc, "Spell"))
+                    foreach (var row in WikiTables.ParseRows(table, "Spell", "Cooldown"))
+                        Collect(scraped, seen, "Spells_", row.Name, row.Cooldown, row.ImageUrl);
+            }
+
+            // Incantations matter for their cooldown, which only lives on each incantation's own page.
+            doc = wikiParser.getPage("Incantations");
+            if (doc != null) {
+                foreach (var table in WikiTables.FindTables(doc, "Spell")) {
+                    foreach (var row in WikiTables.ParseRows(table, "Spell", "Cooldown")) {
+                        double cooldown = row.Cooldown > 0 ? row.Cooldown : wikiParser.getCooldownFromPage(row.Link);
+                        Collect(scraped, seen, "Spells_", row.Name, cooldown, row.ImageUrl);
+                    }
+                }
+            }
+
+            return scraped;
+        }
+
+        private static void Collect(List<ScrapedAbility> scraped, HashSet<string> seen, string prefix, string name, double cooldown, string imageUrl) {
+            if (string.IsNullOrWhiteSpace(name) || !seen.Add(prefix + name))
+                return;
+            scraped.Add(new ScrapedAbility { Prefix = prefix, Name = name, Cooldown = cooldown, ImageUrl = imageUrl });
         }
 
         private void SetAbility(WikiParser wikiParser, string name, string table = "", double cooldown = 0, string imgURL = "") {
             try {
-                if (imgURL.Contains("Affliction")) { 
-                    
-                }
-                Ability ability = new Ability();
-                string fileName = "";
+                string fileName;
                 if (string.IsNullOrEmpty(imgURL)) {
-                    if (table.Equals("Spells_"))
-                        fileName = wikiParser.SaveImage(name + "_icon");
-                    else
-                        fileName = wikiParser.SaveImage(name);
+                    fileName = table.Equals("Spells_") ? wikiParser.SaveImage(name + "_icon") : wikiParser.SaveImage(name);
                 } else {
                     fileName = wikiParser.SaveImageFROMURL(name, imgURL);
                 }
                 if (string.IsNullOrEmpty(fileName))
                     return;
-                //string img = table.ChildNodes[i].ChildNodes[2].ChildNodes[3].InnerText.Replace("\n", "");                            
+
+                Ability ability = new Ability();
                 ability.name = table + name + "_Import";
                 ability.cooldown = cooldown;
                 ability.img = ".\\Images\\" + fileName + ".png";
-                abils.Add(ability);
-            }catch(Exception ex) {
+                lock (abils) {
+                    abils.Add(ability);
+                }
+            } catch (Exception) {
 
             }
         }

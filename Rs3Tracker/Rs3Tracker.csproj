@@ -203,6 +203,7 @@
     </Compile>
     <Compile Include="Classes\Models.cs" />
     <Compile Include="Classes\WikiParser.cs" />
+    <Compile Include="Classes\WikiTables.cs" />
     <Compile Include="ServerConnection\DualPC_Connection.cs" />
     <Compile Include="Server\ServerMenu.xaml.cs">
       <DependentUpon>ServerMenu.xaml</DependentUpon>
